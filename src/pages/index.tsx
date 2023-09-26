@@ -1,5 +1,5 @@
 import s from '../styles/Home.module.css';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Task from '../components/task/Task';
 import Modal from "../components/modal/Modal";
 import {
@@ -18,173 +18,53 @@ import Dropdown from '../components/dropdown/Dropdown';
 import Button from "../components/button/Button";
 import Delete from "../components/delete/Delete";
 import Pagination from "../components/pagination/Pagination";
+import { taskApi } from '../store/services/TaskService';
 
 export default function Home() {
-
-    const [tasksData, setTasksData] = useState([
-        { id: 0, isDone: true, name: 'learn 1', date: '19.09.2023' },
-        { id: 1, isDone: false, name: 'learn 2', date: '20.09.2023' },
-        { id: 2, isDone: false, name: 'learn 3', date: '21.09.2023' },
-        /*{ id: 3, isDone: true, name: 'learn 4', date: '19.09.2023' },
-        { id: 4, isDone: false, name: 'learn 5', date: '19.09.2023' },
-        { id: 5, isDone: false, name: 'learn 6', date: '19.09.2023' },
-        { id: 6, isDone: true, name: 'learn 7', date: '19.09.2023' },
-        { id: 7, isDone: false, name: 'learn 8', date: '19.09.2023' },
-        { id: 8, isDone: false, name: 'learn 9', date: '19.09.2023' },
-        { id: 9, isDone: true, name: 'learn 10', date: '19.09.2023' },
-        { id: 10, isDone: false, name: 'learn 11', date: '19.09.2023' },
-        { id: 11, isDone: false, name: 'learn 12', date: '19.09.2023' },
-        { id: 12, isDone: true, name: 'learn 13', date: '19.09.2023' },
-        { id: 13, isDone: true, name: 'learn 1', date: '19.09.2023' },
-        { id: 14, isDone: false, name: 'learn 2', date: '19.09.2023' },
-        { id: 15, isDone: false, name: 'learn 3', date: '19.09.2023' },
-        { id: 16, isDone: true, name: 'learn 4', date: '19.09.2023' },
-        { id: 17, isDone: false, name: 'learn 5', date: '19.09.2023' },
-        { id: 18, isDone: false, name: 'learn 6', date: '19.09.2023' },
-        { id: 19, isDone: true, name: 'learn 7', date: '19.09.2023' },
-        { id: 20, isDone: false, name: 'learn 8', date: '19.09.2023' },
-        { id: 21, isDone: false, name: 'learn 9', date: '19.09.2023' },*/
-    ]);
-
-    const [isVisible, setIsVisible] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
     const [filter, setFilter] = useState('Today');
-    const [tasks, setTasks] = useState(tasksData);
+    const [isVisible, setIsVisible] = useState(false);
+    const { data } = taskApi.useFetchAllTasksQuery({ currentPage: currentPage, filter: filter });
+    const tasksData = data || undefined;
+    const [createTask] = taskApi.useCreateTaskMutation();
+    const [deleteTask] = taskApi.useDeleteTaskMutation();
+    const [updateTask] = taskApi.useUpdateTaskMutation()
+
     const [action, setAction] = useState<{
         action: string,
-        name?: string;
-        id?: number;
+        name: string;
+        id: number;
     }>({
         action: 'Add task',
-        name: undefined,
-        id: undefined
+        name: '',
+        id: 0
     });
-    const [currentPage, setCurrentPage] = useState(1);
 
     const isActive = (name: string) => (filter === name);
-    const isDate = () => (filter === 'firstNew' || filter === 'firstOld')
+    const isDate = () => (filter === 'firstNew' || filter === 'firstOld');
 
     const setDateFilter = () => {
         switch (filter) {
             case 'firstOld':
-                setFilter('firstNew')
-                break
+                setFilter('firstNew');
+                break;
             case 'firstNew':
-                setFilter('firstOld')
-                break
+                setFilter('firstOld');
+                break;
             default:
-                setFilter('firstNew')
+                setFilter('firstNew');
         }
-    }
+    };
 
-    const openModal = (action: string, name?: string, id?: number) => {
-        setAction({
-            action: action,
-            name: name,
-            id: id
-        });
+    const openModal = (action: string, name: string='', id: number=0) => {
+        setAction({action,name,id});
         setIsVisible(true);
     };
 
-    const createTask = (name: string) => {
-        const date = new Date().toLocaleString().slice(0, 10);
-        const taskList = [];
-
-        const newTask = {
-            id: tasksData.length + 1,
-            isDone: false,
-            name: name,
-            date: date
-        };
-
-        taskList.push(...tasksData);
-        taskList.push(newTask);
-        setTasksData(taskList);
-    };
-
-    const updateTask = (newName: string, id?: number) => {
-        const filteredTasks = tasksData.filter((task) => task.id == id);
-
-        const { name, ...otherData } = filteredTasks[0];
-
-        const changeTask = {
-            name: newName,
-            ...otherData
-        };
-
-        const newTasks = tasksData.filter((task) => task.id !== id);
-        newTasks.push(changeTask);
-
-        newTasks.sort(function (a, b) {
-            return parseFloat(`${a.id}`) - parseFloat(`${b.id}`);
-        });
-
-        setTasksData(newTasks);
-    };
-
-    const deleteTask = (id?: number) => {
-        const removeTask = tasksData.filter((task) => task.id !== id);
-        setTasksData(removeTask);
-    };
-
-    const updateIsDone = (id: number) => {
-        const filteredTasks = tasksData.filter((task) => task.id == id);
-
-        const { isDone, ...otherData } = filteredTasks[0];
-
-        const changeTask = {
-            isDone: !isDone,
-            ...otherData
-        };
-
-        const newTasks = tasksData.filter((task) => task.id !== id);
-        newTasks.push(changeTask);
-
-        newTasks.sort(function (a, b) {
-            return parseFloat(`${a.id}`) - parseFloat(`${b.id}`);
-        });
-        setTasksData(newTasks);
-    };
-
-    //for pagination
-    const pageSize = 7;
-    const taskPortion = tasks.slice(
-        (currentPage - 1) * pageSize,
-        currentPage * pageSize
-    )
-
-    useEffect(() => {
-        let newTaskList: { id: number; isDone: boolean; name: string; date: string; }[] = [];
-        const date = new Date().toLocaleString().slice(0, 10);
-
-        switch (filter) {
-            case 'Done':
-                newTaskList = tasksData.filter((task) => task.isDone);
-                break;
-            case 'Undone':
-                newTaskList = tasksData.filter((task) => !task.isDone);
-                break;
-            case 'All':
-                newTaskList = tasksData;
-                break;
-            case 'firstNew':
-                newTaskList = tasksData.sort(function (a, b) {
-                    return parseFloat(a.date) - parseFloat(b.date);
-                });
-                break;
-            case 'firstOld':
-                newTaskList = tasksData.sort(function (a, b) {
-                    return parseFloat(b.date) - parseFloat(a.date);
-                });
-                break;
-
-            default:
-                newTaskList = tasksData.filter((task) => task.date == date);
-        }
-
-        setTasks(newTaskList);
-        setCurrentPage(1)
-    },
-        [filter, tasksData]);
+    const handleCreate = async (task:{id:number, name:string}) => { await createTask(task.name); };
+    const handleUpdate = async (task:{id:number, name:string}) => { await updateTask(task) };
+    const updateIsDone = async (id:number) => { await updateTask({id:id, name:''}) };
+    const handleDelete = async (id: number) => { await deleteTask(id) };
 
     return (
         <div>
@@ -224,13 +104,13 @@ export default function Home() {
                 <div className={s.taskBoard}>
 
                     <Pagination
-                        pageSize={pageSize}
-                        totalTask={tasks.length}
+                        pageSize={7}
+                        totalTask={tasksData?.totalTasks}
                         currentPage={currentPage}
                         handleClick={setCurrentPage}
                     />
 
-                    {taskPortion.map((obj, index) => (
+                    {tasksData && tasksData.tasks.map((obj, index) => (
                         <Task
                             handleClick={openModal}
                             changeIsDone={updateIsDone}
@@ -248,24 +128,24 @@ export default function Home() {
                     <TaskForm
                         id={action.id}
                         name={action.name}
-                        handleSubmitForm={createTask}
+                        handleSubmitForm={handleCreate}
                         toggle={setIsVisible}
                         formTitle={'Create task'}
                     />
                 }
-                {action.action === 'Update task' &&
+                 {action.action === 'Update task' &&
                     <TaskForm
                         id={action.id}
                         name={action.name}
-                        handleSubmitForm={updateTask}
+                        handleSubmitForm={handleUpdate}
                         toggle={setIsVisible}
                         formTitle={'Update task'}
                     />
-                }
+                } 
                 {action.action === 'Delete task' &&
                     <Delete
                         id={action.id}
-                        handleClick={deleteTask}
+                        handleClick={handleDelete}
                         toggle={setIsVisible}
                         title={'Delete task'}
                     />}

@@ -2,12 +2,15 @@ import s from './Pagination.module.css';
 
 interface PaginationType {
     pageSize: number,
-    totalTask: number,
+    totalTask: number | undefined,
     currentPage: number,
     handleClick: (currentPage: number) => void
 }
 
 const Pagination = ({pageSize, totalTask, currentPage, handleClick}: PaginationType) => {
+    if(!totalTask){
+        return
+    }
 
     const pageNumbers = [];
 

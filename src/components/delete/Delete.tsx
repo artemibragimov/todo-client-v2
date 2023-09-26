@@ -2,8 +2,8 @@ import s from "./Delete.module.css";
 import {BigDeleteIcon, CloseIcon} from "../../assets";
 
 interface DeleteType {
-    id?: number,
-    handleClick: (id?: number) => void,
+    id: number,
+    handleClick: (id: number) => Promise<void>,
     toggle: (boolean: boolean) => void,
     title: string
 }
