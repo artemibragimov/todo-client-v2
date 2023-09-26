@@ -1,11 +1,11 @@
 import s from './TaskForm.module.css';
-import { SaveIcon, CloseIcon } from '../../assets';
-import { useForm, SubmitHandler } from "react-hook-form";
+import {SaveIcon, CloseIcon} from '../../assets';
+import {useForm, SubmitHandler} from "react-hook-form";
 
 interface TaskFormType {
-    id: number,
-    name: string
-    handleSubmitForm: (task: { id: number, name: string }) => void;
+    id?: number;
+    name?: string;
+    handleSubmitForm: (id?: number, name?: string) => void;
     toggle: (boolean: boolean) => void;
     formTitle: string;
 }
@@ -14,21 +14,21 @@ type Inputs = {
     name: string,
 };
 
-const CreateTaskForm = ({ id, name, handleSubmitForm, toggle, formTitle }: TaskFormType) => {
+const TaskForm = ({id, name, handleSubmitForm, toggle, formTitle}: TaskFormType) => {
 
     const {
         register,
         handleSubmit,
         reset,
-        formState: { errors }
+        formState: {errors}
     } = useForm<Inputs>({
         defaultValues: {
-            name: '' || name
+            name: name || ''
         }
     });
 
     const onSubmit: SubmitHandler<Inputs> = (data) => {
-        handleSubmitForm({ id: id, name:data.name });
+        handleSubmitForm(id, data.name );
         toggle(false);
         reset({
             name: ''
@@ -51,19 +51,19 @@ const CreateTaskForm = ({ id, name, handleSubmitForm, toggle, formTitle }: TaskF
                 <input
                     className={s.text_input}
                     placeholder='Enter text'
-                    {...register("name", { required: true })}
+                    {...register("name", {required: true})}
                 />
 
-                {errors.name ? <div className={s.form_error}>This field should not be empty</div> : <div><br /></div>}
+                {errors.name ? <div className={s.form_error}>This field should not be empty</div> : <div><br/></div>}
 
                 <div className={s.btn_container}>
                     <button className={s.submit_button + ' ' + s.form_btn} type="submit">
-                        <SaveIcon />
+                        <SaveIcon/>
                         <p>Save</p>
                     </button>
 
                     <button className={s.close_button + ' ' + s.form_btn} onClick={onClickClose}>
-                        <CloseIcon />
+                        <CloseIcon/>
                         <p>Close</p>
                     </button>
                 </div>
@@ -72,4 +72,4 @@ const CreateTaskForm = ({ id, name, handleSubmitForm, toggle, formTitle }: TaskF
     );
 };
 
-export default CreateTaskForm;
+export default TaskForm;
