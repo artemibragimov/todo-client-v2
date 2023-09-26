@@ -16,3 +16,4 @@ export { default as DeleteIcon } from './deleteIcon.svg';
 export { default as BigDeleteIcon } from './bigDeleteIcon.svg';
 export { default as FirstNewIcon } from './firstNew.svg';
 export { default as FirstOldIcon } from './firstOld.svg';
+export { default as SignInIcon } from './signInIcon.svg';
