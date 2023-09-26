@@ -9,7 +9,7 @@ interface PaginationType {
 
 const Pagination = ({pageSize, totalTask, currentPage, handleClick}: PaginationType) => {
     if(!totalTask){
-        return
+        return;
     }
 
     const pageNumbers = [];

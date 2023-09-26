@@ -28,7 +28,7 @@ export default function Home() {
     const tasksData = data || undefined;
     const [createTask] = taskApi.useCreateTaskMutation();
     const [deleteTask] = taskApi.useDeleteTaskMutation();
-    const [updateTask] = taskApi.useUpdateTaskMutation()
+    const [updateTask] = taskApi.useUpdateTaskMutation();
 
     const [action, setAction] = useState<{
         action: string,
@@ -62,9 +62,9 @@ export default function Home() {
     };
 
     const handleCreate = async (task:{id:number, name:string}) => { await createTask(task.name); };
-    const handleUpdate = async (task:{id:number, name:string}) => { await updateTask(task) };
-    const updateIsDone = async (id:number) => { await updateTask({id:id, name:''}) };
-    const handleDelete = async (id: number) => { await deleteTask(id) };
+    const handleUpdate = async (task:{id:number, name:string}) => { await updateTask(task); };
+    const updateIsDone = async (id:number) => { await updateTask({id:id, name:''}); };
+    const handleDelete = async (id: number) => { await deleteTask(id); };
 
     return (
         <div>
