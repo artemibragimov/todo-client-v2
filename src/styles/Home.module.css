@@ -1,0 +1,25 @@
+.taskContainer {
+    margin: 3% 1%;
+    display: flex;
+    height: 76vh;
+    position: relative;
+}
+
+.taskSettings {
+    display: block;
+    width: 18%;
+    margin: 0 2%;
+}
+
+.bottomBar {
+    position: absolute;
+    bottom: 0;
+    width: 16%;
+}
+
+.taskBoard {
+    width: 76%;
+    padding: 0 3%;
+    background: #F4F4F4;
+    border-radius: 10px;
+}
