@@ -18,8 +18,25 @@
 }
 
 .taskBoard {
-    width: 76%;
+    width: 82%;
     padding: 0 3%;
     background: #F4F4F4;
     border-radius: 10px;
+}
+
+.login {
+    position: absolute;
+    top: 3.5%;
+    margin: 0 auto;
+    left: 20%;
+    right: 20%;
+    text-align: center;
+    color: #9333EA;
+    font-size: 24px;
+}
+
+.profileIcon{
+    position: absolute;
+    top: 3.5%;
+    right: 40px;
 }

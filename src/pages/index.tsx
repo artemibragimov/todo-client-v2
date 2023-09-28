@@ -10,7 +10,8 @@ import {
     DoneIcon,
     DoneActiveIcon,
     FirstNewIcon,
-    FirstOldIcon
+    FirstOldIcon,
+    ProfileIcon
 } from '../assets';
 import ToggleButton from '../components/toggleButton/ToggleButton';
 import TaskForm from '../components/taskForm/TaskForm';
@@ -20,12 +21,15 @@ import Delete from "../components/delete/Delete";
 import Pagination from "../components/pagination/Pagination";
 import { taskApi } from '../store/services/TaskService';
 import { useRouter } from 'next/router';
+import { userApi } from '../store/services/UserService';
+import Link from 'next/link';
 
 export default function Home() {
     const [currentPage, setCurrentPage] = useState(1);
     const [filter, setFilter] = useState('Today');
     const [isVisible, setIsVisible] = useState(false);
     const { data } = taskApi.useFetchAllTasksQuery({ currentPage: currentPage, filter: filter });
+    const {data:userData} = userApi.useGetMeQuery('')
     const router = useRouter()
     const tasksData = data || undefined;
     const [createTask] = taskApi.useCreateTaskMutation();
@@ -80,9 +84,15 @@ export default function Home() {
 
     return (
         <div>
+            <div className={s.login}>
+                {userData?.login}
+                </div>
+            <Link className={s.profileIcon} href='/profile'>
+                <ProfileIcon width={30} />
+            </Link>
             <div className={s.taskContainer}>
                 <div className={s.taskSettings}>
-                    <div className={s.topBar}>
+                    <div>
                         <ToggleButton
                             name='Today'
                             Icon={CalendarIcon}
