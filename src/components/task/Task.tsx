@@ -2,7 +2,7 @@ import s from './Task.module.css';
 import {CompleteIcon, SettingsIcon, NonCompleteIcon} from '../../assets';
 import {useRef, useState} from 'react';
 import {UpdateIcon, DeleteIcon} from '../../assets';
-import useOnClickOutside from "../../hooks/useOnClickOutside";
+import useOnClickOutside from "../../utils/hooks/useOnClickOutside";
 
 interface Task {
     id: number;

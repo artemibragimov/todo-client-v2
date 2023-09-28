@@ -1,7 +1,7 @@
 .login {
     background-color: #FFFFFF;
-    width: 60%;
-    margin: 5% auto;
+    width: 65%;
+    margin: 3% auto;
     padding: 2%;
     text-align: center;
     border-radius: 10px;
@@ -20,7 +20,7 @@
 }
 
 .form_error {
-    font-size: 18px;
+    font-size: 15px;
     color: red;
     text-align: center;
 }
@@ -28,10 +28,10 @@
 .text_input {
     display: block;
     width: 60%;
-    margin: 2% auto 0 auto;
+    margin: 1% auto 0 auto;
     padding: 1%;
     font-family: inherit;
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 400;
     line-height: 1.5;
     color: #212529;
@@ -48,7 +48,7 @@
 }
 
 .text_input:focus {
-    color: #212529;
+
     background-color: #fff;
     border-color: #bdbdbd;
     outline: 0;

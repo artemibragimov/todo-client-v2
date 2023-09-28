@@ -1,5 +1,5 @@
 import s from '../styles/Home.module.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Task from '../components/task/Task';
 import Modal from "../components/modal/Modal";
 import {
@@ -19,12 +19,14 @@ import Button from "../components/button/Button";
 import Delete from "../components/delete/Delete";
 import Pagination from "../components/pagination/Pagination";
 import { taskApi } from '../store/services/TaskService';
+import { useRouter } from 'next/router';
 
 export default function Home() {
     const [currentPage, setCurrentPage] = useState(1);
     const [filter, setFilter] = useState('Today');
     const [isVisible, setIsVisible] = useState(false);
     const { data } = taskApi.useFetchAllTasksQuery({ currentPage: currentPage, filter: filter });
+    const router = useRouter()
     const tasksData = data || undefined;
     const [createTask] = taskApi.useCreateTaskMutation();
     const [deleteTask] = taskApi.useDeleteTaskMutation();
@@ -56,15 +58,25 @@ export default function Home() {
         }
     };
 
-    const openModal = (action: string, name: string='', id: number=0) => {
-        setAction({action,name,id});
+    const openModal = (action: string, name: string = '', id: number = 0) => {
+        setAction({ action, name, id });
         setIsVisible(true);
     };
 
-    const handleCreate = async (task:{id:number, name:string}) => { await createTask(task.name); };
-    const handleUpdate = async (task:{id:number, name:string}) => { await updateTask(task); };
-    const updateIsDone = async (id:number) => { await updateTask({id:id, name:''}); };
+    const handleCreate = async (task: { id: number, name: string }) => { await createTask(task.name); };
+    const handleUpdate = async (task: { id: number, name: string }) => { await updateTask(task); };
+    const updateIsDone = async (id: number) => { await updateTask({ id: id, name: '' }); };
     const handleDelete = async (id: number) => { await deleteTask(id); };
+
+    useEffect(() => {
+        setCurrentPage(1)
+    }, [filter])
+
+    useEffect(() => {
+        if (!window.localStorage.getItem('token')) {
+            router.push('/login')
+        }
+    }, [])
 
     return (
         <div>
@@ -133,7 +145,7 @@ export default function Home() {
                         formTitle={'Create task'}
                     />
                 }
-                 {action.action === 'Update task' &&
+                {action.action === 'Update task' &&
                     <TaskForm
                         id={action.id}
                         name={action.name}
@@ -141,7 +153,7 @@ export default function Home() {
                         toggle={setIsVisible}
                         formTitle={'Update task'}
                     />
-                } 
+                }
                 {action.action === 'Delete task' &&
                     <Delete
                         id={action.id}

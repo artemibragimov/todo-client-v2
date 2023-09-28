@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import s from './Login.module.css';
-import {SignInIcon} from "../../assets";
-import {SubmitHandler, useForm} from "react-hook-form";
+import { SignInIcon } from "../../assets";
+import { SubmitHandler, useForm } from "react-hook-form";
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { userApi } from '../../store/services/UserService';
 
 type Inputs = {
     login: string,
@@ -9,10 +12,13 @@ type Inputs = {
 };
 
 const Login = () => {
+    const [errorText, setErrorText] = useState('');
+    const router = useRouter();
+    const [signIn] = userApi.useSignInMutation();
     const {
         register,
         handleSubmit,
-        formState: {errors}
+        formState: { errors }
     } = useForm<Inputs>({
         defaultValues: {
             login: '',
@@ -20,9 +26,24 @@ const Login = () => {
         }
     });
 
-    const onSubmit: SubmitHandler<Inputs> = (data) => {
+    const onSubmit: SubmitHandler<Inputs> = async (data) => {
 
-        console.log(data);
+        const loginUser = await signIn({
+            login: data.login,
+            password: data.password
+        }).unwrap()
+            .catch((error) => {
+                if (error.data.errors) {
+                    setErrorText(error.data.errors[0].msg);
+                } else {
+                    setErrorText(error.data.message);
+                }
+            });
+
+        if (loginUser) {
+            window.localStorage.setItem('token', loginUser.token);
+            router.push('/');
+        }
     };
 
     return (
@@ -34,22 +55,28 @@ const Login = () => {
             <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
 
                 <input
-                    className={s.text_input}
+                    className={errors.login ? s.text_input + ' ' + s.text_input_error : s.text_input}
                     placeholder='Enter login'
-                    {...register("login", {required: true})}
+                    {...register("login", { required: true })}
                 />
-                {errors.login && <div className={s.form_error}>This field should not be empty</div>}
 
                 <input
                     type={"password"}
-                    className={s.text_input}
+                    className={errors.password ? s.text_input + ' ' + s.text_input_error : s.text_input}
                     placeholder='Enter password'
-                    {...register("password", {required: true})}
+                    {...register("password", { required: true })}
                 />
-                {errors.password && <div className={s.form_error}>This field should not be empty</div>}
+
+                <div className={s.form_error}>{errorText}</div>
+
+                <div className={s.link}>
+                    <Link href='/signup'>
+                        Sign up
+                    </Link>
+                </div>
 
                 <button className={s.button} type="submit">
-                    <SignInIcon/>
+                    <SignInIcon />
                     <p>Sign in</p>
                 </button>
 

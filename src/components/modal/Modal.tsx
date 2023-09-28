@@ -1,6 +1,6 @@
 import React, {ReactNode, useRef} from "react";
 import s from './Modal.module.css';
-import useOnClickOutside from "../../hooks/useOnClickOutside";
+import useOnClickOutside from "../../utils/hooks/useOnClickOutside";
 
 interface ModalType {
     children?: ReactNode;

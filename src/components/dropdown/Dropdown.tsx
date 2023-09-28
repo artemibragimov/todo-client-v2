@@ -1,6 +1,6 @@
 import {FC, SVGProps, useRef, useState} from "react";
 import s from './Dropdown.module.css';
-import useOnClickOutside from "../../hooks/useOnClickOutside";
+import useOnClickOutside from "../../utils/hooks/useOnClickOutside";
 
 interface Dropdown {
     options: string[];
