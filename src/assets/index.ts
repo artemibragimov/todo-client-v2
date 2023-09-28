@@ -17,3 +17,6 @@ export { default as BigDeleteIcon } from './bigDeleteIcon.svg';
 export { default as FirstNewIcon } from './firstNew.svg';
 export { default as FirstOldIcon } from './firstOld.svg';
 export { default as SignInIcon } from './signInIcon.svg';
+export { default as SecurityIcon } from './security.svg';
+export { default as LogoutIcon } from './logout.svg';
+export { default as ProfileBtnIcon } from './profile.svg';

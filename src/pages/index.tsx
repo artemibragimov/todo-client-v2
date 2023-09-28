@@ -23,18 +23,20 @@ import { taskApi } from '../store/services/TaskService';
 import { useRouter } from 'next/router';
 import { userApi } from '../store/services/UserService';
 import Link from 'next/link';
+import {getTokenFromLocalStorage} from "../helper/token";
 
 export default function Home() {
     const [currentPage, setCurrentPage] = useState(1);
     const [filter, setFilter] = useState('Today');
     const [isVisible, setIsVisible] = useState(false);
     const { data } = taskApi.useFetchAllTasksQuery({ currentPage: currentPage, filter: filter });
-    const { data: userData } = userApi.useGetMeQuery('')
-    const router = useRouter()
+    const { data: userData } = userApi.useGetMeQuery('');
+    const router = useRouter();
     const tasksData = data || undefined;
     const [createTask] = taskApi.useCreateTaskMutation();
     const [deleteTask] = taskApi.useDeleteTaskMutation();
     const [updateTask] = taskApi.useUpdateTaskMutation();
+
 
     const [action, setAction] = useState<{
         action: string,
@@ -73,13 +75,14 @@ export default function Home() {
     const handleDelete = async (id: number) => { await deleteTask(id); };
 
 useEffect(() => {
-    setCurrentPage(1)
-}, [filter])
+    setCurrentPage(1);
+}, [filter]);
+
 useEffect(() => {
-    if (!window.localStorage.getItem('token')) {
-        router.push('/login')
+    if (!getTokenFromLocalStorage()) {
+        router.push('/login');
     }
-}, [])
+}, []);
 
 return (
     <div>

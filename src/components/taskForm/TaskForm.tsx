@@ -1,6 +1,7 @@
 import s from './TaskForm.module.css';
 import { SaveIcon, CloseIcon } from '../../assets';
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useEffect } from 'react';
 
 interface TaskFormType {
     id: number,
@@ -27,8 +28,8 @@ const CreateTaskForm = ({ id, name, handleSubmitForm, toggle, formTitle }: TaskF
         }
     });
 
-    const onSubmit: SubmitHandler<Inputs> = (data) => {
-        handleSubmitForm({ id: id, name:data.name });
+    const onSubmit: SubmitHandler<Inputs> = async (data) => {
+        await handleSubmitForm({ id: id, name:data.name });
         toggle(false);
         reset({
             name: ''
@@ -40,6 +41,16 @@ const CreateTaskForm = ({ id, name, handleSubmitForm, toggle, formTitle }: TaskF
         errors.name = undefined;
     };
 
+    useEffect(() => {
+        const close = (e:any) => {
+          if(e.keyCode === 27){
+            onClickClose()
+          }
+        }
+        window.addEventListener('keydown', close)
+      return () => window.removeEventListener('keydown', close)
+    },[])
+
     return (
         <div>
             <div className={s.formTitle}>
@@ -48,7 +59,7 @@ const CreateTaskForm = ({ id, name, handleSubmitForm, toggle, formTitle }: TaskF
 
             <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
 
-                <input
+                <input autoFocus
                     className={s.text_input}
                     placeholder='Enter text'
                     {...register("name", { required: true })}

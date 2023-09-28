@@ -26,7 +26,7 @@
 
 .login {
     position: absolute;
-    top: 3.5%;
+    top: 35px;
     margin: 0 auto;
     left: 20%;
     right: 20%;
@@ -37,6 +37,6 @@
 
 .profileIcon{
     position: absolute;
-    top: 3.5%;
+    top: 32px;
     right: 40px;
 }

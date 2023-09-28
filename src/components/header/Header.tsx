@@ -7,7 +7,7 @@ const Header = () => {
         <header className={s.header}>
             <Link href='/' className={s.logo}>To-Do</Link>
         </header>
-    )
+    );
 };
 
 export { Header };

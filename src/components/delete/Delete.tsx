@@ -1,5 +1,6 @@
 import s from "./Delete.module.css";
-import {BigDeleteIcon, CloseIcon} from "../../assets";
+import { BigDeleteIcon, CloseIcon } from "../../assets";
+import { useEffect } from "react";
 
 interface DeleteType {
     id: number,
@@ -8,11 +9,24 @@ interface DeleteType {
     title: string
 }
 
-const Delete = ({id, handleClick, toggle, title}: DeleteType) => {
+const Delete = ({ id, handleClick, toggle, title }: DeleteType) => {
     const onClick = () => {
         handleClick(id);
         toggle(false);
     };
+
+    useEffect(() => {
+        const close = (e: any) => {
+            if (e.keyCode === 27) {
+                toggle(false)
+            }
+            if (e.keyCode === 13) {
+                onClick()
+            }
+        }
+        window.addEventListener('keydown', close)
+        return () => window.removeEventListener('keydown', close)
+    }, [])
     return (
         <div className={s.delete_form}>
             <div className={s.title}>
@@ -24,12 +38,12 @@ const Delete = ({id, handleClick, toggle, title}: DeleteType) => {
 
             <div className={s.btn_container}>
                 <button className={s.delete_button + ' ' + s.btn} onClick={onClick}>
-                    <BigDeleteIcon/>
+                    <BigDeleteIcon />
                     <p>Delete</p>
                 </button>
 
                 <button className={s.close_button + ' ' + s.btn} onClick={() => toggle(false)}>
-                    <CloseIcon/>
+                    <CloseIcon />
                     <p>Close</p>
                 </button>
             </div>
