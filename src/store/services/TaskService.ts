@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ITask } from '../../types/ITask';
+import { getTokenFromLocalStorage } from '../../helper/token';
 
 export const taskApi = createApi({
     reducerPath: 'taskApi',
@@ -9,6 +10,9 @@ export const taskApi = createApi({
         fetchAllTasks: build.query<{ tasks: ITask[], totalTasks: number }, { currentPage: number, filter: string }>({
             query: ({ currentPage, filter }) => ({
                 url: '/',
+                headers: {
+                    Authorization: `Bearer ${getTokenFromLocalStorage()}`,
+                },
                 params: {
                     currentPage: currentPage,
                     filter: filter
@@ -20,6 +24,9 @@ export const taskApi = createApi({
             query: (name) => ({
                 url: '/',
                 method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${getTokenFromLocalStorage()}`,
+                },
                 body: { name: name }
             }),
             invalidatesTags: ['Task']
@@ -28,6 +35,9 @@ export const taskApi = createApi({
             query: (id) => ({
                 url: '/',
                 method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${getTokenFromLocalStorage()}`,
+                },
                 body: { id: id }
             }),
             invalidatesTags: ['Task']
@@ -36,6 +46,9 @@ export const taskApi = createApi({
             query: (task) => ({
                 url: '/',
                 method: 'PUT',
+                headers: {
+                    Authorization: `Bearer ${getTokenFromLocalStorage()}`,
+                },
                 body: task
             }),
             invalidatesTags: ['Task']

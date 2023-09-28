@@ -29,7 +29,7 @@ export default function Home() {
     const [filter, setFilter] = useState('Today');
     const [isVisible, setIsVisible] = useState(false);
     const { data } = taskApi.useFetchAllTasksQuery({ currentPage: currentPage, filter: filter });
-    const {data:userData} = userApi.useGetMeQuery('')
+    const { data: userData } = userApi.useGetMeQuery('')
     const router = useRouter()
     const tasksData = data || undefined;
     const [createTask] = taskApi.useCreateTaskMutation();
@@ -72,106 +72,106 @@ export default function Home() {
     const updateIsDone = async (id: number) => { await updateTask({ id: id, name: '' }); };
     const handleDelete = async (id: number) => { await deleteTask(id); };
 
-    useEffect(() => {
-        setCurrentPage(1)
-    }, [filter])
+useEffect(() => {
+    setCurrentPage(1)
+}, [filter])
+useEffect(() => {
+    if (!window.localStorage.getItem('token')) {
+        router.push('/login')
+    }
+}, [])
 
-    useEffect(() => {
-        if (!window.localStorage.getItem('token')) {
-            router.push('/login')
-        }
-    }, [])
-
-    return (
-        <div>
-            <div className={s.login}>
-                {userData?.login}
-                </div>
-            <Link className={s.profileIcon} href='/profile'>
-                <ProfileIcon width={30} />
-            </Link>
-            <div className={s.taskContainer}>
-                <div className={s.taskSettings}>
-                    <div>
-                        <ToggleButton
-                            name='Today'
-                            Icon={CalendarIcon}
-                            ActiveIcon={CalendarActiveIcon}
-                            handleClick={setFilter}
-                            isActive={isActive}
-                        />
-                        <Dropdown
-                            options={["All", "Done", "Undone"]}
-                            handleClick={setFilter}
-                            isActive={isActive}
-                            Icon={DoneIcon}
-                            ActiveIcon={DoneActiveIcon}
-                        />
-                        <ToggleButton
-                            name='Date'
-                            Icon={DateIcon}
-                            ActiveIcon={filter === 'firstNew' ? FirstNewIcon : FirstOldIcon}
-                            handleClick={setDateFilter}
-                            isActive={isDate}
-                        />
-                    </div>
-                    <div className={s.bottomBar}>
-                        <Button
-                            name='Add task'
-                            Icon={AddTaskIcon}
-                            handleClick={openModal}
-                        />
-                    </div>
-                </div>
-                <div className={s.taskBoard}>
-
-                    <Pagination
-                        pageSize={7}
-                        totalTask={tasksData?.totalTasks}
-                        currentPage={currentPage}
-                        handleClick={setCurrentPage}
+return (
+    <div>
+        <div className={s.login}>
+            {userData?.login}
+        </div>
+        <Link className={s.profileIcon} href='/profile'>
+            <ProfileIcon width={30} />
+        </Link>
+        <div className={s.taskContainer}>
+            <div className={s.taskSettings}>
+                <div>
+                    <ToggleButton
+                        name='Today'
+                        Icon={CalendarIcon}
+                        ActiveIcon={CalendarActiveIcon}
+                        handleClick={setFilter}
+                        isActive={isActive}
                     />
-
-                    {tasksData && tasksData.tasks.map((obj, index) => (
-                        <Task
-                            handleClick={openModal}
-                            changeIsDone={updateIsDone}
-                            key={index}
-                            id={obj.id}
-                            isDone={obj.isDone}
-                            name={obj.name}
-                            date={obj.date}
-                        />
-                    ))}
+                    <Dropdown
+                        options={["All", "Done", "Undone"]}
+                        handleClick={setFilter}
+                        isActive={isActive}
+                        Icon={DoneIcon}
+                        ActiveIcon={DoneActiveIcon}
+                    />
+                    <ToggleButton
+                        name='Date'
+                        Icon={DateIcon}
+                        ActiveIcon={filter === 'firstNew' ? FirstNewIcon : FirstOldIcon}
+                        handleClick={setDateFilter}
+                        isActive={isDate}
+                    />
+                </div>
+                <div className={s.bottomBar}>
+                    <Button
+                        name='Add task'
+                        Icon={AddTaskIcon}
+                        handleClick={openModal}
+                    />
                 </div>
             </div>
-            <Modal isVisible={isVisible} toggle={setIsVisible}>
-                {action.action === 'Add task' &&
-                    <TaskForm
-                        id={action.id}
-                        name={action.name}
-                        handleSubmitForm={handleCreate}
-                        toggle={setIsVisible}
-                        formTitle={'Create task'}
+            <div className={s.taskBoard}>
+
+                <Pagination
+                    pageSize={7}
+                    totalTask={tasksData?.totalTasks}
+                    currentPage={currentPage}
+                    handleClick={setCurrentPage}
+                />
+
+                {tasksData && tasksData.tasks.map((obj, index) => (
+
+                    <Task
+                        handleClick={openModal}
+                        changeIsDone={updateIsDone}
+                        key={index}
+                        id={obj.id}
+                        isDone={obj.isDone}
+                        name={obj.name}
+                        date={`${new Date().toLocaleDateString()===obj.date ? 'Today' : obj.date}` + ' at '+obj.time}
                     />
-                }
-                {action.action === 'Update task' &&
-                    <TaskForm
-                        id={action.id}
-                        name={action.name}
-                        handleSubmitForm={handleUpdate}
-                        toggle={setIsVisible}
-                        formTitle={'Update task'}
-                    />
-                }
-                {action.action === 'Delete task' &&
-                    <Delete
-                        id={action.id}
-                        handleClick={handleDelete}
-                        toggle={setIsVisible}
-                        title={'Delete task'}
-                    />}
-            </Modal>
+                ))}
+            </div>
         </div>
-    );
+        <Modal isVisible={isVisible} toggle={setIsVisible}>
+            {action.action === 'Add task' &&
+                <TaskForm
+                    id={action.id}
+                    name={action.name}
+                    handleSubmitForm={handleCreate}
+                    toggle={setIsVisible}
+                    formTitle={'Create task'}
+                />
+            }
+            {action.action === 'Update task' &&
+                <TaskForm
+                    id={action.id}
+                    name={action.name}
+                    handleSubmitForm={handleUpdate}
+                    toggle={setIsVisible}
+                    formTitle={'Update task'}
+                />
+            }
+            {action.action === 'Delete task' &&
+                <Delete
+                    id={action.id}
+                    handleClick={handleDelete}
+                    toggle={setIsVisible}
+                    title={'Delete task'}
+                />}
+        </Modal>
+    </div>
+);
 }
