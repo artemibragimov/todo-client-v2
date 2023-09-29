@@ -3,17 +3,31 @@ import s from "./Profile.module.css";
 import ToggleButton from "../../components/toggleButton/ToggleButton";
 import { LogoutIcon, ProfileBtnIcon, SecurityIcon } from "../../assets";
 import Button from "../../components/button/Button";
-import { useState } from "react";
+import { ChangeEventHandler, useState } from "react";
 import UserInfo from "../../components/userInfo/UserInfo";
+import { userApi } from "../../store/services/UserService";
 
 const Profile = () => {
   const [active, setActive] = useState<string>("Profile");
+  const { data: userData } = userApi.useGetMeQuery("");
+  const [uploadAvatar] = userApi.useUploadAvatarMutation();
   const isActive = (name: string) => active === name;
   const router = useRouter();
   const onClickLogout = () => {
     if (window.confirm("Do you really want to log out?")) {
       window.localStorage.removeItem("token");
       router.push("/login");
+    }
+  };
+
+  const handleChangeFile: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const files = e.target.files;
+
+    if (files && files.length > 0) {
+      const formData = new FormData();
+      formData.append("image", files[0]);
+
+      uploadAvatar(formData);
     }
   };
   return (
@@ -45,8 +59,16 @@ const Profile = () => {
             />
           </div>
         </div>
-        <div className={s.taskBoard}>
-          <UserInfo />
+        <div className={s.board}>
+          {active === "Profile" && (
+            <UserInfo
+              login={userData?.login}
+              email={userData?.email}
+              imageUrl={userData?.imageUrl}
+              handleChangeFile={handleChangeFile}
+            />
+          )}
+          {active === "Security" && <p>settings</p>}
         </div>
       </div>
     </div>
