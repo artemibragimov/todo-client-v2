@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 * {
   padding: 0;
   margin: 0;
@@ -109,9 +109,9 @@ legend {
 }
 
 html {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   height: 100%;
   width: 100%;
   margin: 0;
-  background: linear-gradient(299.75deg, #B9D5FF 0%, #F6D1FC 98.93%);
+  background: linear-gradient(299.75deg, #b9d5ff 0%, #f6d1fc 98.93%);
 }

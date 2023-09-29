@@ -1,36 +1,36 @@
-.settings{
-    position: absolute;
-    top: 35px;
-    margin: 0 auto;
-    left: 20%;
-    right: 20%;
-    text-align: center;
-    color: #9333EA;
-    font-size: 24px;
+.settings {
+  position: absolute;
+  top: 35px;
+  margin: 0 auto;
+  left: 20%;
+  right: 20%;
+  text-align: center;
+  color: #9333ea;
+  font-size: 24px;
 }
 
 .taskContainer {
-    margin: 3% 1%;
-    display: flex;
-    height: 76vh;
-    position: relative;
+  margin: 3% 1%;
+  display: flex;
+  height: 76vh;
+  position: relative;
 }
 
 .taskSettings {
-    display: block;
-    width: 18%;
-    margin: 0 2%;
+  display: block;
+  width: 18%;
+  margin: 0 2%;
 }
 
 .bottomBar {
-    position: absolute;
-    bottom: 0;
-    width: 16%;
+  position: absolute;
+  bottom: 0;
+  width: 16%;
 }
 
 .taskBoard {
-    width: 82%;
-    padding: 0 3%;
-    background: #F4F4F4;
-    border-radius: 10px;
+  width: 82%;
+  padding: 0 3%;
+  background: #f4f4f4;
+  border-radius: 10px;
 }
