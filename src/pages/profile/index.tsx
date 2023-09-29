@@ -6,11 +6,13 @@ import Button from "../../components/button/Button";
 import { ChangeEventHandler, useState } from "react";
 import UserInfo from "../../components/userInfo/UserInfo";
 import { userApi } from "../../store/services/UserService";
+import Security from "../../components/security/Security";
 
 const Profile = () => {
   const [active, setActive] = useState<string>("Profile");
   const { data: userData } = userApi.useGetMeQuery("");
   const [uploadAvatar] = userApi.useUploadAvatarMutation();
+  const [updateMe] = userApi.useUpdateMeMutation();
   const isActive = (name: string) => active === name;
   const router = useRouter();
   const onClickLogout = () => {
@@ -66,9 +68,10 @@ const Profile = () => {
               email={userData?.email}
               imageUrl={userData?.imageUrl}
               handleChangeFile={handleChangeFile}
+              handleUpdate={updateMe}
             />
           )}
-          {active === "Security" && <p>settings</p>}
+          {active === "Security" && <Security handleUpdate={updateMe} />}
         </div>
       </div>
     </div>

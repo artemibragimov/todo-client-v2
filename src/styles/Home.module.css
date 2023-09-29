@@ -37,6 +37,13 @@
 
 .profileIcon {
   position: absolute;
-  top: 32px;
+  top: 28px;
   right: 40px;
+}
+
+.userAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 100px;
+  box-shadow: 0 0 0 3px rgba(197, 207, 197, 0), 0 0 13px #33333390;
 }

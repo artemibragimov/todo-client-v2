@@ -52,5 +52,20 @@ export const userApi = createApi({
       }),
       providesTags: () => ["User"],
     }),
+
+    updateMe: build.mutation<
+      { message: string },
+      { updateType: string; text: string }
+    >({
+      query: (body) => ({
+        url: "/me",
+        method: "POST",
+        body,
+        headers: {
+          Authorization: `Bearer ${getTokenFromLocalStorage()}`,
+        },
+      }),
+      invalidatesTags: ["User"],
+    }),
   }),
 });

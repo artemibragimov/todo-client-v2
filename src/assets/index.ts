@@ -21,3 +21,4 @@ export { default as SecurityIcon } from "./security.svg";
 export { default as LogoutIcon } from "./logout.svg";
 export { default as ProfileBtnIcon } from "./profile.svg";
 export { default as ChangeIcon } from "./change.svg";
+export { default as ChangePasswordIcon } from "./changePassword.svg";

@@ -98,7 +98,15 @@ export default function Home() {
     <div>
       <div className={s.login}>{userData?.login}</div>
       <Link className={s.profileIcon} href="/profile">
-        <ProfileIcon width={30} />
+        {userData ? (
+          <img
+            className={s.userAvatar}
+            src={userData.imageUrl}
+            alt="User avatar"
+          />
+        ) : (
+          <ProfileIcon width={40} />
+        )}
       </Link>
       <div className={s.taskContainer}>
         <div className={s.taskSettings}>
