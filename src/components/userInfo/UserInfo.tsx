@@ -1,13 +1,14 @@
 import s from "./UserInfo.module.css";
 import { ChangeEventHandler, useEffect, useRef, useState } from "react";
-import ChangeButton from "../changeButton/ChangeButton";
+import { ChangeIcon } from "../../assets";
 
 interface UserInfo {
   login?: string;
   email?: string;
   imageUrl?: string;
   handleChangeFile: ChangeEventHandler<HTMLInputElement>;
-  handleUpdate: (body: { updateType: string; text: string }) => void;
+  handleEditLogin: (body: { login: string }) => void;
+  handleEditEmail: (body: { email: string }) => void;
 }
 
 const UserInfo = ({
@@ -15,72 +16,78 @@ const UserInfo = ({
   email,
   imageUrl,
   handleChangeFile,
-  handleUpdate,
+  handleEditLogin,
+  handleEditEmail,
 }: UserInfo) => {
-  const [changeType, setChangeType] = useState<string>();
-  const [localLogin, setLocalLogin] = useState<string>();
-  const [localEmail, setLocalEmail] = useState<string>();
+  const [changeType, setChangeType] = useState<string>("");
+  const [localLogin, setLocalLogin] = useState<string>("");
+  const [localEmail, setLocalEmail] = useState<string>("");
   const ref = useRef<HTMLInputElement>(null);
 
-  const onChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    if (changeType === "updateLogin") {
-      setLocalLogin(e.target.value);
-    } else {
-      setLocalEmail(e.target.value);
-    }
-  };
-
   const onBlur = () => {
-    if (changeType === "updateLogin" && localLogin && localLogin !== login) {
-      handleUpdate({ updateType: changeType, text: localLogin });
+    if (changeType == "login" && localLogin != login) {
+      handleEditLogin({ login: localLogin });
     }
 
-    if (changeType === "updateEmail" && localEmail && localEmail !== email) {
-      handleUpdate({ updateType: changeType, text: localEmail });
+    if (changeType == "email" && localEmail != email) {
+      handleEditEmail({ email: localEmail });
     }
-    setChangeType(undefined);
+
+    setChangeType("");
   };
 
   useEffect(() => {
-    setLocalLogin(login);
-    setLocalEmail(email);
+    if (login && email) {
+      setLocalLogin(login);
+      setLocalEmail(email);
+    }
   }, [login]);
+
   return (
     <div className={s.userInfo}>
       <input ref={ref} type="file" onChange={handleChangeFile} hidden />
 
       <div className={s.photo}>
         <img className={s.userPhoto} src={imageUrl} alt="avatar" />
-        <ChangeButton handleClick={() => ref.current?.click()} />
+        <button className={s.button} onClick={() => ref.current?.click()}>
+          <ChangeIcon />
+        </button>
       </div>
 
       <div className={s.userLogin}>
-        {changeType === "updateLogin" ? (
+        {changeType == "login" ? (
           <input
             value={localLogin}
             onBlur={onBlur}
-            onChange={onChange}
-            autoFocus={true}
+            onChange={(e) => setLocalLogin(e.target.value)}
+            autoFocus
+            className={s.input}
           />
         ) : (
           <div>
-            {login}{" "}
-            <ChangeButton handleClick={() => setChangeType("updateLogin")} />
+            {login}
+            <button className={s.button} onClick={() => setChangeType("login")}>
+              <ChangeIcon />
+            </button>
           </div>
         )}
       </div>
+
       <div className={s.userEmail}>
-        {changeType === "updateEmail" ? (
+        {changeType == "email" ? (
           <input
             value={localEmail}
             onBlur={onBlur}
-            onChange={onChange}
+            onChange={(e) => setLocalEmail(e.target.value)}
             autoFocus
+            className={s.input}
           />
         ) : (
           <div>
-            {email}{" "}
-            <ChangeButton handleClick={() => setChangeType("updateEmail")} />
+            {email}
+            <button onClick={() => setChangeType("email")}>
+              <ChangeIcon />
+            </button>
           </div>
         )}
       </div>

@@ -160,12 +160,11 @@ export default function Home() {
                 name={obj.name}
                 date={
                   `${
-                    new Date().toLocaleDateString() === obj.date
-                      ? "Today"
-                      : obj.date
-                  }` +
-                  " at " +
-                  obj.time
+                    new Date().toLocaleDateString() === obj.date &&
+                    filter === "Today"
+                      ? ""
+                      : obj.date + " at "
+                  }` + obj.time
                 }
               />
             ))}

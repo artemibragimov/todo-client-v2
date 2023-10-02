@@ -1,9 +1,10 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import s from "./Security.module.css";
 import { ChangePasswordIcon } from "../../assets";
+import { useEffect, useState } from "react";
 
 interface Security {
-  handleUpdate: (body: { updateType: string; text: string }) => void;
+  handleEditPassword: (body: { password: string }) => void;
 }
 
 type Inputs = {
@@ -11,7 +12,7 @@ type Inputs = {
   confirmPassword: string;
 };
 
-const Security = ({ handleUpdate }: Security) => {
+const Security = ({ handleEditPassword }: Security) => {
   const {
     register,
     handleSubmit,
@@ -33,7 +34,7 @@ const Security = ({ handleUpdate }: Security) => {
         message: "custom message",
       });
     } else {
-      handleUpdate({ updateType: "updatePassword", text: data.password });
+      handleEditPassword({ password: data.password });
       reset({
         password: "",
         confirmPassword: "",

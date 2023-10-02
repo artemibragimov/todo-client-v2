@@ -1,7 +1,7 @@
 import s from "./TaskForm.module.css";
 import { SaveIcon, CloseIcon } from "../../assets";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface TaskFormType {
   id: number;
@@ -26,6 +26,7 @@ const CreateTaskForm = ({
     register,
     handleSubmit,
     reset,
+    setError,
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: {
@@ -33,8 +34,14 @@ const CreateTaskForm = ({
     },
   });
 
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    await handleSubmitForm({ id: id, name: data.name });
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    if (data.name.slice(0, 1) === " ") {
+      return setError("name", {
+        type: "custom",
+        message: "custom",
+      });
+    }
+    handleSubmitForm({ id: id, name: data.name });
     toggle(false);
     reset({
       name: "",
@@ -69,7 +76,9 @@ const CreateTaskForm = ({
         />
 
         {errors.name ? (
-          <div className={s.form_error}>This field should not be empty</div>
+          <div className={s.form_error}>
+            this field cannot be empty or start with a space
+          </div>
         ) : (
           <div>
             <br />

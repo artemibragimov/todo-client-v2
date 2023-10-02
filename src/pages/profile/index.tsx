@@ -12,7 +12,9 @@ const Profile = () => {
   const [active, setActive] = useState<string>("Profile");
   const { data: userData } = userApi.useGetMeQuery("");
   const [uploadAvatar] = userApi.useUploadAvatarMutation();
-  const [updateMe] = userApi.useUpdateMeMutation();
+  const [editLogin] = userApi.useEditLoginMutation();
+  const [editEmail] = userApi.useEditEmailMutation();
+  const [editPassword] = userApi.useEditPasswordMutation();
   const isActive = (name: string) => active === name;
   const router = useRouter();
   const onClickLogout = () => {
@@ -32,6 +34,7 @@ const Profile = () => {
       uploadAvatar(formData);
     }
   };
+
   return (
     <div>
       <div className={s.settings}>Settings</div>
@@ -68,10 +71,13 @@ const Profile = () => {
               email={userData?.email}
               imageUrl={userData?.imageUrl}
               handleChangeFile={handleChangeFile}
-              handleUpdate={updateMe}
+              handleEditLogin={editLogin}
+              handleEditEmail={editEmail}
             />
           )}
-          {active === "Security" && <Security handleUpdate={updateMe} />}
+          {active === "Security" && (
+            <Security handleEditPassword={editPassword} />
+          )}
         </div>
       </div>
     </div>

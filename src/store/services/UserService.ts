@@ -11,7 +11,7 @@ export const userApi = createApi({
       { login: string; email: string; password: string }
     >({
       query: (userData) => ({
-        url: "/signup",
+        url: "/auth/signup",
         method: "POST",
         body: userData,
       }),
@@ -22,7 +22,7 @@ export const userApi = createApi({
       { login: string; password: string }
     >({
       query: (userData) => ({
-        url: "/login",
+        url: "/auth/login",
         method: "POST",
         body: userData,
       }),
@@ -30,7 +30,7 @@ export const userApi = createApi({
 
     uploadAvatar: build.mutation<{ url: string }, FormData>({
       query: (body) => ({
-        url: "/uploads",
+        url: "/auth/uploads",
         method: "POST",
         body,
         headers: {
@@ -45,7 +45,7 @@ export const userApi = createApi({
       ""
     >({
       query: () => ({
-        url: "/me",
+        url: "/auth/me",
         headers: {
           Authorization: `Bearer ${getTokenFromLocalStorage()}`,
         },
@@ -53,12 +53,33 @@ export const userApi = createApi({
       providesTags: () => ["User"],
     }),
 
-    updateMe: build.mutation<
-      { message: string },
-      { updateType: string; text: string }
-    >({
+    editLogin: build.mutation<{ message: string }, { login: string }>({
       query: (body) => ({
-        url: "/me",
+        url: "/auth/me/editLogin",
+        method: "POST",
+        body,
+        headers: {
+          Authorization: `Bearer ${getTokenFromLocalStorage()}`,
+        },
+      }),
+      invalidatesTags: ["User"],
+    }),
+
+    editEmail: build.mutation<{ message: string }, { email: string }>({
+      query: (body) => ({
+        url: "/auth/me/editEmail",
+        method: "POST",
+        body,
+        headers: {
+          Authorization: `Bearer ${getTokenFromLocalStorage()}`,
+        },
+      }),
+      invalidatesTags: ["User"],
+    }),
+
+    editPassword: build.mutation<{ message: string }, { password: string }>({
+      query: (body) => ({
+        url: "/auth/me/editPassword",
         method: "POST",
         body,
         headers: {
