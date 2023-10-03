@@ -7,16 +7,27 @@ import { ChangeEventHandler, useState } from "react";
 import UserInfo from "../../components/userInfo/UserInfo";
 import { userApi } from "../../store/services/UserService";
 import Security from "../../components/security/Security";
+import {
+  BottomBar,
+  InfoBoard,
+  NavBar,
+  ProfileInfoContainer,
+  Title,
+} from "./Profile.styled";
 
 const Profile = () => {
-  const [active, setActive] = useState<string>("Profile");
   const { data: userData } = userApi.useGetMeQuery("");
   const [uploadAvatar] = userApi.useUploadAvatarMutation();
   const [editLogin] = userApi.useEditLoginMutation();
   const [editEmail] = userApi.useEditEmailMutation();
   const [editPassword] = userApi.useEditPasswordMutation();
-  const isActive = (name: string) => active === name;
+
   const router = useRouter();
+
+  const [active, setActive] = useState<string>("Profile");
+
+  const isActive = (name: string) => active === name;
+
   const onClickLogout = () => {
     if (window.confirm("Do you really want to log out?")) {
       window.localStorage.removeItem("token");
@@ -37,34 +48,33 @@ const Profile = () => {
 
   return (
     <div>
-      <div className={s.settings}>Settings</div>
-      <div className={s.taskContainer}>
-        <div className={s.taskSettings}>
-          <div>
-            <ToggleButton
-              name="Profile"
-              Icon={ProfileBtnIcon}
-              ActiveIcon={ProfileBtnIcon}
-              handleClick={setActive}
-              isActive={isActive}
-            />
-            <ToggleButton
-              name="Security"
-              Icon={SecurityIcon}
-              ActiveIcon={SecurityIcon}
-              handleClick={setActive}
-              isActive={isActive}
-            />
-          </div>
-          <div className={s.bottomBar}>
+      <Title>Settings</Title>
+      <ProfileInfoContainer>
+        <NavBar>
+          <ToggleButton
+            name="Profile"
+            Icon={ProfileBtnIcon}
+            ActiveIcon={ProfileBtnIcon}
+            handleClick={setActive}
+            isActive={isActive}
+          />
+          <ToggleButton
+            name="Security"
+            Icon={SecurityIcon}
+            ActiveIcon={SecurityIcon}
+            handleClick={setActive}
+            isActive={isActive}
+          />
+
+          <BottomBar>
             <Button
               name="Log Out"
               Icon={LogoutIcon}
               handleClick={onClickLogout}
             />
-          </div>
-        </div>
-        <div className={s.board}>
+          </BottomBar>
+        </NavBar>
+        <InfoBoard>
           {active === "Profile" && (
             <UserInfo
               login={userData?.login}
@@ -78,8 +88,8 @@ const Profile = () => {
           {active === "Security" && (
             <Security handleEditPassword={editPassword} />
           )}
-        </div>
-      </div>
+        </InfoBoard>
+      </ProfileInfoContainer>
     </div>
   );
 };

@@ -1,13 +1,12 @@
 import Link from "next/link";
 import s from "./Header.module.css";
+import { HeaderLine } from "./Header.styled";
 
 const Header = () => {
   return (
-    <header className={s.header}>
-      <Link href="/" className={s.logo}>
-        To-Do
-      </Link>
-    </header>
+    <HeaderLine className={s.header}>
+      <Link href="/tasks">To-Do</Link>
+    </HeaderLine>
   );
 };
 

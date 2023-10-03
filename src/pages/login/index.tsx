@@ -56,10 +56,10 @@ const Login = () => {
   }, [data]);
 
   useEffect(() => {
-    if (!getTokenFromLocalStorage()) {
+    if (getTokenFromLocalStorage() !== null) {
       router.push("/tasks");
     }
-  }, []);
+  }, [data]);
 
   return (
     <LoginContainer>
