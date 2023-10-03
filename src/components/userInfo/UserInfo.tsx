@@ -41,7 +41,7 @@ const UserInfo = ({
       setLocalLogin(login);
       setLocalEmail(email);
     }
-  }, [login]);
+  }, [login, email]);
 
   return (
     <div className={s.userInfo}>

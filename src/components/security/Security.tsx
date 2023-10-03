@@ -1,37 +1,33 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import s from "./Security.module.css";
 import { ChangePasswordIcon } from "../../assets";
-import { useEffect, useState } from "react";
+import {
+  SecurityButton,
+  SecurityContainer,
+  SecurityInput,
+  SecurityTitle,
+} from "./Security.styled";
+import { ISecurity, SecurityInputs } from "../../types/ISecurity";
 
-interface Security {
-  handleEditPassword: (body: { password: string }) => void;
-}
-
-type Inputs = {
-  password: string;
-  confirmPassword: string;
-};
-
-const Security = ({ handleEditPassword }: Security) => {
+const Security = ({ handleEditPassword }: ISecurity) => {
   const {
     register,
     handleSubmit,
     reset,
     setError,
     formState: { errors },
-  } = useForm<Inputs>({
+  } = useForm<SecurityInputs>({
     defaultValues: {
       password: "",
       confirmPassword: "",
     },
   });
 
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+  const onSubmit: SubmitHandler<SecurityInputs> = async (data) => {
     if (data.password !== data.confirmPassword) {
-      setError("password", { type: "custom", message: "custom message" });
+      setError("password", { type: "password", message: "password" });
       setError("confirmPassword", {
-        type: "custom",
-        message: "custom message",
+        type: "confirmPassword",
+        message: "confirmPassword",
       });
     } else {
       handleEditPassword({ password: data.password });
@@ -43,37 +39,29 @@ const Security = ({ handleEditPassword }: Security) => {
   };
 
   return (
-    <div className={s.security}>
-      <div className={s.title}>Edit password</div>
-      <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
-        <input
+    <SecurityContainer>
+      <SecurityTitle>Edit password</SecurityTitle>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <SecurityInput
+          $box_shadow={errors.password ? "true" : ""}
           type={"password"}
-          className={
-            errors.password
-              ? s.text_input + " " + s.text_input_error
-              : s.text_input
-          }
           placeholder="Enter new password"
           {...register("password", { required: true })}
         />
 
-        <input
+        <SecurityInput
           type={"password"}
-          className={
-            errors.password
-              ? s.text_input + " " + s.text_input_error
-              : s.text_input
-          }
+          $box_shadow={errors.password ? "true" : ""}
           placeholder="Confirm password"
           {...register("confirmPassword", { required: true })}
         />
 
-        <button className={s.button} type="submit">
+        <SecurityButton type="submit">
           <ChangePasswordIcon />
-          <p>Change password</p>
-        </button>
+          Change password
+        </SecurityButton>
       </form>
-    </div>
+    </SecurityContainer>
   );
 };
 

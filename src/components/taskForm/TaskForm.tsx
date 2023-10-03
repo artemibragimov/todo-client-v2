@@ -1,19 +1,15 @@
-import s from "./TaskForm.module.css";
 import { SaveIcon, CloseIcon } from "../../assets";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useEffect, useState } from "react";
-
-interface TaskFormType {
-  id: number;
-  name: string;
-  handleSubmitForm: (task: { id: number; name: string }) => void;
-  toggle: (boolean: boolean) => void;
-  formTitle: string;
-}
-
-type Inputs = {
-  name: string;
-};
+import { useEffect } from "react";
+import { ITaskForm, ITaskFormInputs } from "../../types/ITaskForm";
+import {
+  Button,
+  ButtonContainer,
+  Error,
+  TaskForm,
+  TaskFormInput,
+  TaskFormTitle,
+} from "./TaskForm.styled";
 
 const CreateTaskForm = ({
   id,
@@ -21,20 +17,20 @@ const CreateTaskForm = ({
   handleSubmitForm,
   toggle,
   formTitle,
-}: TaskFormType) => {
+}: ITaskForm) => {
   const {
     register,
     handleSubmit,
     reset,
     setError,
     formState: { errors },
-  } = useForm<Inputs>({
+  } = useForm<ITaskFormInputs>({
     defaultValues: {
       name: "" || name,
     },
   });
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
+  const onSubmit: SubmitHandler<ITaskFormInputs> = (data) => {
     if (data.name.slice(0, 1) === " ") {
       return setError("name", {
         type: "custom",
@@ -54,52 +50,58 @@ const CreateTaskForm = ({
   };
 
   useEffect(() => {
-    const close = (e: any) => {
-      if (e.keyCode === 27) {
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
         onClickClose();
       }
-    };
-    window.addEventListener("keydown", close);
-    return () => window.removeEventListener("keydown", close);
+    });
+    return () =>
+      window.removeEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          onClickClose();
+        }
+      });
   }, []);
 
   return (
     <div>
-      <div className={s.formTitle}>{formTitle}</div>
+      <TaskFormTitle>{formTitle}</TaskFormTitle>
 
-      <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
-        <input
+      <TaskForm onSubmit={handleSubmit(onSubmit)}>
+        <TaskFormInput
           autoFocus
-          className={s.text_input}
           placeholder="Enter text"
           {...register("name", { required: true })}
         />
 
         {errors.name ? (
-          <div className={s.form_error}>
-            this field cannot be empty or start with a space
-          </div>
+          <Error>This field cannot be empty or start with a space</Error>
         ) : (
-          <div>
-            <br />
-          </div>
+          <br />
         )}
 
-        <div className={s.btn_container}>
-          <button className={s.submit_button + " " + s.form_btn} type="submit">
+        <ButtonContainer>
+          <Button
+            $bg="#67b9cb44"
+            $bgHover="#67b9cbad"
+            $color=" #67b8cb"
+            type="submit"
+          >
             <SaveIcon />
-            <p>Save</p>
-          </button>
+            Save
+          </Button>
 
-          <button
-            className={s.close_button + " " + s.form_btn}
+          <Button
+            $bg="#6b728044"
+            $bgHover="#6b7280ad"
+            $color=" #6b7280"
             onClick={onClickClose}
           >
             <CloseIcon />
-            <p>Close</p>
-          </button>
-        </div>
-      </form>
+            Close
+          </Button>
+        </ButtonContainer>
+      </TaskForm>
     </div>
   );
 };

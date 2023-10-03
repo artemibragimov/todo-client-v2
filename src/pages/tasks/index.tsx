@@ -1,4 +1,3 @@
-import s from "./Home.module.css";
 import { useEffect, useState } from "react";
 import Task from "../../components/task/Task";
 import Modal from "../../components/modal/Modal";
@@ -102,7 +101,7 @@ export default function Tasks() {
     if (!getTokenFromLocalStorage()) {
       router.push("/login");
     }
-  }, []);
+  }, [router]);
 
   return (
     <TaskContainer>

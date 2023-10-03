@@ -12,7 +12,7 @@ export const Title = styled.div`
 `;
 
 export const ProfileInfoContainer = styled.div`
-  margin: 3% 1%;
+  margin: 2.5% 1%;
   display: flex;
   height: 80vh;
   position: relative;

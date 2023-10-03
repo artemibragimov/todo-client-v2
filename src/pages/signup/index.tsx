@@ -74,7 +74,7 @@ const SignUp = () => {
     if (getTokenFromLocalStorage() !== null) {
       router.push("/tasks");
     }
-  }, [data]);
+  }, [data, router]);
 
   return (
     <SignupContainer>

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 interface DropdownButton {
-  isActivated: boolean;
+  $isActivated: boolean;
 }
 
 export const DropdownButton = styled.button<DropdownButton>`
@@ -16,20 +16,20 @@ export const DropdownButton = styled.button<DropdownButton>`
   padding: 20px 10px;
 
   transition: color 100ms;
-  background-color: ${({ isActivated }) =>
-    isActivated ? "rgba(147, 51, 234, 0.06)" : "transparent"};
+  background-color: ${({ $isActivated }) =>
+    $isActivated ? "#9333ea0f" : "transparent"};
 
   font-weight: 400;
   font-size: 24px;
-  color: ${({ isActivated }) => (isActivated ? "#9333ea" : "#6b7280")};
+  color: ${({ $isActivated }) => ($isActivated ? "#9333ea" : "#6b7280")};
 
   cursor: pointer;
 
   &:hover {
-    background: rgba(147, 51, 234, 0.06);
+    background: #9333ea0f;
   }
 
-  &svg {
+  & svg {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -40,14 +40,14 @@ export const DropdownButton = styled.button<DropdownButton>`
 export const List = styled.ul`
   font-weight: 400;
   font-size: 24px;
-  background: rgba(147, 51, 234, 0.06);
+  background: #9333ea0f;
 
   border-style: none;
   border-radius: 10px;
 `;
 
 interface ListItem {
-  isActivated: boolean;
+  $isActivated: boolean;
 }
 
 export const ListItem = styled.li<ListItem>`
@@ -62,12 +62,12 @@ export const ListItem = styled.li<ListItem>`
   padding: 20px 10px;
 
   transition: color 100ms;
-  background-color: ${({ isActivated }) =>
-    isActivated ? "rgba(147, 51, 234, 0.06)" : "transparent"};
+  background-color: ${({ $isActivated }) =>
+    $isActivated ? "#9333ea0f" : "transparent"};
 
   font-weight: 400;
   font-size: 24px;
-  color: ${({ isActivated }) => (isActivated ? "#9333ea" : "#6b7280")};
+  color: ${({ $isActivated }) => ($isActivated ? "#9333ea" : "#6b7280")};
 
   cursor: pointer;
 
@@ -75,7 +75,7 @@ export const ListItem = styled.li<ListItem>`
     background: rgba(147, 51, 234, 0.06);
   }
 
-  &svg {
+  & svg {
     display: flex;
     align-items: center;
     justify-content: center;

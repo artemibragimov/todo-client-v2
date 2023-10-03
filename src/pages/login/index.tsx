@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import s from "./Login.module.css";
 import { SignInIcon } from "../../assets";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
@@ -59,7 +58,7 @@ const Login = () => {
     if (getTokenFromLocalStorage() !== null) {
       router.push("/tasks");
     }
-  }, [data]);
+  }, [data, router]);
 
   return (
     <LoginContainer>

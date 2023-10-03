@@ -24,7 +24,7 @@ export const DeleteQuestion = styled.div`
   font-weight: 400;
   font-size: 22px;
   color: #9333ea;
-  margin: 80px auto;
+  margin: 40px auto;
   text-align: center;
 `;
 
@@ -36,9 +36,9 @@ export const ButtonContainer = styled.div`
 `;
 
 interface ButtonProps {
-  bg: string;
-  bgHover: string;
-  color: string;
+  $bg: string;
+  $bgHover: string;
+  $color: string;
 }
 export const Button = styled.button<ButtonProps>`
   border-radius: 10px;
@@ -53,11 +53,11 @@ export const Button = styled.button<ButtonProps>`
   cursor: pointer;
   display: flex;
   justify-content: center;
-  background-color: ${({ bg }) => bg};
-  color: ${({ color }) => color};
+  background-color: ${({ $bg }) => $bg};
+  color: ${({ $color }) => $color};
 
   &:hover {
-    background-color: ${({ bgHover }) => bgHover};
+    background-color: ${({ $bgHover }) => $bgHover};
   }
 `;
 

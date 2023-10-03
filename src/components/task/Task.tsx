@@ -1,55 +1,58 @@
-import s from "./Task.module.css";
 import { CompleteIcon, SettingsIcon, NonCompleteIcon } from "../../assets";
 import { useRef, useState } from "react";
 import { UpdateIcon, DeleteIcon } from "../../assets";
 import useOnClickOutside from "../../utils/hooks/useOnClickOutside";
+import {
+  IsDoneButton,
+  SettingButton,
+  SettingButtons,
+  TaskContainer,
+  TaskDate,
+  TaskItem,
+  TaskName,
+  TaskSettings,
+} from "./Task.styled";
+import { ITaskItem } from "../../types/ITask";
 
-interface Task {
-  id: number;
-  isDone: boolean;
-  name: string;
-  date: string;
-  changeIsDone: (id: number) => void;
-  handleClick: (action: string, newName: string, id: number) => void;
-}
-
-const Task = ({ id, isDone, name, date, changeIsDone, handleClick }: Task) => {
+const Task = ({
+  id,
+  isDone,
+  name,
+  date,
+  changeIsDone,
+  handleClick,
+}: ITaskItem) => {
   const [isHovering, setIsHovering] = useState(false);
 
   const ref = useRef<HTMLDivElement>(null);
   useOnClickOutside(ref, () => setIsHovering(false));
 
   return (
-    <div className={s.task_container}>
-      <div className={s.task}>
-        <button onClick={() => changeIsDone(id)}>
+    <TaskContainer>
+      <TaskItem>
+        <IsDoneButton onClick={() => changeIsDone(id)}>
           {isDone ? <CompleteIcon /> : <NonCompleteIcon />}
-        </button>
+        </IsDoneButton>
 
-        <div className={s.task_name}>{name}</div>
+        <TaskName>{name}</TaskName>
 
-        <div className={s.task_date}>{date}</div>
+        <TaskDate>{date}</TaskDate>
 
-        <button className={s.setting} onClick={() => setIsHovering(true)}>
+        <TaskSettings onClick={() => setIsHovering(true)}>
           <SettingsIcon />
-        </button>
-      </div>
+        </TaskSettings>
+      </TaskItem>
       {isHovering ? (
-        <div
-          ref={ref}
-          className={s.setting_btns}
-          onMouseOver={() => setIsHovering(true)}
-          onMouseOut={() => setIsHovering(false)}
-        >
-          <button onClick={() => handleClick("Update task", name, id)}>
+        <SettingButtons ref={ref}>
+          <SettingButton onClick={() => handleClick("Update task", name, id)}>
             <UpdateIcon />
-          </button>
-          <button onClick={() => handleClick("Delete task", name, id)}>
+          </SettingButton>
+          <SettingButton onClick={() => handleClick("Delete task", name, id)}>
             <DeleteIcon />
-          </button>
-        </div>
+          </SettingButton>
+        </SettingButtons>
       ) : null}
-    </div>
+    </TaskContainer>
   );
 };
 

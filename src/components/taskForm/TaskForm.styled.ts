@@ -1,4 +1,6 @@
-.formTitle {
+import styled from "styled-components";
+
+export const TaskFormTitle = styled.div`
   background: linear-gradient(259.86deg, #f5edfd 0%, #feeff5 85.32%);
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -11,20 +13,15 @@
   font-weight: 700;
   font-size: 26px;
   color: #9333ea;
-}
+`;
 
-.form {
+export const TaskForm = styled.form`
   font-family: "Roboto", sans-serif;
   font-weight: 400;
   font-size: 24px;
-}
+`;
 
-.form_error {
-  color: red;
-  text-align: center;
-}
-
-.text_input {
+export const TaskFormInput = styled.input`
   display: block;
   width: 74%;
   margin: 4% auto 0 auto;
@@ -39,29 +36,32 @@
   border: 1px solid #bdbdbd;
   border-radius: 10px;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
+  &:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(158, 158, 158, 0.25);
+  }
+`;
 
-.text_input::placeholder {
-  color: #212529;
-  opacity: 0.4;
-}
+export const Error = styled.div`
+  font-size: 15px;
+  color: red;
+  text-align: center;
+`;
 
-.text_input:focus {
-  color: #212529;
-  background-color: #fff;
-  border-color: #bdbdbd;
-  outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(158, 158, 158, 0.25);
-}
-
-.btn_container {
+export const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 2% auto 0;
   width: 74%;
+`;
+
+interface Button {
+  $color: string;
+  $bg: string;
+  $bgHover: string;
 }
 
-.form_btn {
+export const Button = styled.button<Button>`
   border-radius: 10px;
   border-style: none;
   font-size: 24px;
@@ -74,26 +74,12 @@
   cursor: pointer;
   display: flex;
   justify-content: center;
-}
-
-.form_btn p {
-  margin: 0 0 0 5%;
-}
-
-.submit_button {
-  background-color: #67b9cb44;
-  color: #67b8cb;
-}
-
-.submit_button:hover {
-  background: #67b9cbad;
-}
-
-.close_button {
-  background: #6b728044;
-  color: #6b7280;
-}
-
-.close_button:hover {
-  background: #6b7280ad;
-}
+  color: ${({ $color }) => $color};
+  background-color: ${({ $bg }) => $bg};
+  & :hover {
+    background-color: ${({ $bgHover }) => $bgHover};
+  }
+  & svg {
+    margin-right: 5%;
+  }
+`;

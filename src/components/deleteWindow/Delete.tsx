@@ -22,16 +22,23 @@ const Delete = ({ id, handleClick, toggle, title }: DeleteType) => {
   };
 
   useEffect(() => {
-    const close = (e: any) => {
-      if (e.keyCode === 27) {
+    window.addEventListener("keyup", (e) => {
+      if (e.key === "Escape") {
         toggle(false);
       }
-      if (e.keyCode === 13) {
+      if (e.key === "Enter") {
         onClick();
       }
-    };
-    window.addEventListener("keydown", close);
-    return () => window.removeEventListener("keydown", close);
+    });
+    return () =>
+      window.removeEventListener("keyup", (e) => {
+        if (e.key === "Escape") {
+          toggle(false);
+        }
+        if (e.key === "Enter") {
+          onClick();
+        }
+      });
   }, []);
   return (
     <DeleteForm>
@@ -40,9 +47,9 @@ const Delete = ({ id, handleClick, toggle, title }: DeleteType) => {
 
       <ButtonContainer>
         <Button
-          bg="#f564970f"
-          bgHover="#f56497ad"
-          color="#f56497"
+          $bg="#f564970f"
+          $bgHover="#f56497ad"
+          $color="#f56497"
           onClick={onClick}
         >
           <BigDeleteIcon />
@@ -50,9 +57,9 @@ const Delete = ({ id, handleClick, toggle, title }: DeleteType) => {
         </Button>
 
         <Button
-          bg=" #6b728044"
-          bgHover="#6b7280ad"
-          color="#6b7280"
+          $bg=" #6b728044"
+          $bgHover="#6b7280ad"
+          $color="#6b7280"
           onClick={() => toggle(false)}
         >
           <CloseIcon />

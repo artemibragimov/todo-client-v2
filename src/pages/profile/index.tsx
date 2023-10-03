@@ -1,5 +1,4 @@
 import { useRouter } from "next/router";
-import s from "./Profile.module.css";
 import ToggleButton from "../../components/toggleButton/ToggleButton";
 import { LogoutIcon, ProfileBtnIcon, SecurityIcon } from "../../assets";
 import Button from "../../components/common/buttons/buttonWithIcon/Button";

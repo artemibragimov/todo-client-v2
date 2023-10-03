@@ -28,7 +28,7 @@ const Dropdown = ({
   return (
     <div ref={divRef}>
       <DropdownButton
-        isActivated={isActivated}
+        $isActivated={isActivated}
         onClick={() => setDropdown(!dropdown)}
       >
         {isActivated ? <ActiveIcon /> : <Icon />}
@@ -40,7 +40,7 @@ const Dropdown = ({
           {options.map((option: string, i: number) => (
             <ListItem
               key={i}
-              isActivated={isActive(option)}
+              $isActivated={isActive(option)}
               onClick={() => handleItemClick(option)}
             >
               {isActive(option) ? <ActiveIcon /> : <Icon />}

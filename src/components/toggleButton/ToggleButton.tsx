@@ -1,13 +1,5 @@
-import s from "./ToggleButton.module.css";
-import { FC, SVGProps } from "react";
-
-interface ToggleButtonType {
-  name: string;
-  Icon: FC<SVGProps<SVGAElement>>;
-  ActiveIcon: FC<SVGProps<SVGAElement>>;
-  handleClick: (name: string) => void;
-  isActive: (name: string) => boolean;
-}
+import { IToggleButton } from "../../types/ItoggleButton";
+import { Button } from "./ToggleButton.styled";
 
 const ToggleButton = ({
   name,
@@ -15,18 +7,13 @@ const ToggleButton = ({
   ActiveIcon,
   handleClick,
   isActive,
-}: ToggleButtonType) => {
+}: IToggleButton) => {
   const isActivated = isActive(name);
   return (
-    <button
-      onClick={() => handleClick(name)}
-      className={
-        s.btn + " " + `${isActivated ? s.btn_active : s.btn_nonActive}`
-      }
-    >
+    <Button $isActivated={isActivated} onClick={() => handleClick(name)}>
       {isActivated ? <ActiveIcon /> : <Icon />}
       {name}
-    </button>
+    </Button>
   );
 };
 export default ToggleButton;

@@ -1,4 +1,4 @@
-import s from "./Pagination.module.css";
+import { PaginationButton, PaginationContainer } from "./Pagination.styled";
 
 interface PaginationType {
   pageSize: number;
@@ -24,20 +24,18 @@ const Pagination = ({
   }
 
   return (
-    <div className={s.pagination}>
+    <PaginationContainer>
       {pageNumbers.length !== 1 &&
         pageNumbers.map((pageNumber) => (
-          <button
+          <PaginationButton
+            $isCurrent={currentPage == pageNumber}
             key={pageNumber}
-            className={
-              s.btn + " " + `${currentPage == pageNumber && s.btn_current}`
-            }
             onClick={() => handleClick(pageNumber)}
           >
             {pageNumber}
-          </button>
+          </PaginationButton>
         ))}
-    </div>
+    </PaginationContainer>
   );
 };
 

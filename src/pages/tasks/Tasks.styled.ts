@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const TaskContainer = styled.div`
-  margin: 3% 1%;
+  margin: 2.5% 1%;
   height: 80vh;
 `;
 
