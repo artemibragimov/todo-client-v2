@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SignInIcon } from "../../assets";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
@@ -13,63 +13,64 @@ import {
   SignupInput,
   Tittle,
 } from "./Signup.styled";
-
-type Inputs = {
-  login: string;
-  email: string;
-  password: string;
-  repeatPassword: string;
-};
+import { ISignUp } from "../../types/ISignup";
 
 const SignUp = () => {
-  const [signUp] = userApi.useSignUpMutation();
+  const [signUp, { data }] = userApi.useSignUpMutation();
   const router = useRouter();
 
   const [errorText, setErrorText] = useState("");
-  const [iserror, setErrorinput] = useState(false);
 
   const {
     register,
     handleSubmit,
     setError,
     formState: { errors },
-  } = useForm<Inputs>({
+  } = useForm<ISignUp>({
     defaultValues: {
       login: "",
       email: "",
       password: "",
-      repeatPassword: "",
+      confirmPassword: "",
     },
   });
 
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    if (errors.login) {
-      setErrorinput(true);
-    }
-    if (data.password !== data.repeatPassword) {
-      setError("password", { type: "custom", message: "custom message" });
-      setError("repeatPassword", { type: "custom", message: "custom message" });
+  const onSubmit: SubmitHandler<ISignUp> = async (data) => {
+    if (data.password !== data.confirmPassword) {
+      setError("password", {
+        type: "error",
+        message: "password",
+      });
+      setError("confirmPassword", {
+        type: "error",
+        message: "confirmPassword",
+      });
     } else {
-      const register = await signUp({
+      await signUp({
         login: data.login,
         email: data.email,
         password: data.password,
       })
         .unwrap()
         .catch((error) => {
-          if (error.data.errors) {
+          if ("data" in error) {
             setErrorText(error.data.errors[0].msg);
-          } else {
-            setErrorText(error.data.message);
           }
         });
-
-      if (register) {
-        window.localStorage.setItem("token", register.token);
-        await router.push("/");
-      }
     }
   };
+
+  useEffect(() => {
+    if (data !== undefined) {
+      localStorage.token = data.token;
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (localStorage.token !== undefined) {
+      router.push("/tasks");
+    }
+  }, []);
 
   return (
     <SignupContainer>
@@ -83,23 +84,23 @@ const SignUp = () => {
         />
 
         <SignupInput
-          $box_shadow={errors.login ? "error" : ""}
+          $box_shadow={errors.email ? "error" : ""}
           placeholder="Enter email"
           {...register("email", { required: true })}
         />
 
         <SignupInput
-          $box_shadow={errors.login ? "error" : ""}
+          $box_shadow={errors.password ? "error" : ""}
           type="password"
           placeholder="Enter password"
           {...register("password", { required: true })}
         />
 
         <SignupInput
-          $box_shadow={errors.login ? "error" : ""}
+          $box_shadow={errors.confirmPassword ? "error" : ""}
           type="password"
-          placeholder="Enter password"
-          {...register("repeatPassword", { required: true })}
+          placeholder="Confirm password"
+          {...register("confirmPassword", { required: true })}
         />
 
         <Error>{errorText}</Error>

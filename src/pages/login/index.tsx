@@ -1,89 +1,92 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import s from "./Login.module.css";
 import { SignInIcon } from "../../assets";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { userApi } from "../../store/services/UserService";
-
-type Inputs = {
-  login: string;
-  password: string;
-};
+import { ILogin } from "../../types/ILogin";
+import {
+  Button,
+  Error,
+  LinkToSignup,
+  LoginContainer,
+  LoginForm,
+  LoginInput,
+  Tittle,
+} from "./Login.styled";
 
 const Login = () => {
-  const [errorText, setErrorText] = useState("");
+  const [signIn, { data }] = userApi.useSignInMutation();
   const router = useRouter();
-  const [signIn] = userApi.useSignInMutation();
+  const [errorText, setErrorText] = useState("");
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>({
+  } = useForm<ILogin>({
     defaultValues: {
       login: "",
       password: "",
     },
   });
 
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const loginUser = await signIn({
+  const onSubmit: SubmitHandler<ILogin> = async (data) => {
+    await signIn({
       login: data.login,
       password: data.password,
     })
       .unwrap()
       .catch((error) => {
-        if (error.data.errors) {
+        if ("data" in error) {
           setErrorText(error.data.errors[0].msg);
-        } else {
-          setErrorText(error.data.message);
         }
       });
-
-    if (loginUser) {
-      window.localStorage.setItem("token", loginUser.token);
-      router.push("/");
-    }
   };
 
-  return (
-    <div className={s.login}>
-      <div className={s.tittle}>Log in</div>
+  useEffect(() => {
+    if (data !== undefined) {
+      localStorage.token = data.token;
+    }
+  }, [data]);
 
-      <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
-        <input
-          className={
-            errors.login
-              ? s.text_input + " " + s.text_input_error
-              : s.text_input
-          }
+  useEffect(() => {
+    if (localStorage.token !== undefined) {
+      router.push("/tasks");
+    }
+  }, []);
+
+  return (
+    <LoginContainer>
+      <Tittle>Log in</Tittle>
+
+      <LoginForm onSubmit={handleSubmit(onSubmit)}>
+        <LoginInput
+          $box_shadow={errors.login ? "error" : ""}
           placeholder="Enter login"
           {...register("login", { required: true })}
         />
 
-        <input
-          type={"password"}
-          className={
-            errors.password
-              ? s.text_input + " " + s.text_input_error
-              : s.text_input
-          }
+        <LoginInput
+          $box_shadow={errors.password ? "error" : ""}
+          type="password"
           placeholder="Enter password"
           {...register("password", { required: true })}
         />
 
-        <div className={s.form_error}>{errorText}</div>
+        <Error>{errorText}</Error>
 
-        <div className={s.link}>
+        <LinkToSignup>
           <Link href="/signup">Sign up</Link>
-        </div>
+        </LinkToSignup>
 
-        <button className={s.button} type="submit">
+        <Button type="submit">
           <SignInIcon />
           <p>Sign in</p>
-        </button>
-      </form>
-    </div>
+        </Button>
+      </LoginForm>
+    </LoginContainer>
   );
 };
 
