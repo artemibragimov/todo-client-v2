@@ -18,7 +18,7 @@ export const NavBar = styled.div`
 `;
 
 export const BottomBar = styled.div`
-  width: 18%;
+  width: 20%;
   position: absolute;
   bottom: 0;
 `;

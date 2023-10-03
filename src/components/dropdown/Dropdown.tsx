@@ -1,14 +1,7 @@
-import { FC, SVGProps, useRef, useState } from "react";
-import s from "./Dropdown.module.css";
+import { useRef, useState } from "react";
 import useOnClickOutside from "../../utils/hooks/useOnClickOutside";
-
-interface Dropdown {
-  options: string[];
-  Icon: FC<SVGProps<SVGAElement>>;
-  ActiveIcon: FC<SVGProps<SVGAElement>>;
-  handleClick: (name: string) => void;
-  isActive: (name: string) => boolean;
-}
+import { IDropdown } from "../../types/IDropdown";
+import { DropdownButton, List, ListItem } from "./Dropdown.styled";
 
 const Dropdown = ({
   options,
@@ -16,11 +9,12 @@ const Dropdown = ({
   ActiveIcon,
   handleClick,
   isActive,
-}: Dropdown) => {
-  const [selected, setSelected] = useState<string>("All");
+}: IDropdown) => {
+  const divRef = useRef<HTMLDivElement>(null);
 
+  const [selected, setSelected] = useState<string>("All");
   const [dropdown, setDropdown] = useState<boolean>(false);
-  const divRef = useRef<HTMLUListElement>(null);
+
   useOnClickOutside(divRef, () => setDropdown(false));
 
   const isActivated = isActive(selected);
@@ -32,37 +26,28 @@ const Dropdown = ({
   };
 
   return (
-    <div>
-      <button
-        onClick={() => setDropdown(true)}
-        type="button"
-        className={
-          s.btn + " " + `${isActivated ? s.btn_active : s.btn_nonActive}`
-        }
+    <div ref={divRef}>
+      <DropdownButton
+        isActivated={isActivated}
+        onClick={() => setDropdown(!dropdown)}
       >
         {isActivated ? <ActiveIcon /> : <Icon />}
         {selected}
-      </button>
+      </DropdownButton>
 
       {dropdown && (
-        <ul ref={divRef} className={s.list}>
+        <List>
           {options.map((option: string, i: number) => (
-            <li
+            <ListItem
               key={i}
-              className={
-                s.btn +
-                " " +
-                s.item +
-                " " +
-                `${isActive(option) ? s.btn_active : s.btn_nonActive}`
-              }
+              isActivated={isActive(option)}
               onClick={() => handleItemClick(option)}
             >
               {isActive(option) ? <ActiveIcon /> : <Icon />}
               {option}
-            </li>
+            </ListItem>
           ))}
-        </ul>
+        </List>
       )}
     </div>
   );

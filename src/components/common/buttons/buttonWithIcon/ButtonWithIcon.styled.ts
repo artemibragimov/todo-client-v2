@@ -6,7 +6,7 @@ export const ButtonWithIcon = styled.button`
   text-align: left;
 
   width: 100%;
-  height: 10%;
+  height: 70px;
   margin: 10px 0;
   border-style: none;
   border-radius: 10px;
