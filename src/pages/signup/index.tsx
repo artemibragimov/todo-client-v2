@@ -1,10 +1,18 @@
 import React, { useState } from "react";
-import s from "./Signup.module.css";
 import { SignInIcon } from "../../assets";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
 import { userApi } from "../../store/services/UserService";
 import { useRouter } from "next/router";
+import {
+  Button,
+  Error,
+  LinkToLogin,
+  SignupContainer,
+  SignupForm,
+  SignupInput,
+  Tittle,
+} from "./Signup.styled";
 
 type Inputs = {
   login: string;
@@ -14,9 +22,12 @@ type Inputs = {
 };
 
 const SignUp = () => {
-  const [errorText, setErrorText] = useState("");
-  const router = useRouter();
   const [signUp] = userApi.useSignUpMutation();
+  const router = useRouter();
+
+  const [errorText, setErrorText] = useState("");
+  const [iserror, setErrorinput] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -32,6 +43,9 @@ const SignUp = () => {
   });
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    if (errors.login) {
+      setErrorinput(true);
+    }
     if (data.password !== data.repeatPassword) {
       setError("password", { type: "custom", message: "custom message" });
       setError("repeatPassword", { type: "custom", message: "custom message" });
@@ -58,64 +72,48 @@ const SignUp = () => {
   };
 
   return (
-    <div className={s.login}>
-      <div className={s.tittle}>Sign up</div>
+    <SignupContainer>
+      <Tittle>Sign up</Tittle>
 
-      <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
-        <input
-          className={
-            errors.login
-              ? s.text_input + " " + s.text_input_error
-              : s.text_input
-          }
+      <SignupForm onSubmit={handleSubmit(onSubmit)}>
+        <SignupInput
+          $box_shadow={errors.login ? "error" : ""}
           placeholder="Enter login"
           {...register("login", { required: true })}
         />
 
-        <input
-          className={
-            errors.email
-              ? s.text_input + " " + s.text_input_error
-              : s.text_input
-          }
+        <SignupInput
+          $box_shadow={errors.login ? "error" : ""}
           placeholder="Enter email"
           {...register("email", { required: true })}
         />
 
-        <input
-          type={"password"}
-          className={
-            errors.password
-              ? s.text_input + " " + s.text_input_error
-              : s.text_input
-          }
+        <SignupInput
+          $box_shadow={errors.login ? "error" : ""}
+          type="password"
           placeholder="Enter password"
           {...register("password", { required: true })}
         />
 
-        <input
-          type={"password"}
-          className={
-            errors.repeatPassword
-              ? s.text_input + " " + s.text_input_error
-              : s.text_input
-          }
+        <SignupInput
+          $box_shadow={errors.login ? "error" : ""}
+          type="password"
           placeholder="Enter password"
           {...register("repeatPassword", { required: true })}
         />
 
-        <div className={s.form_error}>{errorText}</div>
+        <Error>{errorText}</Error>
 
-        <div className={s.link}>
+        <LinkToLogin>
           <Link href="/login">Log in</Link>
-        </div>
+        </LinkToLogin>
 
-        <button className={s.button} type="submit">
+        <Button type="submit">
           <SignInIcon />
-          <p>Sign up</p>
-        </button>
-      </form>
-    </div>
+          Sign up
+        </Button>
+      </SignupForm>
+    </SignupContainer>
   );
 };
 

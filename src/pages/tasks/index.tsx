@@ -1,7 +1,7 @@
-import s from "../styles/Home.module.css";
+import s from "./Home.module.css";
 import { useEffect, useState } from "react";
-import Task from "../components/task/Task";
-import Modal from "../components/modal/Modal";
+import Task from "../../components/task/Task";
+import Modal from "../../components/modal/Modal";
 import {
   CalendarIcon,
   CalendarActiveIcon,
@@ -12,20 +12,30 @@ import {
   FirstNewIcon,
   FirstOldIcon,
   ProfileIcon,
-} from "../assets";
-import ToggleButton from "../components/toggleButton/ToggleButton";
-import TaskForm from "../components/taskForm/TaskForm";
-import Dropdown from "../components/dropdown/Dropdown";
-import Button from "../components/button/Button";
-import Delete from "../components/delete/Delete";
-import Pagination from "../components/pagination/Pagination";
-import { taskApi } from "../store/services/TaskService";
+} from "../../assets";
+import ToggleButton from "../../components/toggleButton/ToggleButton";
+import TaskForm from "../../components/taskForm/TaskForm";
+import Dropdown from "../../components/dropdown/Dropdown";
+import Button from "../../components/button/Button";
+import Delete from "../../components/delete/Delete";
+import Pagination from "../../components/pagination/Pagination";
+import { taskApi } from "../../store/services/TaskService";
 import { useRouter } from "next/router";
-import { userApi } from "../store/services/UserService";
+import { userApi } from "../../store/services/UserService";
 import Link from "next/link";
-import { getTokenFromLocalStorage } from "../helper/token";
+import { getTokenFromLocalStorage } from "../../helper/token";
+import {
+  BottomBar,
+  Login,
+  NavBar,
+  ProfileAvatar,
+  ProfileLink,
+  TaskBoard,
+  TaskContainer,
+  TaskHolder,
+} from "./Tasks.styled";
 
-export default function Home() {
+export default function Tasks() {
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState("Today");
   const [isVisible, setIsVisible] = useState(false);
@@ -95,53 +105,50 @@ export default function Home() {
   }, []);
 
   return (
-    <div>
-      <div className={s.login}>{userData?.login}</div>
-      <Link className={s.profileIcon} href="/profile">
-        {userData ? (
-          <img
-            className={s.userAvatar}
-            src={userData.imageUrl}
-            alt="User avatar"
+    <TaskContainer>
+      <Login>{userData?.login}</Login>
+      <ProfileLink>
+        <Link href="/profile">
+          {userData ? (
+            <ProfileAvatar src={userData.imageUrl} alt="User avatar" />
+          ) : (
+            <ProfileIcon width={40} />
+          )}
+        </Link>
+      </ProfileLink>
+
+      <TaskHolder>
+        <NavBar>
+          <ToggleButton
+            name="Today"
+            Icon={CalendarIcon}
+            ActiveIcon={CalendarActiveIcon}
+            handleClick={setFilter}
+            isActive={isActive}
           />
-        ) : (
-          <ProfileIcon width={40} />
-        )}
-      </Link>
-      <div className={s.taskContainer}>
-        <div className={s.taskSettings}>
-          <div>
-            <ToggleButton
-              name="Today"
-              Icon={CalendarIcon}
-              ActiveIcon={CalendarActiveIcon}
-              handleClick={setFilter}
-              isActive={isActive}
-            />
-            <Dropdown
-              options={["All", "Done", "Undone"]}
-              handleClick={setFilter}
-              isActive={isActive}
-              Icon={DoneIcon}
-              ActiveIcon={DoneActiveIcon}
-            />
-            <ToggleButton
-              name="Date"
-              Icon={DateIcon}
-              ActiveIcon={filter === "firstNew" ? FirstNewIcon : FirstOldIcon}
-              handleClick={setDateFilter}
-              isActive={isDate}
-            />
-          </div>
-          <div className={s.bottomBar}>
+          <Dropdown
+            options={["All", "Done", "Undone"]}
+            handleClick={setFilter}
+            isActive={isActive}
+            Icon={DoneIcon}
+            ActiveIcon={DoneActiveIcon}
+          />
+          <ToggleButton
+            name="Date"
+            Icon={DateIcon}
+            ActiveIcon={filter === "firstNew" ? FirstNewIcon : FirstOldIcon}
+            handleClick={setDateFilter}
+            isActive={isDate}
+          />
+          <BottomBar>
             <Button
               name="Add task"
               Icon={AddTaskIcon}
               handleClick={openModal}
             />
-          </div>
-        </div>
-        <div className={s.taskBoard}>
+          </BottomBar>
+        </NavBar>
+        <TaskBoard>
           <Pagination
             pageSize={7}
             totalTask={tasksData?.totalTasks}
@@ -168,8 +175,8 @@ export default function Home() {
                 }
               />
             ))}
-        </div>
-      </div>
+        </TaskBoard>
+      </TaskHolder>
       <Modal isVisible={isVisible} toggle={setIsVisible}>
         {action.action === "Add task" && (
           <TaskForm
@@ -198,6 +205,6 @@ export default function Home() {
           />
         )}
       </Modal>
-    </div>
+    </TaskContainer>
   );
 }

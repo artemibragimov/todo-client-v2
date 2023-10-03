@@ -1,13 +1,15 @@
-.delete_form {
-  font-family: "Roboto", sans-serif;
+import styled from "styled-components";
+
+export const DeleteForm = styled.div`
   font-weight: 400;
   font-size: 24px;
-}
-.title {
+`;
+
+export const Title = styled.div`
   background: linear-gradient(259.86deg, #f5edfd 0%, #feeff5 85.32%);
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  padding: 4%;
+  padding: 30px;
 
   color: #9333ea;
 
@@ -16,30 +18,29 @@
 
   font-weight: 700;
   font-size: 26px;
-}
+`;
 
-.question {
-  color: #9333ea;
-  margin: 8% auto;
-}
-
-.question {
-  font-family: "Roboto", sans-serif;
+export const DeleteQuestion = styled.div`
   font-weight: 400;
   font-size: 22px;
   color: #9333ea;
-  margin: 8% auto;
+  margin: 80px auto;
   text-align: center;
-}
+`;
 
-.btn_container {
+export const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 2% auto 0;
+  margin: 20px auto 0;
   width: 74%;
-}
+`;
 
-.btn {
+interface ButtonProps {
+  bg: string;
+  bgHover: string;
+  color: string;
+}
+export const Button = styled.button<ButtonProps>`
   border-radius: 10px;
   border-style: none;
   font-size: 24px;
@@ -52,26 +53,14 @@
   cursor: pointer;
   display: flex;
   justify-content: center;
-}
+  background-color: ${({ bg }) => bg};
+  color: ${({ color }) => color};
 
-.btn p {
-  margin: 0 0 0 5%;
-}
+  &:hover {
+    background-color: ${({ bgHover }) => bgHover};
+  }
+`;
 
-.delete_button {
-  background-color: #f564970f;
-  color: #f56497;
-}
-
-.delete_button:hover {
-  background: #f56497ad;
-}
-
-.close_button {
-  background: #6b728044;
-  color: #6b7280;
-}
-
-.close_button:hover {
-  background: #6b7280ad;
-}
+export const ButtonTittle = styled.p`
+  margin-left: 10px;
+`;
