@@ -1,4 +1,6 @@
-.btn {
+import styled from "styled-components";
+
+export const ButtonWithIcon = styled.button`
   display: flex;
   align-items: center;
   text-align: left;
@@ -19,19 +21,19 @@
   font-size: 24px;
 
   cursor: pointer;
-}
 
-.btn:hover {
-  background: rgba(147, 51, 234, 0.06);
-}
+  &:hover {
+    background: rgba(147, 51, 234, 0.06);
+  }
 
-.btn:focus {
-  background: rgba(147, 51, 234, 0.06);
-}
+  &:focus {
+    background: rgba(147, 51, 234, 0.06);
+  }
 
-.btn svg {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 10px;
-}
+  & svg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+  }
+`;

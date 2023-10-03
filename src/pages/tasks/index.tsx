@@ -16,8 +16,8 @@ import {
 import ToggleButton from "../../components/toggleButton/ToggleButton";
 import TaskForm from "../../components/taskForm/TaskForm";
 import Dropdown from "../../components/dropdown/Dropdown";
-import Button from "../../components/button/Button";
-import Delete from "../../components/delete/Delete";
+import Button from "../../components/common/buttons/buttonWithIcon/Button";
+import Delete from "../../components/deleteWindow/Delete";
 import Pagination from "../../components/pagination/Pagination";
 import { taskApi } from "../../store/services/TaskService";
 import { useRouter } from "next/router";
@@ -38,18 +38,18 @@ import {
 export default function Tasks() {
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState("Today");
-  const [isVisible, setIsVisible] = useState(false);
-  const { data } = taskApi.useFetchAllTasksQuery({
+
+  const { data: userData } = userApi.useGetMeQuery("");
+  const { data: tasksData } = taskApi.useFetchAllTasksQuery({
     currentPage: currentPage,
     filter: filter,
   });
-  const { data: userData } = userApi.useGetMeQuery("");
-  const router = useRouter();
-  const tasksData = data || undefined;
   const [createTask] = taskApi.useCreateTaskMutation();
   const [deleteTask] = taskApi.useDeleteTaskMutation();
   const [updateTask] = taskApi.useUpdateTaskMutation();
+  const router = useRouter();
 
+  const [isVisible, setIsVisible] = useState(false);
   const [action, setAction] = useState<{
     action: string;
     name: string;

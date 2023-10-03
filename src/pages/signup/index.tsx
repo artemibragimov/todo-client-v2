@@ -14,6 +14,10 @@ import {
   Tittle,
 } from "./Signup.styled";
 import { ISignUp } from "../../types/ISignup";
+import {
+  getTokenFromLocalStorage,
+  setTokenInLocalStorage,
+} from "../../helper/token";
 
 const SignUp = () => {
   const [signUp, { data }] = userApi.useSignUpMutation();
@@ -61,13 +65,13 @@ const SignUp = () => {
   };
 
   useEffect(() => {
-    if (data !== undefined) {
-      localStorage.token = data.token;
+    if (data) {
+      setTokenInLocalStorage(data.token);
     }
   }, [data]);
 
   useEffect(() => {
-    if (localStorage.token !== undefined) {
+    if (!getTokenFromLocalStorage()) {
       router.push("/tasks");
     }
   }, []);

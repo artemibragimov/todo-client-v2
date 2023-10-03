@@ -15,6 +15,10 @@ import {
   LoginInput,
   Tittle,
 } from "./Login.styled";
+import {
+  getTokenFromLocalStorage,
+  setTokenInLocalStorage,
+} from "../../helper/token";
 
 const Login = () => {
   const [signIn, { data }] = userApi.useSignInMutation();
@@ -46,13 +50,13 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (data !== undefined) {
-      localStorage.token = data.token;
+    if (data) {
+      setTokenInLocalStorage(data.token);
     }
   }, [data]);
 
   useEffect(() => {
-    if (localStorage.token !== undefined) {
+    if (!getTokenFromLocalStorage()) {
       router.push("/tasks");
     }
   }, []);

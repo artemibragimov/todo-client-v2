@@ -1,5 +1,5 @@
-import s from "./Button.module.css";
 import { FC, SVGProps } from "react";
+import { ButtonWithIcon } from "./ButtonWithIcon.styled";
 
 interface ButtonType {
   name: string;
@@ -9,10 +9,10 @@ interface ButtonType {
 
 const Button = ({ name, Icon, handleClick }: ButtonType) => {
   return (
-    <button onClick={() => handleClick(name)} className={s.btn}>
+    <ButtonWithIcon onClick={() => handleClick(name)}>
       <Icon />
       {name}
-    </button>
+    </ButtonWithIcon>
   );
 };
 
