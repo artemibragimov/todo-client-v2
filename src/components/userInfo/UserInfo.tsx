@@ -1,6 +1,15 @@
 import s from "./UserInfo.module.css";
 import { ChangeEventHandler, useEffect, useRef, useState } from "react";
 import { ChangeIcon } from "../../assets";
+import {
+  Button,
+  TextInput,
+  UserContainer,
+  UserEmail,
+  UserLogin,
+  UserPhoto,
+  UserPhotoContainer,
+} from "./UserInfo.styled";
 
 interface UserInfo {
   login?: string;
@@ -44,54 +53,52 @@ const UserInfo = ({
   }, [login, email]);
 
   return (
-    <div className={s.userInfo}>
+    <UserContainer>
       <input ref={ref} type="file" onChange={handleChangeFile} hidden />
 
-      <div className={s.photo}>
-        <img className={s.userPhoto} src={imageUrl} alt="avatar" />
-        <button className={s.button} onClick={() => ref.current?.click()}>
+      <UserPhotoContainer>
+        <UserPhoto src={imageUrl} alt="avatar" />
+        <Button onClick={() => ref.current?.click()}>
           <ChangeIcon />
-        </button>
-      </div>
+        </Button>
+      </UserPhotoContainer>
 
-      <div className={s.userLogin}>
+      <UserLogin>
         {changeType == "login" ? (
-          <input
+          <TextInput
             value={localLogin}
             onBlur={onBlur}
             onChange={(e) => setLocalLogin(e.target.value)}
             autoFocus
-            className={s.input}
           />
         ) : (
           <div>
             {login}
-            <button className={s.button} onClick={() => setChangeType("login")}>
+            <Button onClick={() => setChangeType("login")}>
               <ChangeIcon />
-            </button>
+            </Button>
           </div>
         )}
-      </div>
+      </UserLogin>
 
-      <div className={s.userEmail}>
+      <UserEmail>
         {changeType == "email" ? (
-          <input
+          <TextInput
             value={localEmail}
             onBlur={onBlur}
             onChange={(e) => setLocalEmail(e.target.value)}
             autoFocus
-            className={s.input}
           />
         ) : (
           <div>
             {email}
-            <button onClick={() => setChangeType("email")}>
+            <Button onClick={() => setChangeType("email")}>
               <ChangeIcon />
-            </button>
+            </Button>
           </div>
         )}
-      </div>
-    </div>
+      </UserEmail>
+    </UserContainer>
   );
 };
 
