@@ -37,7 +37,11 @@ const CreateTaskForm = ({
         message: 'custom',
       });
     }
-    handleSubmitForm({ id: id, name: data.name });
+
+    if (data.name !== name) {
+      handleSubmitForm({ id: id, name: data.name });
+    }
+
     toggle(false);
     reset({
       name: '',
