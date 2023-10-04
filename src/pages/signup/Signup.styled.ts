@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const SignupContainer = styled.div`
   background-color: #ffffff;
@@ -36,7 +36,7 @@ export const SignupInput = styled.input<SignupInput>`
   border-color: #bdbdbd;
   border-radius: 10px;
   box-shadow: ${({ $box_shadow }) =>
-    $box_shadow ? "0 0 0 0.2rem rgba(255, 0, 0, 0.589)" : ""};
+    $box_shadow ? '0 0 0 0.2rem rgba(255, 0, 0, 0.589)' : ''};
   &:focus {
     border-color: #bdbdbd;
     outline: 0;

@@ -1,5 +1,5 @@
-import { BigDeleteIcon, CloseIcon } from "../../assets";
-import { useEffect } from "react";
+import { BigDeleteIcon, CloseIcon } from '../../../../assets';
+import { FormEvent, useEffect } from 'react';
 import {
   Button,
   ButtonContainer,
@@ -7,41 +7,27 @@ import {
   DeleteForm,
   DeleteQuestion,
   Title,
-} from "./Delete.styled";
-interface DeleteType {
-  id: number;
-  handleClick: (id: number) => Promise<void>;
-  toggle: (boolean: boolean) => void;
-  title: string;
-}
+} from './Delete.styled';
+import { IDelete } from '../../../../types/IDelete';
 
-const Delete = ({ id, handleClick, toggle, title }: DeleteType) => {
-  const onClick = () => {
+const Delete = ({ id, handleClick, toggle, title }: IDelete) => {
+  const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     handleClick(id);
     toggle(false);
   };
 
   useEffect(() => {
-    window.addEventListener("keyup", (e) => {
-      if (e.key === "Escape") {
+    const close = (e: any) => {
+      if (e.keyCode === 27) {
         toggle(false);
       }
-      if (e.key === "Enter") {
-        onClick();
-      }
-    });
-    return () =>
-      window.removeEventListener("keyup", (e) => {
-        if (e.key === "Escape") {
-          toggle(false);
-        }
-        if (e.key === "Enter") {
-          onClick();
-        }
-      });
+    };
+    window.addEventListener('keydown', close);
+    return () => window.removeEventListener('keydown', close);
   }, []);
   return (
-    <DeleteForm>
+    <DeleteForm onSubmit={onFormSubmit}>
       <Title>{title}</Title>
       <DeleteQuestion>Are you sure about deleting this task?</DeleteQuestion>
 
@@ -50,7 +36,7 @@ const Delete = ({ id, handleClick, toggle, title }: DeleteType) => {
           $bg="#f564970f"
           $bgHover="#f56497ad"
           $color="#f56497"
-          onClick={onClick}
+          type="submit"
         >
           <BigDeleteIcon />
           <ButtonTittle> Delete</ButtonTittle>
@@ -61,6 +47,7 @@ const Delete = ({ id, handleClick, toggle, title }: DeleteType) => {
           $bgHover="#6b7280ad"
           $color="#6b7280"
           onClick={() => toggle(false)}
+          type="button"
         >
           <CloseIcon />
           <ButtonTittle>Close</ButtonTittle>

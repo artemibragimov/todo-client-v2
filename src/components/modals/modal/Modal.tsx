@@ -1,7 +1,7 @@
-import React, { useRef } from "react";
-import useOnClickOutside from "../../utils/hooks/useOnClickOutside";
-import { IModal } from "../../types/IModal";
-import { ModalBox, ModalOwerlay } from "./Modal.styled";
+import React, { useRef } from 'react';
+import useOnClickOutside from '../../../utils/hooks/useOnClickOutside';
+import { IModal } from '../../../types/IModal';
+import { ModalBox, ModalOwerlay } from './Modal.styled';
 
 const Modal = ({ children, isVisible, toggle }: IModal) => {
   const divRef = useRef<HTMLDivElement>(null);

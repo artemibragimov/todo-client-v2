@@ -1,5 +1,5 @@
-import { IToggleButton } from "../../types/ItoggleButton";
-import { Button } from "./ToggleButton.styled";
+import { IToggleButton } from '../../types/IToggleButton';
+import { Button } from './ToggleButton.styled';
 
 const ToggleButton = ({
   name,

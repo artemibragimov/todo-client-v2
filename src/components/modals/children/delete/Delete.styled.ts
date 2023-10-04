@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-export const DeleteForm = styled.div`
+export const DeleteForm = styled.form`
   font-weight: 400;
   font-size: 24px;
 `;

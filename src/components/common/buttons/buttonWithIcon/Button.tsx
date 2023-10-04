@@ -1,5 +1,5 @@
-import { FC, SVGProps } from "react";
-import { ButtonWithIcon } from "./ButtonWithIcon.styled";
+import { FC, SVGProps } from 'react';
+import { ButtonWithIcon } from './ButtonWithIcon.styled';
 
 interface ButtonType {
   name: string;

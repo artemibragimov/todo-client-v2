@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const TaskContainer = styled.div`
   margin-top: 15px;
@@ -11,7 +11,7 @@ export const TaskItem = styled.div`
   display: flex;
   align-items: center;
 
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: 400;
   background: #9333ea0f;
   border-radius: 10px;

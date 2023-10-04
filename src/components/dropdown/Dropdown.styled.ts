@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 interface DropdownButton {
   $isActivated: boolean;
 }
@@ -17,11 +17,11 @@ export const DropdownButton = styled.button<DropdownButton>`
 
   transition: color 100ms;
   background-color: ${({ $isActivated }) =>
-    $isActivated ? "#9333ea0f" : "transparent"};
+    $isActivated ? '#9333ea0f' : 'transparent'};
 
   font-weight: 400;
   font-size: 24px;
-  color: ${({ $isActivated }) => ($isActivated ? "#9333ea" : "#6b7280")};
+  color: ${({ $isActivated }) => ($isActivated ? '#9333ea' : '#6b7280')};
 
   cursor: pointer;
 
@@ -63,11 +63,11 @@ export const ListItem = styled.li<ListItem>`
 
   transition: color 100ms;
   background-color: ${({ $isActivated }) =>
-    $isActivated ? "#9333ea0f" : "transparent"};
+    $isActivated ? '#9333ea0f' : 'transparent'};
 
   font-weight: 400;
   font-size: 24px;
-  color: ${({ $isActivated }) => ($isActivated ? "#9333ea" : "#6b7280")};
+  color: ${({ $isActivated }) => ($isActivated ? '#9333ea' : '#6b7280')};
 
   cursor: pointer;
 

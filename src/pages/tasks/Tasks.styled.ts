@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const TaskContainer = styled.div`
   margin: 2.5% 1%;
@@ -25,7 +25,8 @@ export const BottomBar = styled.div`
 
 export const TaskBoard = styled.div`
   width: 80%;
-  padding: 0 3%;
+  padding: 3%;
+  padding-top: 0;
   background: #f4f4f4;
   border-radius: 10px;
 `;

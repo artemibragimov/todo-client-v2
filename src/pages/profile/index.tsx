@@ -1,21 +1,21 @@
-import { useRouter } from "next/router";
-import ToggleButton from "../../components/toggleButton/ToggleButton";
-import { LogoutIcon, ProfileBtnIcon, SecurityIcon } from "../../assets";
-import Button from "../../components/common/buttons/buttonWithIcon/Button";
-import { ChangeEventHandler, useState } from "react";
-import UserInfo from "../../components/userInfo/UserInfo";
-import { userApi } from "../../store/services/UserService";
-import Security from "../../components/security/Security";
+import { useRouter } from 'next/router';
+import ToggleButton from '../../components/toggleButton/ToggleButton';
+import { LogoutIcon, ProfileBtnIcon, SecurityIcon } from '../../assets';
+import Button from '../../components/common/buttons/buttonWithIcon/Button';
+import { ChangeEventHandler, useState } from 'react';
+import UserInfo from '../../components/userInfo/UserInfo';
+import { userApi } from '../../store/services/UserService';
+import Security from '../../components/security/Security';
 import {
   BottomBar,
   InfoBoard,
   NavBar,
   ProfileInfoContainer,
   Title,
-} from "./Profile.styled";
+} from './Profile.styled';
 
 const Profile = () => {
-  const { data: userData } = userApi.useGetMeQuery("");
+  const { data: userData } = userApi.useGetMeQuery('');
   const [uploadAvatar] = userApi.useUploadAvatarMutation();
   const [editLogin] = userApi.useEditLoginMutation();
   const [editEmail] = userApi.useEditEmailMutation();
@@ -23,14 +23,14 @@ const Profile = () => {
 
   const router = useRouter();
 
-  const [active, setActive] = useState<string>("Profile");
+  const [active, setActive] = useState<string>('Profile');
 
   const isActive = (name: string) => active === name;
 
   const onClickLogout = () => {
-    if (window.confirm("Do you really want to log out?")) {
-      window.localStorage.removeItem("token");
-      router.push("/login");
+    if (window.confirm('Do you really want to log out?')) {
+      window.localStorage.removeItem('token');
+      router.push('/login');
     }
   };
 
@@ -39,7 +39,7 @@ const Profile = () => {
 
     if (files && files.length > 0) {
       const formData = new FormData();
-      formData.append("image", files[0]);
+      formData.append('image', files[0]);
 
       uploadAvatar(formData);
     }
@@ -74,7 +74,7 @@ const Profile = () => {
           </BottomBar>
         </NavBar>
         <InfoBoard>
-          {active === "Profile" && (
+          {active === 'Profile' && (
             <UserInfo
               login={userData?.login}
               email={userData?.email}
@@ -84,7 +84,7 @@ const Profile = () => {
               handleEditEmail={editEmail}
             />
           )}
-          {active === "Security" && (
+          {active === 'Security' && (
             <Security handleEditPassword={editPassword} />
           )}
         </InfoBoard>

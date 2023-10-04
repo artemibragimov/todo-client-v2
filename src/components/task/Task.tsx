@@ -1,7 +1,7 @@
-import { CompleteIcon, SettingsIcon, NonCompleteIcon } from "../../assets";
-import { useRef, useState } from "react";
-import { UpdateIcon, DeleteIcon } from "../../assets";
-import useOnClickOutside from "../../utils/hooks/useOnClickOutside";
+import { CompleteIcon, SettingsIcon, NonCompleteIcon } from '../../assets';
+import { useRef, useState } from 'react';
+import { UpdateIcon, DeleteIcon } from '../../assets';
+import useOnClickOutside from '../../utils/hooks/useOnClickOutside';
 import {
   IsDoneButton,
   SettingButton,
@@ -11,8 +11,8 @@ import {
   TaskItem,
   TaskName,
   TaskSettings,
-} from "./Task.styled";
-import { ITaskItem } from "../../types/ITask";
+} from './Task.styled';
+import { ITaskItem } from '../../types/ITask';
 
 const Task = ({
   id,
@@ -44,10 +44,10 @@ const Task = ({
       </TaskItem>
       {isHovering ? (
         <SettingButtons ref={ref}>
-          <SettingButton onClick={() => handleClick("Update task", name, id)}>
+          <SettingButton onClick={() => handleClick('Update task', name, id)}>
             <UpdateIcon />
           </SettingButton>
-          <SettingButton onClick={() => handleClick("Delete task", name, id)}>
+          <SettingButton onClick={() => handleClick('Delete task', name, id)}>
             <DeleteIcon />
           </SettingButton>
         </SettingButtons>

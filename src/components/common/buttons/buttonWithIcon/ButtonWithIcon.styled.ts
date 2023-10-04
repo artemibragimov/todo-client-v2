@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const ButtonWithIcon = styled.button`
   display: flex;
@@ -16,7 +16,7 @@ export const ButtonWithIcon = styled.button`
   background-color: transparent;
   color: #9333ea;
 
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: 400;
   font-size: 24px;
 

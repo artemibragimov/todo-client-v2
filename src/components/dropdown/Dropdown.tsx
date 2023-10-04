@@ -1,7 +1,7 @@
-import { useRef, useState } from "react";
-import useOnClickOutside from "../../utils/hooks/useOnClickOutside";
-import { IDropdown } from "../../types/IDropdown";
-import { DropdownButton, List, ListItem } from "./Dropdown.styled";
+import { useRef, useState } from 'react';
+import useOnClickOutside from '../../utils/hooks/useOnClickOutside';
+import { IDropdown } from '../../types/IDropdown';
+import { DropdownButton, List, ListItem } from './Dropdown.styled';
 
 const Dropdown = ({
   options,
@@ -12,7 +12,7 @@ const Dropdown = ({
 }: IDropdown) => {
   const divRef = useRef<HTMLDivElement>(null);
 
-  const [selected, setSelected] = useState<string>("All");
+  const [selected, setSelected] = useState<string>('All');
   const [dropdown, setDropdown] = useState<boolean>(false);
 
   useOnClickOutside(divRef, () => setDropdown(false));

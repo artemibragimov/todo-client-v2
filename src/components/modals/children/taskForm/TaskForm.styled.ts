@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const TaskFormTitle = styled.div`
   background: linear-gradient(259.86deg, #f5edfd 0%, #feeff5 85.32%);
@@ -9,14 +9,14 @@ export const TaskFormTitle = styled.div`
   display: block;
   width: 100%;
 
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: 700;
   font-size: 26px;
   color: #9333ea;
 `;
 
 export const TaskForm = styled.form`
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: 400;
   font-size: 24px;
 `;
@@ -76,7 +76,7 @@ export const Button = styled.button<Button>`
   justify-content: center;
   color: ${({ $color }) => $color};
   background-color: ${({ $bg }) => $bg};
-  & :hover {
+  &:hover {
     background-color: ${({ $bgHover }) => $bgHover};
   }
   & svg {

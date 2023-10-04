@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { SignInIcon } from "../../assets";
-import { SubmitHandler, useForm } from "react-hook-form";
-import Link from "next/link";
-import { userApi } from "../../store/services/UserService";
-import { useRouter } from "next/router";
+import React, { useEffect, useState } from 'react';
+import { SignInIcon } from '../../assets';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import Link from 'next/link';
+import { userApi } from '../../store/services/UserService';
+import { useRouter } from 'next/router';
 import {
   Button,
   Error,
@@ -12,18 +12,18 @@ import {
   SignupForm,
   SignupInput,
   Tittle,
-} from "./Signup.styled";
-import { ISignUp } from "../../types/ISignup";
+} from './Signup.styled';
+import { ISignUp } from '../../types/ISignup';
 import {
   getTokenFromLocalStorage,
   setTokenInLocalStorage,
-} from "../../helper/token";
+} from '../../helper/token';
 
 const SignUp = () => {
   const [signUp, { data }] = userApi.useSignUpMutation();
   const router = useRouter();
 
-  const [errorText, setErrorText] = useState("");
+  const [errorText, setErrorText] = useState('');
 
   const {
     register,
@@ -32,22 +32,22 @@ const SignUp = () => {
     formState: { errors },
   } = useForm<ISignUp>({
     defaultValues: {
-      login: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
+      login: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
     },
   });
 
   const onSubmit: SubmitHandler<ISignUp> = async (data) => {
     if (data.password !== data.confirmPassword) {
-      setError("password", {
-        type: "error",
-        message: "password",
+      setError('password', {
+        type: 'error',
+        message: 'password',
       });
-      setError("confirmPassword", {
-        type: "error",
-        message: "confirmPassword",
+      setError('confirmPassword', {
+        type: 'error',
+        message: 'confirmPassword',
       });
     } else {
       await signUp({
@@ -57,7 +57,7 @@ const SignUp = () => {
       })
         .unwrap()
         .catch((error) => {
-          if ("data" in error) {
+          if ('data' in error) {
             setErrorText(error.data.errors[0].msg);
           }
         });
@@ -72,7 +72,7 @@ const SignUp = () => {
 
   useEffect(() => {
     if (getTokenFromLocalStorage() !== null) {
-      router.push("/tasks");
+      router.push('/tasks');
     }
   }, [data, router]);
 
@@ -82,29 +82,29 @@ const SignUp = () => {
 
       <SignupForm onSubmit={handleSubmit(onSubmit)}>
         <SignupInput
-          $box_shadow={errors.login ? "error" : ""}
+          $box_shadow={errors.login ? 'error' : ''}
           placeholder="Enter login"
-          {...register("login", { required: true })}
+          {...register('login', { required: true })}
         />
 
         <SignupInput
-          $box_shadow={errors.email ? "error" : ""}
+          $box_shadow={errors.email ? 'error' : ''}
           placeholder="Enter email"
-          {...register("email", { required: true })}
+          {...register('email', { required: true })}
         />
 
         <SignupInput
-          $box_shadow={errors.password ? "error" : ""}
+          $box_shadow={errors.password ? 'error' : ''}
           type="password"
           placeholder="Enter password"
-          {...register("password", { required: true })}
+          {...register('password', { required: true })}
         />
 
         <SignupInput
-          $box_shadow={errors.confirmPassword ? "error" : ""}
+          $box_shadow={errors.confirmPassword ? 'error' : ''}
           type="password"
           placeholder="Confirm password"
-          {...register("confirmPassword", { required: true })}
+          {...register('confirmPassword', { required: true })}
         />
 
         <Error>{errorText}</Error>

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { SignInIcon } from "../../assets";
-import { SubmitHandler, useForm } from "react-hook-form";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { userApi } from "../../store/services/UserService";
-import { ILogin } from "../../types/ILogin";
+import React, { useEffect, useState } from 'react';
+import { SignInIcon } from '../../assets';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { userApi } from '../../store/services/UserService';
+import { ILogin } from '../../types/ILogin';
 import {
   Button,
   Error,
@@ -13,16 +13,16 @@ import {
   LoginForm,
   LoginInput,
   Tittle,
-} from "./Login.styled";
+} from './Login.styled';
 import {
   getTokenFromLocalStorage,
   setTokenInLocalStorage,
-} from "../../helper/token";
+} from '../../helper/token';
 
 const Login = () => {
   const [signIn, { data }] = userApi.useSignInMutation();
   const router = useRouter();
-  const [errorText, setErrorText] = useState("");
+  const [errorText, setErrorText] = useState('');
 
   const {
     register,
@@ -30,8 +30,8 @@ const Login = () => {
     formState: { errors },
   } = useForm<ILogin>({
     defaultValues: {
-      login: "",
-      password: "",
+      login: '',
+      password: '',
     },
   });
 
@@ -42,7 +42,7 @@ const Login = () => {
     })
       .unwrap()
       .catch((error) => {
-        if ("data" in error) {
+        if ('data' in error) {
           setErrorText(error.data.errors[0].msg);
         }
       });
@@ -56,7 +56,7 @@ const Login = () => {
 
   useEffect(() => {
     if (getTokenFromLocalStorage() !== null) {
-      router.push("/tasks");
+      router.push('/tasks');
     }
   }, [data, router]);
 
@@ -66,16 +66,16 @@ const Login = () => {
 
       <LoginForm onSubmit={handleSubmit(onSubmit)}>
         <LoginInput
-          $box_shadow={errors.login ? "error" : ""}
+          $box_shadow={errors.login ? 'error' : ''}
           placeholder="Enter login"
-          {...register("login", { required: true })}
+          {...register('login', { required: true })}
         />
 
         <LoginInput
-          $box_shadow={errors.password ? "error" : ""}
+          $box_shadow={errors.password ? 'error' : ''}
           type="password"
           placeholder="Enter password"
-          {...register("password", { required: true })}
+          {...register('password', { required: true })}
         />
 
         <Error>{errorText}</Error>

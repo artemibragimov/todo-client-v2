@@ -1,5 +1,5 @@
 export const getTokenFromLocalStorage = () => {
-  return localStorage.getItem("token");
+  return localStorage.getItem('token');
 };
 
 export const setTokenInLocalStorage = (token?: string) => {

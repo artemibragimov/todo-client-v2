@@ -1,18 +1,12 @@
-import { PaginationButton, PaginationContainer } from "./Pagination.styled";
-
-interface PaginationType {
-  pageSize: number;
-  totalTask: number | undefined;
-  currentPage: number;
-  handleClick: (currentPage: number) => void;
-}
+import { IPagination } from '../../types/IPagination';
+import { PaginationButton, PaginationContainer } from './Pagination.styled';
 
 const Pagination = ({
   pageSize,
   totalTask,
   currentPage,
   handleClick,
-}: PaginationType) => {
+}: IPagination) => {
   if (!totalTask) {
     return;
   }

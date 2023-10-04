@@ -14,3 +14,9 @@ export interface ITaskItem {
   changeIsDone: (id: number) => void;
   handleClick: (action: string, newName: string, id: number) => void;
 }
+
+export interface ITaskAction {
+  action: string;
+  name: string;
+  id: number;
+}

@@ -1,18 +1,18 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { getTokenFromLocalStorage } from "../../helper/token";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { getTokenFromLocalStorage } from '../../helper/token';
 
 export const userApi = createApi({
-  reducerPath: "userApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3001" }),
-  tagTypes: ["User"],
+  reducerPath: 'userApi',
+  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001' }),
+  tagTypes: ['User'],
   endpoints: (build) => ({
     signUp: build.mutation<
       { token: string },
       { login: string; email: string; password: string }
     >({
       query: (userData) => ({
-        url: "/auth/signup",
-        method: "POST",
+        url: '/auth/signup',
+        method: 'POST',
         body: userData,
       }),
     }),
@@ -22,71 +22,71 @@ export const userApi = createApi({
       { login: string; password: string }
     >({
       query: (userData) => ({
-        url: "/auth/login",
-        method: "POST",
+        url: '/auth/login',
+        method: 'POST',
         body: userData,
       }),
     }),
 
     uploadAvatar: build.mutation<{ url: string }, FormData>({
       query: (body) => ({
-        url: "/auth/uploads",
-        method: "POST",
+        url: '/auth/uploads',
+        method: 'POST',
         body,
         headers: {
           Authorization: `Bearer ${getTokenFromLocalStorage()}`,
         },
       }),
-      invalidatesTags: ["User"],
+      invalidatesTags: ['User'],
     }),
 
     getMe: build.query<
       { login: string; email: string; imageUrl: string; createdAt: string },
-      ""
+      ''
     >({
       query: () => ({
-        url: "/auth/me",
+        url: '/auth/me',
         headers: {
           Authorization: `Bearer ${getTokenFromLocalStorage()}`,
         },
       }),
-      providesTags: () => ["User"],
+      providesTags: () => ['User'],
     }),
 
     editLogin: build.mutation<{ message: string }, { login: string }>({
       query: (body) => ({
-        url: "/auth/me/editLogin",
-        method: "POST",
+        url: '/auth/me/editLogin',
+        method: 'POST',
         body,
         headers: {
           Authorization: `Bearer ${getTokenFromLocalStorage()}`,
         },
       }),
-      invalidatesTags: ["User"],
+      invalidatesTags: ['User'],
     }),
 
     editEmail: build.mutation<{ message: string }, { email: string }>({
       query: (body) => ({
-        url: "/auth/me/editEmail",
-        method: "POST",
+        url: '/auth/me/editEmail',
+        method: 'POST',
         body,
         headers: {
           Authorization: `Bearer ${getTokenFromLocalStorage()}`,
         },
       }),
-      invalidatesTags: ["User"],
+      invalidatesTags: ['User'],
     }),
 
     editPassword: build.mutation<{ message: string }, { password: string }>({
       query: (body) => ({
-        url: "/auth/me/editPassword",
-        method: "POST",
+        url: '/auth/me/editPassword',
+        method: 'POST',
         body,
         headers: {
           Authorization: `Bearer ${getTokenFromLocalStorage()}`,
         },
       }),
-      invalidatesTags: ["User"],
+      invalidatesTags: ['User'],
     }),
   }),
 });

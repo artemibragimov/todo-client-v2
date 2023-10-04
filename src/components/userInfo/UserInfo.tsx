@@ -1,6 +1,6 @@
-import s from "./UserInfo.module.css";
-import { ChangeEventHandler, useEffect, useRef, useState } from "react";
-import { ChangeIcon } from "../../assets";
+import s from './UserInfo.module.css';
+import { ChangeEventHandler, useEffect, useRef, useState } from 'react';
+import { ChangeIcon } from '../../assets';
 import {
   Button,
   TextInput,
@@ -9,7 +9,7 @@ import {
   UserLogin,
   UserPhoto,
   UserPhotoContainer,
-} from "./UserInfo.styled";
+} from './UserInfo.styled';
 
 interface UserInfo {
   login?: string;
@@ -28,21 +28,21 @@ const UserInfo = ({
   handleEditLogin,
   handleEditEmail,
 }: UserInfo) => {
-  const [changeType, setChangeType] = useState<string>("");
-  const [localLogin, setLocalLogin] = useState<string>("");
-  const [localEmail, setLocalEmail] = useState<string>("");
+  const [changeType, setChangeType] = useState<string>('');
+  const [localLogin, setLocalLogin] = useState<string>('');
+  const [localEmail, setLocalEmail] = useState<string>('');
   const ref = useRef<HTMLInputElement>(null);
 
   const onBlur = () => {
-    if (changeType == "login" && localLogin != login) {
+    if (changeType == 'login' && localLogin != login) {
       handleEditLogin({ login: localLogin });
     }
 
-    if (changeType == "email" && localEmail != email) {
+    if (changeType == 'email' && localEmail != email) {
       handleEditEmail({ email: localEmail });
     }
 
-    setChangeType("");
+    setChangeType('');
   };
 
   useEffect(() => {
@@ -64,7 +64,7 @@ const UserInfo = ({
       </UserPhotoContainer>
 
       <UserLogin>
-        {changeType == "login" ? (
+        {changeType == 'login' ? (
           <TextInput
             value={localLogin}
             onBlur={onBlur}
@@ -74,7 +74,7 @@ const UserInfo = ({
         ) : (
           <div>
             {login}
-            <Button onClick={() => setChangeType("login")}>
+            <Button onClick={() => setChangeType('login')}>
               <ChangeIcon />
             </Button>
           </div>
@@ -82,7 +82,7 @@ const UserInfo = ({
       </UserLogin>
 
       <UserEmail>
-        {changeType == "email" ? (
+        {changeType == 'email' ? (
           <TextInput
             value={localEmail}
             onBlur={onBlur}
@@ -92,7 +92,7 @@ const UserInfo = ({
         ) : (
           <div>
             {email}
-            <Button onClick={() => setChangeType("email")}>
+            <Button onClick={() => setChangeType('email')}>
               <ChangeIcon />
             </Button>
           </div>
