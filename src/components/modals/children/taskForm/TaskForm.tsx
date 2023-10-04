@@ -14,6 +14,7 @@ import {
 const CreateTaskForm = ({
   id,
   name,
+  isDone,
   handleSubmitForm,
   toggle,
   formTitle,
@@ -39,7 +40,7 @@ const CreateTaskForm = ({
     }
 
     if (data.name !== name) {
-      handleSubmitForm({ id: id, name: data.name });
+      handleSubmitForm({ id: id, name: data.name, isDone: isDone });
     }
 
     toggle(false);

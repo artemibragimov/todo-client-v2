@@ -1,7 +1,12 @@
 export interface ITaskForm {
   id: number;
   name: string;
-  handleSubmitForm: (task: { id: number; name: string }) => void;
+  isDone: boolean;
+  handleSubmitForm: (task: {
+    id: number;
+    name: string;
+    isDone: boolean;
+  }) => void;
   toggle: (boolean: boolean) => void;
   formTitle: string;
 }

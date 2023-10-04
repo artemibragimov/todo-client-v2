@@ -11,12 +11,18 @@ export interface ITaskItem {
   isDone: boolean;
   name: string;
   date: string;
-  changeIsDone: (id: number) => void;
-  handleClick: (action: string, newName: string, id: number) => void;
+  changeIsDone: (task: { id: number; name: string; isDone: boolean }) => void;
+  handleClick: (
+    action: string,
+    id: number,
+    name: string,
+    isDone: boolean
+  ) => void;
 }
 
 export interface ITaskAction {
   action: string;
-  name: string;
   id: number;
+  name: string;
+  isDone: boolean;
 }

@@ -41,8 +41,9 @@ export default function Tasks() {
   const [isVisible, setIsVisible] = useState(false);
   const [action, setAction] = useState<ITaskAction>({
     action: 'Add task',
-    name: '',
     id: 0,
+    name: '',
+    isDone: false,
   });
 
   const { data: userData } = userApi.useGetMeQuery('');
@@ -61,19 +62,25 @@ export default function Tasks() {
   const setDateFilter = () =>
     filter === 'firstOld' ? setFilter('firstNew') : setFilter('firstOld');
 
-  const openModal = (action: string, name: string = '', id: number = 0) => {
-    setAction({ action, name, id });
+  const openModal = (
+    action: string,
+    id: number = 0,
+    name: string = '',
+    isDone: boolean = false
+  ) => {
+    setAction({ action, id, name, isDone });
     setIsVisible(true);
   };
 
   const handleCreate = async (task: { id: number; name: string }) => {
     await createTask(task.name);
   };
-  const handleUpdate = async (task: { id: number; name: string }) => {
+  const handleUpdate = async (task: {
+    id: number;
+    name: string;
+    isDone: boolean;
+  }) => {
     await updateTask(task);
-  };
-  const updateIsDone = async (id: number) => {
-    await updateTask({ id: id, name: '' });
   };
   const handleDelete = async (id: number) => {
     await deleteTask(id);
@@ -150,7 +157,7 @@ export default function Tasks() {
             tasksData.tasks.map((obj, index) => (
               <Task
                 handleClick={openModal}
-                changeIsDone={updateIsDone}
+                changeIsDone={handleUpdate}
                 key={index}
                 id={obj.id}
                 isDone={obj.isDone}
@@ -180,6 +187,7 @@ export default function Tasks() {
           <TaskForm
             id={action.id}
             name={action.name}
+            isDone={action.isDone}
             toggle={setIsVisible}
             handleSubmitForm={
               action.action === 'Add task' ? handleCreate : handleUpdate

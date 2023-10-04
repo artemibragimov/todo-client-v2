@@ -30,7 +30,9 @@ const Task = ({
   return (
     <TaskContainer>
       <TaskItem>
-        <IsDoneButton onClick={() => changeIsDone(id)}>
+        <IsDoneButton
+          onClick={() => changeIsDone({ id, name, isDone: !isDone })}
+        >
           {isDone ? <CompleteIcon /> : <NonCompleteIcon />}
         </IsDoneButton>
 
@@ -44,10 +46,14 @@ const Task = ({
       </TaskItem>
       {isHovering ? (
         <SettingButtons ref={ref}>
-          <SettingButton onClick={() => handleClick('Update task', name, id)}>
+          <SettingButton
+            onClick={() => handleClick('Update task', id, name, isDone)}
+          >
             <UpdateIcon />
           </SettingButton>
-          <SettingButton onClick={() => handleClick('Delete task', name, id)}>
+          <SettingButton
+            onClick={() => handleClick('Delete task', id, name, isDone)}
+          >
             <DeleteIcon />
           </SettingButton>
         </SettingButtons>
