@@ -1,13 +1,14 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ITask } from '../../types/ITask';
-import { getTokenFromLocalStorage } from '../../helper/token';
+import { getTokenFromLocalStorage } from '../../helpers/token';
+import { baseUrl } from '../../helpers/constants/api';
 
 export const taskApi = createApi({
   reducerPath: 'taskApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001' }),
+  baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
   tagTypes: ['Task'],
   endpoints: (build) => ({
-    getTasks: build.query<
+    fetchAllTasks: build.query<
       { tasks: ITask[]; totalTasks: number },
       { currentPage: number; filter: string }
     >({

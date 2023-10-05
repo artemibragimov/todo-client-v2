@@ -17,7 +17,7 @@ import { ISignUp } from '../../types/ISignup';
 import {
   getTokenFromLocalStorage,
   setTokenInLocalStorage,
-} from '../../helper/token';
+} from '../../helpers/token';
 
 const SignUp = () => {
   const [signUp, { data }] = userApi.useSignUpMutation();

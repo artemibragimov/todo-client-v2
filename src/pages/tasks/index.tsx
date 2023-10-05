@@ -22,7 +22,7 @@ import { taskApi } from '../../store/services/TaskService';
 import { useRouter } from 'next/router';
 import { userApi } from '../../store/services/UserService';
 import Link from 'next/link';
-import { getTokenFromLocalStorage } from '../../helper/token';
+import { getTokenFromLocalStorage } from '../../helpers/token';
 import {
   BottomBar,
   Login,
@@ -47,7 +47,7 @@ export default function Tasks() {
   });
 
   const { data: userData } = userApi.useGetMeQuery('');
-  const { data: tasksData } = taskApi.useGetTasksQuery({
+  const { data: tasksData } = taskApi.useFetchAllTasksQuery({
     currentPage: currentPage,
     filter: filter,
   });

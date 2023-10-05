@@ -17,7 +17,7 @@ import {
 import {
   getTokenFromLocalStorage,
   setTokenInLocalStorage,
-} from '../../helper/token';
+} from '../../helpers/token';
 
 const Login = () => {
   const [signIn, { data }] = userApi.useSignInMutation();

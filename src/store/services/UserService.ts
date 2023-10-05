@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { getTokenFromLocalStorage } from '../../helper/token';
+import { getTokenFromLocalStorage } from '../../helpers/token';
+import { baseUrl } from '../../helpers/constants/api';
 
 export const userApi = createApi({
   reducerPath: 'userApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001' }),
+  baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
   tagTypes: ['User'],
   endpoints: (build) => ({
     signUp: build.mutation<
