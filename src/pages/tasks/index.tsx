@@ -47,17 +47,17 @@ export default function Tasks() {
   });
 
   const { data: userData } = userApi.useGetMeQuery('');
-  const { data: tasksData } = taskApi.useFetchAllTasksQuery({
+  const { data: tasksData } = taskApi.useGetTasksQuery({
     currentPage: currentPage,
     filter: filter,
   });
   const [createTask] = taskApi.useCreateTaskMutation();
-  const [deleteTask] = taskApi.useDeleteTaskMutation();
   const [updateTask] = taskApi.useUpdateTaskMutation();
+  const [deleteTask] = taskApi.useDeleteTaskMutation();
   const router = useRouter();
 
   const isActive = (name: string) => filter === name;
-  const isDate = () => filter === ('firstNew' || 'firstOld');
+  const isDate = () => filter === 'firstNew' || filter === 'firstOld';
 
   const setDateFilter = () =>
     filter === 'firstOld' ? setFilter('firstNew') : setFilter('firstOld');

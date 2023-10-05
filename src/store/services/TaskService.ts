@@ -7,7 +7,7 @@ export const taskApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001' }),
   tagTypes: ['Task'],
   endpoints: (build) => ({
-    fetchAllTasks: build.query<
+    getTasks: build.query<
       { tasks: ITask[]; totalTasks: number },
       { currentPage: number; filter: string }
     >({
