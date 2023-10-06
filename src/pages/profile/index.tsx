@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import ToggleButton from '../../components/toggleButton/ToggleButton';
 import { LogoutIcon, ProfileBtnIcon, SecurityIcon } from '../../assets';
 import Button from '../../components/common/buttons/buttonWithIcon/Button';
-import { ChangeEventHandler, useState } from 'react';
+import { ChangeEventHandler, useEffect, useState } from 'react';
 import UserInfo from '../../components/userInfo/UserInfo';
 import { userApi } from '../../store/services/UserService';
 import Security from '../../components/security/Security';
@@ -13,9 +13,11 @@ import {
   ProfileInfoContainer,
   Title,
 } from './Profile.styled';
+import { getTokenFromLocalStorage } from '../../helpers/token';
 
 const Profile = () => {
-  const { data: userData } = userApi.useGetMeQuery('');
+  const { data: userData } = userApi.useGetMeQuery();
+  const [logout] = userApi.useLogoutMutation();
   const [uploadAvatar] = userApi.useUploadAvatarMutation();
   const [editLogin] = userApi.useEditLoginMutation();
   const [editEmail] = userApi.useEditEmailMutation();
@@ -28,10 +30,9 @@ const Profile = () => {
   const isActive = (name: string) => active === name;
 
   const onClickLogout = () => {
-    if (window.confirm('Do you really want to log out?')) {
-      window.localStorage.removeItem('token');
-      router.push('/login');
-    }
+    logout();
+    window.localStorage.removeItem('token');
+    router.push('/login');
   };
 
   const handleChangeFile: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -44,6 +45,12 @@ const Profile = () => {
       uploadAvatar(formData);
     }
   };
+
+  useEffect(() => {
+    if (!getTokenFromLocalStorage()) {
+      router.push('/login');
+    }
+  }, [router]);
 
   return (
     <div>

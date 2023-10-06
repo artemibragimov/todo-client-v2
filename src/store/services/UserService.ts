@@ -4,11 +4,18 @@ import { baseUrl } from '../../helpers/constants/api';
 
 export const userApi = createApi({
   reducerPath: 'userApi',
-  baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: baseUrl,
+    credentials: 'include',
+    prepareHeaders: (headers) => {
+      headers.set('authorization', `bearer ${getTokenFromLocalStorage()}`);
+      return headers;
+    },
+  }),
   tagTypes: ['User'],
   endpoints: (build) => ({
     signUp: build.mutation<
-      { token: string },
+      { accessToken: string; refreshToken: string },
       { login: string; email: string; password: string }
     >({
       query: (userData) => ({
@@ -19,7 +26,7 @@ export const userApi = createApi({
     }),
 
     signIn: build.mutation<
-      { token: string },
+      { accessToken: string; refreshToken: string },
       { login: string; password: string }
     >({
       query: (userData) => ({
@@ -29,27 +36,36 @@ export const userApi = createApi({
       }),
     }),
 
+    logout: build.mutation<{ message: string }, void>({
+      query: () => ({
+        url: '/auth/logout',
+        method: 'POST',
+      }),
+    }),
+
+    checkAuth: build.query<{ accessToken: string; refreshToken: string }, void>(
+      {
+        query: () => ({
+          url: '/auth/refresh',
+        }),
+      }
+    ),
+
     uploadAvatar: build.mutation<{ url: string }, FormData>({
       query: (body) => ({
         url: '/auth/uploads',
         method: 'POST',
         body,
-        headers: {
-          Authorization: `Bearer ${getTokenFromLocalStorage()}`,
-        },
       }),
       invalidatesTags: ['User'],
     }),
 
     getMe: build.query<
       { login: string; email: string; imageUrl: string; createdAt: string },
-      ''
+      void
     >({
       query: () => ({
         url: '/auth/me',
-        headers: {
-          Authorization: `Bearer ${getTokenFromLocalStorage()}`,
-        },
       }),
       providesTags: () => ['User'],
     }),
@@ -59,9 +75,6 @@ export const userApi = createApi({
         url: '/auth/me/editLogin',
         method: 'POST',
         body,
-        headers: {
-          Authorization: `Bearer ${getTokenFromLocalStorage()}`,
-        },
       }),
       invalidatesTags: ['User'],
     }),
@@ -71,9 +84,6 @@ export const userApi = createApi({
         url: '/auth/me/editEmail',
         method: 'POST',
         body,
-        headers: {
-          Authorization: `Bearer ${getTokenFromLocalStorage()}`,
-        },
       }),
       invalidatesTags: ['User'],
     }),
@@ -83,9 +93,6 @@ export const userApi = createApi({
         url: '/auth/me/editPassword',
         method: 'POST',
         body,
-        headers: {
-          Authorization: `Bearer ${getTokenFromLocalStorage()}`,
-        },
       }),
       invalidatesTags: ['User'],
     }),

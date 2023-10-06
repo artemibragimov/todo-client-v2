@@ -50,7 +50,7 @@ const Login = () => {
 
   useEffect(() => {
     if (data) {
-      setTokenInLocalStorage(data.token);
+      setTokenInLocalStorage(data.accessToken);
     }
   }, [data]);
 

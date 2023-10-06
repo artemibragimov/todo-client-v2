@@ -5,7 +5,13 @@ import { baseUrl } from '../../helpers/constants/api';
 
 export const taskApi = createApi({
   reducerPath: 'taskApi',
-  baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: baseUrl,
+    prepareHeaders: (headers) => {
+      headers.set('authorization', `bearer ${getTokenFromLocalStorage()}`);
+      return headers;
+    },
+  }),
   tagTypes: ['Task'],
   endpoints: (build) => ({
     fetchAllTasks: build.query<
@@ -14,9 +20,6 @@ export const taskApi = createApi({
     >({
       query: ({ currentPage, filter }) => ({
         url: '/',
-        headers: {
-          Authorization: `Bearer ${getTokenFromLocalStorage()}`,
-        },
         params: {
           currentPage: currentPage,
           filter: filter,
@@ -28,9 +31,6 @@ export const taskApi = createApi({
       query: (name) => ({
         url: '/',
         method: 'POST',
-        headers: {
-          Authorization: `Bearer ${getTokenFromLocalStorage()}`,
-        },
         body: { name: name },
       }),
       invalidatesTags: ['Task'],
@@ -39,9 +39,6 @@ export const taskApi = createApi({
       query: (id) => ({
         url: '/',
         method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${getTokenFromLocalStorage()}`,
-        },
         body: { id: id },
       }),
       invalidatesTags: ['Task'],
@@ -50,9 +47,6 @@ export const taskApi = createApi({
       query: (task) => ({
         url: '/',
         method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${getTokenFromLocalStorage()}`,
-        },
         body: task,
       }),
       invalidatesTags: ['Task'],

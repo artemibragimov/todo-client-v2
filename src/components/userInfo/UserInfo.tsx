@@ -1,6 +1,6 @@
 import s from './UserInfo.module.css';
 import { ChangeEventHandler, useEffect, useRef, useState } from 'react';
-import { ChangeIcon } from '../../assets';
+import { ChangeIcon, ProfileIcon } from '../../assets';
 import {
   Button,
   TextInput,
@@ -57,7 +57,12 @@ const UserInfo = ({
       <input ref={ref} type="file" onChange={handleChangeFile} hidden />
 
       <UserPhotoContainer>
-        <UserPhoto src={imageUrl} alt="avatar" />
+        {imageUrl ? (
+          <UserPhoto src={imageUrl} alt="avatar" />
+        ) : (
+          <ProfileIcon width={40} />
+        )}
+
         <Button onClick={() => ref.current?.click()}>
           <ChangeIcon />
         </Button>

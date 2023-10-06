@@ -21,6 +21,7 @@ import {
 
 const SignUp = () => {
   const [signUp, { data }] = userApi.useSignUpMutation();
+
   const router = useRouter();
 
   const [errorText, setErrorText] = useState('');
@@ -66,7 +67,7 @@ const SignUp = () => {
 
   useEffect(() => {
     if (data) {
-      setTokenInLocalStorage(data.token);
+      setTokenInLocalStorage(data.accessToken);
     }
   }, [data]);
 

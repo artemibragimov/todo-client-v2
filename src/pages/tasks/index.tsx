@@ -22,7 +22,10 @@ import { taskApi } from '../../store/services/TaskService';
 import { useRouter } from 'next/router';
 import { userApi } from '../../store/services/UserService';
 import Link from 'next/link';
-import { getTokenFromLocalStorage } from '../../helpers/token';
+import {
+  getTokenFromLocalStorage,
+  setTokenInLocalStorage,
+} from '../../helpers/token';
 import {
   BottomBar,
   Login,
@@ -46,7 +49,7 @@ export default function Tasks() {
     isDone: false,
   });
 
-  const { data: userData } = userApi.useGetMeQuery('');
+  const { data: userData } = userApi.useGetMeQuery();
   const { data: tasksData } = taskApi.useFetchAllTasksQuery({
     currentPage: currentPage,
     filter: filter,
@@ -107,7 +110,7 @@ export default function Tasks() {
       <Login>{userData?.login}</Login>
       <ProfileLink>
         <Link href="/profile">
-          {userData ? (
+          {userData?.imageUrl ? (
             <ProfileAvatar src={userData.imageUrl} alt="User avatar" />
           ) : (
             <ProfileIcon width={40} />
