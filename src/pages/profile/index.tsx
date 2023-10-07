@@ -13,7 +13,8 @@ import {
   ProfileInfoContainer,
   Title,
 } from './Profile.styled';
-import { getToken } from '../../helpers/token';
+import { getToken, removeToken } from '../../helpers/token';
+import { setIsAuth } from '../../helpers/isAuth';
 
 const Profile = () => {
   const { data: userData } = userApi.useGetMeQuery();
@@ -31,7 +32,8 @@ const Profile = () => {
 
   const onClickLogout = () => {
     logout();
-    window.localStorage.removeItem('token');
+    removeToken();
+    setIsAuth(false);
     router.push('/login');
   };
 
