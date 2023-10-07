@@ -14,10 +14,8 @@ import {
   LoginInput,
   Tittle,
 } from './Login.styled';
-import {
-  getTokenFromLocalStorage,
-  setTokenInLocalStorage,
-} from '../../helpers/token';
+import { setToken } from '../../helpers/token';
+import { isAuth, setIsAuth } from '../../helpers/isAuth';
 
 const Login = () => {
   const [signIn, { data }] = userApi.useSignInMutation();
@@ -50,16 +48,17 @@ const Login = () => {
 
   useEffect(() => {
     if (data) {
-      setTokenInLocalStorage(data.accessToken);
+      setToken(data.accessToken);
+      setIsAuth(true);
+      router.push('/tasks');
     }
   }, [data]);
 
   useEffect(() => {
-    if (getTokenFromLocalStorage() !== null) {
+    if (isAuth() === 'true') {
       router.push('/tasks');
     }
-  }, [data, router]);
-
+  }, []);
   return (
     <LoginContainer>
       <Tittle>Log in</Tittle>

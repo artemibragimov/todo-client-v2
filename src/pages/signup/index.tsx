@@ -14,10 +14,8 @@ import {
   Tittle,
 } from './Signup.styled';
 import { ISignUp } from '../../types/ISignup';
-import {
-  getTokenFromLocalStorage,
-  setTokenInLocalStorage,
-} from '../../helpers/token';
+import { setToken } from '../../helpers/token';
+import { isAuth, setIsAuth } from '../../helpers/isAuth';
 
 const SignUp = () => {
   const [signUp, { data }] = userApi.useSignUpMutation();
@@ -67,15 +65,17 @@ const SignUp = () => {
 
   useEffect(() => {
     if (data) {
-      setTokenInLocalStorage(data.accessToken);
+      setToken(data.accessToken);
+      setIsAuth(true);
+      router.push('/tasks');
     }
   }, [data]);
 
   useEffect(() => {
-    if (getTokenFromLocalStorage() !== null) {
+    if (isAuth() === 'true') {
       router.push('/tasks');
     }
-  }, [data, router]);
+  }, []);
 
   return (
     <SignupContainer>

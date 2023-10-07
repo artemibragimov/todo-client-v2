@@ -1,18 +1,9 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { getTokenFromLocalStorage } from '../../helpers/token';
-import { baseUrl } from '../../helpers/constants/api';
+import { splitApi } from '.';
+import {IUser} from "../../types/IUser";
 
-export const userApi = createApi({
-  reducerPath: 'userApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: baseUrl,
-    credentials: 'include',
-    prepareHeaders: (headers) => {
-      headers.set('authorization', `bearer ${getTokenFromLocalStorage()}`);
-      return headers;
-    },
-  }),
-  tagTypes: ['User'],
+const userApiWithTag = splitApi.enhanceEndpoints({ addTagTypes: ['User'] });
+
+export const userApi = userApiWithTag.injectEndpoints({
   endpoints: (build) => ({
     signUp: build.mutation<
       { accessToken: string; refreshToken: string },
@@ -43,14 +34,6 @@ export const userApi = createApi({
       }),
     }),
 
-    checkAuth: build.query<{ accessToken: string; refreshToken: string }, void>(
-      {
-        query: () => ({
-          url: '/auth/refresh',
-        }),
-      }
-    ),
-
     uploadAvatar: build.mutation<{ url: string }, FormData>({
       query: (body) => ({
         url: '/auth/uploads',
@@ -61,7 +44,7 @@ export const userApi = createApi({
     }),
 
     getMe: build.query<
-      { login: string; email: string; imageUrl: string; createdAt: string },
+        IUser,
       void
     >({
       query: () => ({
@@ -97,4 +80,5 @@ export const userApi = createApi({
       invalidatesTags: ['User'],
     }),
   }),
+  overrideExisting: false,
 });

@@ -1,18 +1,9 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ITask } from '../../types/ITask';
-import { getTokenFromLocalStorage } from '../../helpers/token';
-import { baseUrl } from '../../helpers/constants/api';
+import { splitApi } from '.';
 
-export const taskApi = createApi({
-  reducerPath: 'taskApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: baseUrl,
-    prepareHeaders: (headers) => {
-      headers.set('authorization', `bearer ${getTokenFromLocalStorage()}`);
-      return headers;
-    },
-  }),
-  tagTypes: ['Task'],
+const taskApiWithTag = splitApi.enhanceEndpoints({ addTagTypes: ['Task'] });
+
+export const taskApi = taskApiWithTag.injectEndpoints({
   endpoints: (build) => ({
     fetchAllTasks: build.query<
       { tasks: ITask[]; totalTasks: number },

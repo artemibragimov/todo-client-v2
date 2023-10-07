@@ -19,13 +19,8 @@ import Button from '../../components/common/buttons/buttonWithIcon/Button';
 import Delete from '../../components/modals/children/delete/Delete';
 import Pagination from '../../components/pagination/Pagination';
 import { taskApi } from '../../store/services/TaskService';
-import { useRouter } from 'next/router';
 import { userApi } from '../../store/services/UserService';
 import Link from 'next/link';
-import {
-  getTokenFromLocalStorage,
-  setTokenInLocalStorage,
-} from '../../helpers/token';
 import {
   BottomBar,
   Login,
@@ -57,7 +52,6 @@ export default function Tasks() {
   const [createTask] = taskApi.useCreateTaskMutation();
   const [updateTask] = taskApi.useUpdateTaskMutation();
   const [deleteTask] = taskApi.useDeleteTaskMutation();
-  const router = useRouter();
 
   const isActive = (name: string) => filter === name;
   const isDate = () => filter === 'firstNew' || filter === 'firstOld';
@@ -98,12 +92,6 @@ export default function Tasks() {
   useEffect(() => {
     setCurrentPage(1);
   }, [filter]);
-
-  useEffect(() => {
-    if (!getTokenFromLocalStorage()) {
-      router.push('/login');
-    }
-  }, [router]);
 
   return (
     <TaskContainer>

@@ -13,7 +13,7 @@ import {
   ProfileInfoContainer,
   Title,
 } from './Profile.styled';
-import { getTokenFromLocalStorage } from '../../helpers/token';
+import { getToken } from '../../helpers/token';
 
 const Profile = () => {
   const { data: userData } = userApi.useGetMeQuery();
@@ -45,12 +45,6 @@ const Profile = () => {
       uploadAvatar(formData);
     }
   };
-
-  useEffect(() => {
-    if (!getTokenFromLocalStorage()) {
-      router.push('/login');
-    }
-  }, [router]);
 
   return (
     <div>
