@@ -45,7 +45,6 @@ const Login = () => {
         if ('message' in error.data) {
           setInvalidError(error.data.message);
         }
-
         if ('errors' in error) {
           const path = ['login', 'password'];
           path.map((path) => {

@@ -1,4 +1,3 @@
-import s from './UserInfo.module.css';
 import { ChangeEventHandler, useEffect, useRef, useState } from 'react';
 import { ChangeIcon, ProfileIcon } from '../../assets';
 import {

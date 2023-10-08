@@ -41,7 +41,7 @@ export const userApi = userApiWithTag.injectEndpoints({
 
     uploadAvatar: build.mutation<{ url: string }, FormData>({
       query: (body) => ({
-        url: '/auth/uploads',
+        url: '/auth/me/uploads',
         method: 'POST',
         body,
       }),
