@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { SignInIcon } from '../../assets';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Link from 'next/link';
@@ -16,13 +16,12 @@ import {
 import { ISignUp } from '../../types/ISignup';
 import { setToken } from '../../helpers/token';
 import { isAuth, setIsAuth } from '../../helpers/isAuth';
+import { IValidationError } from '../../types/IValidationError';
 
 const SignUp = () => {
   const [signUp, { data }] = userApi.useSignUpMutation();
 
   const router = useRouter();
-
-  const [errorText, setErrorText] = useState('');
 
   const {
     register,
@@ -34,33 +33,34 @@ const SignUp = () => {
       login: '',
       email: '',
       password: '',
-      confirmPassword: '',
+      passwordConfirmation: '',
     },
   });
 
   const onSubmit: SubmitHandler<ISignUp> = async (data) => {
-    if (data.password !== data.confirmPassword) {
-      setError('password', {
-        type: 'error',
-        message: 'password',
+    await signUp({
+      login: data.login,
+      email: data.email,
+      password: data.password,
+      passwordConfirmation: data.passwordConfirmation,
+    })
+      .unwrap()
+      .catch((error) => {
+        if ('data' in error) {
+          const path = ['login', 'email', 'password', 'passwordConfirmation'];
+          path.map((path) => {
+            const err = error.data.errors.find(
+              (err: IValidationError) => err.path === path
+            );
+            if (err) {
+              setError(err.path, {
+                type: 'error',
+                message: err.msg,
+              });
+            }
+          });
+        }
       });
-      setError('confirmPassword', {
-        type: 'error',
-        message: 'confirmPassword',
-      });
-    } else {
-      await signUp({
-        login: data.login,
-        email: data.email,
-        password: data.password,
-      })
-        .unwrap()
-        .catch((error) => {
-          if ('data' in error) {
-            setErrorText(error.data.errors[0].msg);
-          }
-        });
-    }
   };
 
   useEffect(() => {
@@ -88,11 +88,15 @@ const SignUp = () => {
           {...register('login', { required: true })}
         />
 
+        {errors.login && <Error>{errors.login.message}</Error>}
+
         <SignupInput
           $box_shadow={errors.email ? 'error' : ''}
           placeholder="Enter email"
           {...register('email', { required: true })}
         />
+
+        {errors.email && <Error>{errors.email.message}</Error>}
 
         <SignupInput
           $box_shadow={errors.password ? 'error' : ''}
@@ -101,14 +105,17 @@ const SignUp = () => {
           {...register('password', { required: true })}
         />
 
+        {errors.password && <Error>{errors.password.message}</Error>}
+
         <SignupInput
-          $box_shadow={errors.confirmPassword ? 'error' : ''}
+          $box_shadow={errors.passwordConfirmation ? 'error' : ''}
           type="password"
           placeholder="Confirm password"
-          {...register('confirmPassword', { required: true })}
+          {...register('passwordConfirmation', { required: true })}
         />
-
-        <Error>{errorText}</Error>
+        {errors.passwordConfirmation && (
+          <Error>{errors.passwordConfirmation.message}</Error>
+        )}
 
         <LinkToLogin>
           <Link href="/login">Log in</Link>

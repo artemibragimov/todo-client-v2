@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { SignInIcon } from '../../assets';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Link from 'next/link';
@@ -16,15 +16,16 @@ import {
 } from './Login.styled';
 import { setToken } from '../../helpers/token';
 import { isAuth, setIsAuth } from '../../helpers/isAuth';
+import { IValidationError } from '../../types/IValidationError';
 
 const Login = () => {
   const [signIn, { data }] = userApi.useSignInMutation();
   const router = useRouter();
-  const [errorText, setErrorText] = useState('');
 
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<ILogin>({
     defaultValues: {
@@ -41,7 +42,18 @@ const Login = () => {
       .unwrap()
       .catch((error) => {
         if ('data' in error) {
-          setErrorText(error.data.errors[0].msg);
+          const path = ['login', 'password'];
+          path.map((path) => {
+            const err = error.data.errors.find(
+              (err: IValidationError) => err.path === path
+            );
+            if (err) {
+              setError(err.path, {
+                type: 'error',
+                message: err.msg,
+              });
+            }
+          });
         }
       });
   };
@@ -70,6 +82,8 @@ const Login = () => {
           {...register('login', { required: true })}
         />
 
+        {errors.login && <Error>{errors.login.message}</Error>}
+
         <LoginInput
           $box_shadow={errors.password ? 'error' : ''}
           type="password"
@@ -77,7 +91,7 @@ const Login = () => {
           {...register('password', { required: true })}
         />
 
-        <Error>{errorText}</Error>
+        {errors.password && <Error>{errors.password.message}</Error>}
 
         <LinkToSignup>
           <Link href="/signup">Sign up</Link>

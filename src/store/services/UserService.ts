@@ -1,5 +1,5 @@
 import { splitApi } from '.';
-import {IUser} from "../../types/IUser";
+import { IUser } from '../../types/IUser';
 
 const userApiWithTag = splitApi.enhanceEndpoints({ addTagTypes: ['User'] });
 
@@ -7,7 +7,12 @@ export const userApi = userApiWithTag.injectEndpoints({
   endpoints: (build) => ({
     signUp: build.mutation<
       { accessToken: string; refreshToken: string },
-      { login: string; email: string; password: string }
+      {
+        login: string;
+        email: string;
+        password: string;
+        passwordConfirmation: string;
+      }
     >({
       query: (userData) => ({
         url: '/auth/signup',
@@ -43,10 +48,7 @@ export const userApi = userApiWithTag.injectEndpoints({
       invalidatesTags: ['User'],
     }),
 
-    getMe: build.query<
-        IUser,
-      void
-    >({
+    getMe: build.query<IUser, void>({
       query: () => ({
         url: '/auth/me',
       }),
