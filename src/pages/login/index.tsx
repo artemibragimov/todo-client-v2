@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SignInIcon } from '../../assets';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Link from 'next/link';
@@ -21,6 +21,7 @@ import { IValidationError } from '../../types/IValidationError';
 const Login = () => {
   const [signIn, { data }] = userApi.useSignInMutation();
   const router = useRouter();
+  const [invalidError, setInvalidError] = useState<string>();
 
   const {
     register,
@@ -41,7 +42,11 @@ const Login = () => {
     })
       .unwrap()
       .catch((error) => {
-        if ('data' in error) {
+        if ('message' in error.data) {
+          setInvalidError(error.data.message);
+        }
+
+        if ('errors' in error) {
           const path = ['login', 'password'];
           path.map((path) => {
             const err = error.data.errors.find(
@@ -92,7 +97,7 @@ const Login = () => {
         />
 
         {errors.password && <Error>{errors.password.message}</Error>}
-
+        {invalidError && <Error>{invalidError}</Error>}
         <LinkToSignup>
           <Link href="/signup">Sign up</Link>
         </LinkToSignup>
