@@ -20,6 +20,7 @@ const Profile = () => {
   const { data: userData } = userApi.useGetMeQuery();
   const [logout] = userApi.useLogoutMutation();
   const [uppdateMe, { isSuccess }] = userApi.useUppdateMeMutation();
+  const [uploadPhoto] = userApi.useUploadPhotoMutation();
   const [editPassword] = userApi.useEditPasswordMutation();
 
   const router = useRouter();
@@ -42,7 +43,7 @@ const Profile = () => {
       const formData = new FormData();
       formData.append('image', files[0]);
 
-      uppdateMe(formData);
+      uploadPhoto(formData);
     }
   };
 

@@ -41,7 +41,7 @@ export const userApi = userApiWithTag.injectEndpoints({
 
     getMe: build.query<IUser, void>({
       query: () => ({
-        url: '/auth/me',
+        url: '/me',
       }),
       providesTags: () => ['User'],
     }),
@@ -51,7 +51,16 @@ export const userApi = userApiWithTag.injectEndpoints({
       { login: string; email: string } | FormData
     >({
       query: (body) => ({
-        url: '/auth/me',
+        url: '/me',
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: ['User'],
+    }),
+
+    uploadPhoto: build.mutation<void, FormData>({
+      query: (body) => ({
+        url: '/me/uploads',
         method: 'PUT',
         body,
       }),
@@ -60,7 +69,7 @@ export const userApi = userApiWithTag.injectEndpoints({
 
     editPassword: build.mutation<{ message: string }, { password: string }>({
       query: (body) => ({
-        url: '/auth/me/editPassword',
+        url: '/me/editPassword',
         method: 'POST',
         body,
       }),

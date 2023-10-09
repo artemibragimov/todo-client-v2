@@ -10,7 +10,7 @@ export const taskApi = taskApiWithTag.injectEndpoints({
       { currentPage: number; filter: string }
     >({
       query: ({ currentPage, filter }) => ({
-        url: '/',
+        url: '/tasks',
         params: {
           currentPage: currentPage,
           filter: filter,
@@ -20,7 +20,7 @@ export const taskApi = taskApiWithTag.injectEndpoints({
     }),
     createTask: build.mutation<ITask, string>({
       query: (name) => ({
-        url: '/',
+        url: '/tasks',
         method: 'POST',
         body: { name: name },
       }),
@@ -28,7 +28,7 @@ export const taskApi = taskApiWithTag.injectEndpoints({
     }),
     deleteTask: build.mutation<ITask, number>({
       query: (id) => ({
-        url: '/',
+        url: '/tasks',
         method: 'DELETE',
         body: { id: id },
       }),
@@ -36,7 +36,7 @@ export const taskApi = taskApiWithTag.injectEndpoints({
     }),
     updateTask: build.mutation<ITask, { id: number; name: string }>({
       query: (task) => ({
-        url: '/',
+        url: '/tasks',
         method: 'PUT',
         body: task,
       }),
