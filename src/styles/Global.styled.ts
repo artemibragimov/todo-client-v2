@@ -14,4 +14,10 @@ html {
     height: 100%;
     background: linear-gradient(299.75deg, #b9d5ff 0%, #f6d1fc 98.93%)
 }
+
+input {
+    font-size:unset;
+    font-weight:unset;
+    color: unset;
+}
 `;

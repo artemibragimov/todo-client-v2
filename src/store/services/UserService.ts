@@ -39,15 +39,6 @@ export const userApi = userApiWithTag.injectEndpoints({
       }),
     }),
 
-    uploadAvatar: build.mutation<{ url: string }, FormData>({
-      query: (body) => ({
-        url: '/auth/me/uploads',
-        method: 'POST',
-        body,
-      }),
-      invalidatesTags: ['User'],
-    }),
-
     getMe: build.query<IUser, void>({
       query: () => ({
         url: '/auth/me',
@@ -55,19 +46,13 @@ export const userApi = userApiWithTag.injectEndpoints({
       providesTags: () => ['User'],
     }),
 
-    editLogin: build.mutation<{ message: string }, { login: string }>({
+    uppdateMe: build.mutation<
+      void,
+      { login: string; email: string } | FormData
+    >({
       query: (body) => ({
-        url: '/auth/me/editLogin',
-        method: 'POST',
-        body,
-      }),
-      invalidatesTags: ['User'],
-    }),
-
-    editEmail: build.mutation<{ message: string }, { email: string }>({
-      query: (body) => ({
-        url: '/auth/me/editEmail',
-        method: 'POST',
+        url: '/auth/me',
+        method: 'PUT',
         body,
       }),
       invalidatesTags: ['User'],

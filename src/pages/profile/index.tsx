@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import ToggleButton from '../../components/toggleButton/ToggleButton';
 import { LogoutIcon, ProfileBtnIcon, SecurityIcon } from '../../assets';
 import Button from '../../components/common/buttons/buttonWithIcon/Button';
-import { ChangeEventHandler, useEffect, useState } from 'react';
+import { ChangeEventHandler, useState } from 'react';
 import UserInfo from '../../components/userInfo/UserInfo';
 import { userApi } from '../../store/services/UserService';
 import Security from '../../components/security/Security';
@@ -13,15 +13,13 @@ import {
   ProfileInfoContainer,
   Title,
 } from './Profile.styled';
-import { getToken, removeToken } from '../../helpers/token';
+import { removeToken } from '../../helpers/token';
 import { setIsAuth } from '../../helpers/isAuth';
 
 const Profile = () => {
   const { data: userData } = userApi.useGetMeQuery();
   const [logout] = userApi.useLogoutMutation();
-  const [uploadAvatar] = userApi.useUploadAvatarMutation();
-  const [editLogin] = userApi.useEditLoginMutation();
-  const [editEmail] = userApi.useEditEmailMutation();
+  const [uppdateMe, { isSuccess }] = userApi.useUppdateMeMutation();
   const [editPassword] = userApi.useEditPasswordMutation();
 
   const router = useRouter();
@@ -44,7 +42,7 @@ const Profile = () => {
       const formData = new FormData();
       formData.append('image', files[0]);
 
-      uploadAvatar(formData);
+      uppdateMe(formData);
     }
   };
 
@@ -82,9 +80,9 @@ const Profile = () => {
               login={userData?.login}
               email={userData?.email}
               imageUrl={userData?.imageUrl}
+              isSuccess={isSuccess}
               handleChangeFile={handleChangeFile}
-              handleEditLogin={editLogin}
-              handleEditEmail={editEmail}
+              handleChange={uppdateMe}
             />
           )}
           {active === 'Security' && (

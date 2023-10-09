@@ -1,53 +1,95 @@
-import { ChangeEventHandler, useEffect, useRef, useState } from 'react';
-import { ChangeIcon, ProfileIcon } from '../../assets';
+import { useEffect, useRef, useState } from 'react';
+import { ChangeIcon, CloseIcon, ProfileIcon, SaveIcon } from '../../assets';
 import {
   Button,
-  TextInput,
+  ChangeField,
+  Error,
+  Info,
+  Text,
+  UpdateMeForm,
+  UpdateMeInput,
   UserContainer,
   UserEmail,
   UserLogin,
   UserPhoto,
   UserPhotoContainer,
 } from './UserInfo.styled';
-
-interface UserInfo {
-  login?: string;
-  email?: string;
-  imageUrl?: string;
-  handleChangeFile: ChangeEventHandler<HTMLInputElement>;
-  handleEditLogin: (body: { login: string }) => void;
-  handleEditEmail: (body: { email: string }) => void;
-}
+import { IValidationError } from '../../types/IValidationError';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { IUpdateMe } from '../../types/IUpdateMe';
+import { IUserInfo } from '../../types/IUserInfo';
+import useOnClickOutside from '../../utils/hooks/useOnClickOutside';
 
 const UserInfo = ({
   login,
   email,
   imageUrl,
+  isSuccess,
   handleChangeFile,
-  handleEditLogin,
-  handleEditEmail,
-}: UserInfo) => {
+  handleChange,
+}: IUserInfo) => {
   const [changeType, setChangeType] = useState<string>('');
-  const [localLogin, setLocalLogin] = useState<string>('');
-  const [localEmail, setLocalEmail] = useState<string>('');
   const ref = useRef<HTMLInputElement>(null);
+  const divRef = useRef<HTMLDivElement>(null);
 
-  const onBlur = () => {
-    if (changeType == 'login' && localLogin != login) {
-      handleEditLogin({ login: localLogin });
-    }
+  const {
+    register,
+    handleSubmit,
+    setError,
+    reset,
+    formState: { errors },
+    setValue,
+  } = useForm<IUpdateMe>({
+    defaultValues: {
+      login: '',
+      email: '',
+    },
+  });
 
-    if (changeType == 'email' && localEmail != email) {
-      handleEditEmail({ email: localEmail });
-    }
-
-    setChangeType('');
+  const onSubmit: SubmitHandler<IUpdateMe> = async (data) => {
+    await handleChange({
+      login: data.login,
+      email: data.email,
+    })
+      .unwrap()
+      .catch((error) => {
+        if ('data' in error) {
+          const path = ['login', 'email'];
+          path.map((path) => {
+            const err = error.data.errors.find(
+              (err: IValidationError) => err.path === path
+            );
+            if (err) {
+              setError(err.path, {
+                type: 'error',
+                message: err.msg,
+              });
+            }
+          });
+        }
+      });
   };
+
+  const close = () => {
+    setChangeType('');
+    reset({
+      login: login,
+      email: email,
+    });
+  };
+
+  useOnClickOutside(divRef, () => close());
+
+  useEffect(() => {
+    if (isSuccess) {
+      setChangeType('');
+    }
+  }, [isSuccess]);
 
   useEffect(() => {
     if (login && email) {
-      setLocalLogin(login);
-      setLocalEmail(email);
+      setValue('login', login);
+      setValue('email', email);
     }
   }, [login, email]);
 
@@ -62,46 +104,79 @@ const UserInfo = ({
           <ProfileIcon width={40} />
         )}
 
-        <Button onClick={() => ref.current?.click()}>
+        <Button
+          onClick={() => {
+            ref.current?.click();
+            setChangeType('photo');
+          }}
+        >
           <ChangeIcon />
         </Button>
       </UserPhotoContainer>
 
-      <UserLogin>
-        {changeType == 'login' ? (
-          <TextInput
-            value={localLogin}
-            onBlur={onBlur}
-            onChange={(e) => setLocalLogin(e.target.value)}
-            autoFocus
-          />
-        ) : (
-          <div>
-            {login}
-            <Button onClick={() => setChangeType('login')}>
-              <ChangeIcon />
-            </Button>
-          </div>
-        )}
-      </UserLogin>
+      <UpdateMeForm onSubmit={handleSubmit(onSubmit)}>
+        <UserLogin>
+          {changeType == 'login' ? (
+            <>
+              <ChangeField ref={divRef}>
+                <UpdateMeInput
+                  autoFocus
+                  $box_shadow={errors.login ? 'error' : ''}
+                  {...register('login', { required: true })}
+                />
 
-      <UserEmail>
-        {changeType == 'email' ? (
-          <TextInput
-            value={localEmail}
-            onBlur={onBlur}
-            onChange={(e) => setLocalEmail(e.target.value)}
-            autoFocus
-          />
-        ) : (
-          <div>
-            {email}
-            <Button onClick={() => setChangeType('email')}>
-              <ChangeIcon />
-            </Button>
-          </div>
-        )}
-      </UserEmail>
+                <Button type="submit">
+                  <SaveIcon width={25} />
+                </Button>
+
+                <Button onClick={close}>
+                  <CloseIcon width={25} />
+                </Button>
+              </ChangeField>
+
+              {errors.login && <Error>{errors.login.message}</Error>}
+            </>
+          ) : (
+            <Info>
+              <Text>{login}</Text>
+              <Button onClick={() => setChangeType('login')}>
+                <ChangeIcon />
+              </Button>
+            </Info>
+          )}
+        </UserLogin>
+
+        <UserEmail>
+          {changeType == 'email' ? (
+            <>
+              <ChangeField ref={divRef}>
+                <UpdateMeInput
+                  autoFocus
+                  $box_shadow={errors.email ? 'error' : ''}
+                  {...register('email', { required: true })}
+                />
+
+                <Button type="submit">
+                  <SaveIcon />
+                </Button>
+
+                <Button onClick={close}>
+                  <CloseIcon />
+                </Button>
+              </ChangeField>
+
+              {errors.email && <Error>{errors.email.message}</Error>}
+            </>
+          ) : (
+            <Info>
+              <Text>{email}</Text>
+              <Button onClick={() => setChangeType('email')}>
+                <ChangeIcon />
+              </Button>
+            </Info>
+          )}
+        </UserEmail>
+      </UpdateMeForm>
     </UserContainer>
   );
 };

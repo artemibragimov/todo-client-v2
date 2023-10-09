@@ -4,7 +4,6 @@ export { default as CalendarActiveIcon } from './vectorActive.svg';
 export { default as DoneIcon } from './done.svg';
 export { default as DoneActiveIcon } from './doneActive.svg';
 export { default as DateIcon } from './date.svg';
-export { default as DateActiveIcon } from './dateActive.svg';
 export { default as AddTaskIcon } from './addTask.svg';
 export { default as CloseIcon } from './close.svg';
 export { default as SaveIcon } from './Check_ring.svg';
