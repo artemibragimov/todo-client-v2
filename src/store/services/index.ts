@@ -48,7 +48,8 @@ const baseQueryWithReauth: BaseQueryFn<
   return result;
 };
 
-export const splitApi = createApi({
+export const ToDoApi = createApi({
   baseQuery: baseQueryWithReauth,
+  reducerPath: 'ToDoApi',
   endpoints: () => ({}),
 });

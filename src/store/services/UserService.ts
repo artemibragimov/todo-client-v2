@@ -1,7 +1,7 @@
-import { splitApi } from '.';
+import { ToDoApi } from '.';
 import { IUser } from '../../types/IUser';
 
-const userApiWithTag = splitApi.enhanceEndpoints({ addTagTypes: ['User'] });
+const userApiWithTag = ToDoApi.enhanceEndpoints({ addTagTypes: ['User'] });
 
 export const userApi = userApiWithTag.injectEndpoints({
   endpoints: (build) => ({

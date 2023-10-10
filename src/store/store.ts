@@ -1,17 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { taskApi } from './services/TaskService';
-import { userApi } from './services/UserService';
+import { ToDoApi } from './services';
 
 export const store = configureStore({
   reducer: {
-    [taskApi.reducerPath]: taskApi.reducer,
-    [userApi.reducerPath]: userApi.reducer,
+    [ToDoApi.reducerPath]: ToDoApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware()
-      .concat(taskApi.middleware)
-      .concat(userApi.middleware),
+    getDefaultMiddleware().concat(ToDoApi.middleware),
 });
-
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;

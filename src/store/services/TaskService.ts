@@ -1,7 +1,7 @@
 import { ITask } from '../../types/ITask';
-import { splitApi } from '.';
+import { ToDoApi } from '.';
 
-const taskApiWithTag = splitApi.enhanceEndpoints({ addTagTypes: ['Task'] });
+const taskApiWithTag = ToDoApi.enhanceEndpoints({ addTagTypes: ['Task'] });
 
 export const taskApi = taskApiWithTag.injectEndpoints({
   endpoints: (build) => ({

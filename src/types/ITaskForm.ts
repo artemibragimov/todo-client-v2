@@ -10,7 +10,3 @@ export interface ITaskForm {
   toggle: (boolean: boolean) => void;
   formTitle: string;
 }
-
-export type ITaskFormInputs = {
-  name: string;
-};
