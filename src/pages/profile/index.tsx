@@ -11,7 +11,6 @@ import {
   InfoBoard,
   NavBar,
   ProfileInfoContainer,
-  Title,
 } from './Profile.styled';
 import { removeToken } from '../../helpers/token';
 import { setIsAuth } from '../../helpers/isAuth';
@@ -48,50 +47,47 @@ const Profile = () => {
   };
 
   return (
-    <div>
-      <Title>Settings</Title>
-      <ProfileInfoContainer>
-        <NavBar>
-          <ToggleButton
-            name="Profile"
-            Icon={ProfileBtnIcon}
-            ActiveIcon={ProfileBtnIcon}
-            handleClick={setActive}
-            isActive={isActive}
-          />
-          <ToggleButton
-            name="Security"
-            Icon={SecurityIcon}
-            ActiveIcon={SecurityIcon}
-            handleClick={setActive}
-            isActive={isActive}
-          />
+    <ProfileInfoContainer>
+      <NavBar>
+        <ToggleButton
+          name="Profile"
+          Icon={ProfileBtnIcon}
+          ActiveIcon={ProfileBtnIcon}
+          handleClick={setActive}
+          isActive={isActive}
+        />
+        <ToggleButton
+          name="Security"
+          Icon={SecurityIcon}
+          ActiveIcon={SecurityIcon}
+          handleClick={setActive}
+          isActive={isActive}
+        />
 
-          <BottomBar>
-            <Button
-              name="Log Out"
-              Icon={LogoutIcon}
-              handleClick={onClickLogout}
-            />
-          </BottomBar>
-        </NavBar>
-        <InfoBoard>
-          {active === 'Profile' && (
-            <UserInfo
-              login={userData?.login}
-              email={userData?.email}
-              imageUrl={userData?.imageUrl}
-              isSuccess={isSuccess}
-              handleChangeFile={handleChangeFile}
-              handleChange={uppdateMe}
-            />
-          )}
-          {active === 'Security' && (
-            <Security handleEditPassword={editPassword} />
-          )}
-        </InfoBoard>
-      </ProfileInfoContainer>
-    </div>
+        <BottomBar>
+          <Button
+            name="Log Out"
+            Icon={LogoutIcon}
+            handleClick={onClickLogout}
+          />
+        </BottomBar>
+      </NavBar>
+      <InfoBoard>
+        {active === 'Profile' && (
+          <UserInfo
+            login={userData?.login}
+            email={userData?.email}
+            imageUrl={userData?.imageUrl}
+            isSuccess={isSuccess}
+            handleChangeFile={handleChangeFile}
+            handleChange={uppdateMe}
+          />
+        )}
+        {active === 'Security' && (
+          <Security handleEditPassword={editPassword} />
+        )}
+      </InfoBoard>
+    </ProfileInfoContainer>
   );
 };
 

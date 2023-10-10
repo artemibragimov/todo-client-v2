@@ -43,4 +43,5 @@ export const taskApi = taskApiWithTag.injectEndpoints({
       invalidatesTags: ['Task'],
     }),
   }),
+  overrideExisting: false,
 });

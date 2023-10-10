@@ -10,7 +10,6 @@ import {
   DoneActiveIcon,
   FirstNewIcon,
   FirstOldIcon,
-  ProfileIcon,
 } from '../../assets';
 import ToggleButton from '../../components/toggleButton/ToggleButton';
 import TaskForm from '../../components/modals/children/taskForm/TaskForm';
@@ -19,14 +18,9 @@ import Button from '../../components/common/buttons/buttonWithIcon/Button';
 import Delete from '../../components/modals/children/delete/Delete';
 import Pagination from '../../components/pagination/Pagination';
 import { taskApi } from '../../store/services/TaskService';
-import { userApi } from '../../store/services/UserService';
-import Link from 'next/link';
 import {
   BottomBar,
-  Login,
   NavBar,
-  ProfileAvatar,
-  ProfileLink,
   TaskBoard,
   TaskContainer,
   TaskHolder,
@@ -44,7 +38,6 @@ export default function Tasks() {
     isDone: false,
   });
 
-  const { data: userData } = userApi.useGetMeQuery();
   const { data: tasksData } = taskApi.useFetchAllTasksQuery({
     currentPage: currentPage,
     filter: filter,
@@ -95,17 +88,6 @@ export default function Tasks() {
 
   return (
     <TaskContainer>
-      <Login>{userData?.login}</Login>
-      <ProfileLink>
-        <Link href="/profile">
-          {userData?.imageUrl ? (
-            <ProfileAvatar src={userData.imageUrl} alt="User avatar" />
-          ) : (
-            <ProfileIcon width={40} />
-          )}
-        </Link>
-      </ProfileLink>
-
       <TaskHolder>
         <NavBar>
           <ToggleButton

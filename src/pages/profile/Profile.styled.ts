@@ -1,16 +1,5 @@
 import styled from 'styled-components';
 
-export const Title = styled.div`
-  position: absolute;
-  top: 35px;
-  margin: 0 auto;
-  left: 20%;
-  right: 20%;
-  text-align: center;
-  color: #9333ea;
-  font-size: 24px;
-`;
-
 export const ProfileInfoContainer = styled.div`
   margin: 2.5% 1%;
   display: flex;
