@@ -5,8 +5,7 @@ import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ILogin } from '@/types/ILogin';
 import { IValidationError } from '@/types/IValidationError';
-import { setToken } from '@/helpers/token';
-import { isAuth, setIsAuth } from '@/helpers/isAuth';
+import { isAuth, setToken } from '@/helpers/token';
 import {
   Button,
   Error,
@@ -66,13 +65,12 @@ export default function Login() {
   useEffect(() => {
     if (data) {
       setToken(data.accessToken);
-      setIsAuth(true);
       router.push('/tasks');
     }
   }, [data]);
 
   useEffect(() => {
-    if (isAuth() === 'true') {
+    if (isAuth()) {
       router.push('/tasks');
     }
   }, []);

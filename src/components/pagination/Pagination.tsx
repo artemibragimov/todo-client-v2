@@ -1,4 +1,4 @@
-import { IPagination } from '../../types/IPagination';
+import { IPagination } from '@/types/IPagination';
 import { PaginationButton, PaginationContainer } from './Pagination.styled';
 
 const Pagination = ({

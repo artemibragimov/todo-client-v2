@@ -8,3 +8,7 @@ export const setToken = (token: string) => {
 export const removeToken = () => {
   window.localStorage.removeItem('token');
 };
+
+export const isAuth = () => {
+  return localStorage.getItem('token') !== null;
+};

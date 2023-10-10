@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { ChangeIcon, CloseIcon, ProfileIcon, SaveIcon } from '../../assets';
+import { ChangeIcon, CloseIcon, ProfileIcon, SaveIcon } from '@/assets';
 import {
   Button,
   ChangeField,
@@ -14,11 +14,11 @@ import {
   UserPhoto,
   UserPhotoContainer,
 } from './UserInfo.styled';
-import { IValidationError } from '../../types/IValidationError';
+import { IValidationError } from '@/types/IValidationError';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { IUpdateMe } from '../../types/IUpdateMe';
-import { IUserInfo } from '../../types/IUserInfo';
-import useOnClickOutside from '../../utils/hooks/useOnClickOutside';
+import { IUpdateMe } from '@/types/IUpdateMe';
+import { IUserInfo } from '@/types/IUserInfo';
+import useOnClickOutside from '@/utils/hooks/useOnClickOutside';
 
 const UserInfo = ({
   login,

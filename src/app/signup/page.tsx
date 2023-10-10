@@ -15,11 +15,10 @@ import {
   Tittle,
 } from './Signup.styled';
 import { ISignUp } from '@/types/ISignup';
-import { setToken } from '@/helpers/token';
-import { isAuth, setIsAuth } from '@/helpers/isAuth';
+import { isAuth, setToken } from '@/helpers/token';
 import { IValidationError } from '@/types/IValidationError';
 
-const SignUp = () => {
+export default function SignUp() {
   const [signUp, { data }] = userApi.useSignUpMutation();
 
   const router = useRouter();
@@ -67,13 +66,12 @@ const SignUp = () => {
   useEffect(() => {
     if (data) {
       setToken(data.accessToken);
-      setIsAuth(true);
       router.push('/tasks');
     }
   }, [data]);
 
   useEffect(() => {
-    if (isAuth() === 'true') {
+    if (isAuth()) {
       router.push('/tasks');
     }
   }, []);
@@ -129,6 +127,4 @@ const SignUp = () => {
       </SignupForm>
     </SignupContainer>
   );
-};
-
-export default SignUp;
+}

@@ -14,9 +14,8 @@ import {
   ProfileInfoContainer,
 } from './Profile.styled';
 import { removeToken } from '@/helpers/token';
-import { setIsAuth } from '@/helpers/isAuth';
 
-const Profile = () => {
+export default function Profile() {
   const { data: userData } = userApi.useGetMeQuery();
   const [logout] = userApi.useLogoutMutation();
   const [uppdateMe, { isSuccess }] = userApi.useUppdateMeMutation();
@@ -32,7 +31,6 @@ const Profile = () => {
   const onClickLogout = () => {
     logout();
     removeToken();
-    setIsAuth(false);
     router.push('/login');
   };
 
@@ -90,6 +88,4 @@ const Profile = () => {
       </InfoBoard>
     </ProfileInfoContainer>
   );
-};
-
-export default Profile;
+}

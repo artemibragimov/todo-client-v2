@@ -1,7 +1,7 @@
 import { CompleteIcon, SettingsIcon, NonCompleteIcon } from '../../assets';
 import { useRef, useState } from 'react';
-import { UpdateIcon, DeleteIcon } from '../../assets';
-import useOnClickOutside from '../../utils/hooks/useOnClickOutside';
+import { UpdateIcon, DeleteIcon } from '@/assets';
+import useOnClickOutside from '@/utils/hooks/useOnClickOutside';
 import {
   IsDoneButton,
   SettingButton,
@@ -12,7 +12,7 @@ import {
   TaskName,
   TaskSettings,
 } from './Task.styled';
-import { ITaskItem } from '../../types/ITask';
+import { ITaskItem } from '@/types/ITask';
 
 const Task = ({
   id,

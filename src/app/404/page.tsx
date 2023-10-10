@@ -8,7 +8,7 @@ import {
   Title,
 } from './404.styled';
 
-const Custom404 = () => {
+export default function Custom404() {
   return (
     <Container>
       <Title>404</Title>
@@ -21,5 +21,4 @@ const Custom404 = () => {
       </LinkBox>
     </Container>
   );
-};
-export default Custom404;
+}

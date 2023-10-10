@@ -1,12 +1,12 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { ChangePasswordIcon } from '../../assets';
+import { ChangePasswordIcon } from '@/assets/index';
 import {
   SecurityButton,
   SecurityContainer,
   SecurityInput,
   SecurityTitle,
 } from './Security.styled';
-import { ISecurity, SecurityInputs } from '../../types/ISecurity';
+import { ISecurity, SecurityInputs } from '@/types/ISecurity';
 
 const Security = ({ handleEditPassword }: ISecurity) => {
   const {
