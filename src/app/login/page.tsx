@@ -1,10 +1,12 @@
+'use client';
 import React, { useEffect, useState } from 'react';
-import { SignInIcon } from '../../assets';
+import { userApi } from '@/redux/services/UserService';
+import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { userApi } from '../../store/services/UserService';
-import { ILogin } from '../../types/ILogin';
+import { ILogin } from '@/types/ILogin';
+import { IValidationError } from '@/types/IValidationError';
+import { setToken } from '@/helpers/token';
+import { isAuth, setIsAuth } from '@/helpers/isAuth';
 import {
   Button,
   Error,
@@ -13,12 +15,11 @@ import {
   LoginForm,
   LoginInput,
   Tittle,
-} from './Login.styled';
-import { setToken } from '../../helpers/token';
-import { isAuth, setIsAuth } from '../../helpers/isAuth';
-import { IValidationError } from '../../types/IValidationError';
+} from '@/app/login/Login.styled';
+import Link from 'next/link';
+import { SignInIcon } from '@/assets/index';
 
-const Login = () => {
+export default function Login() {
   const [signIn, { data }] = userApi.useSignInMutation();
   const router = useRouter();
   const [invalidError, setInvalidError] = useState<string>();
@@ -75,6 +76,7 @@ const Login = () => {
       router.push('/tasks');
     }
   }, []);
+
   return (
     <LoginContainer>
       <Tittle>Log in</Tittle>
@@ -108,6 +110,4 @@ const Login = () => {
       </LoginForm>
     </LoginContainer>
   );
-};
-
-export default Login;
+}

@@ -1,7 +1,7 @@
-import { ITask } from '../../types/ITask';
-import { ToDoApi } from '.';
+import { ITask } from "@/types/ITask";
+import { ToDoApi } from "./index";
 
-const taskApiWithTag = ToDoApi.enhanceEndpoints({ addTagTypes: ['Task'] });
+const taskApiWithTag = ToDoApi.enhanceEndpoints({ addTagTypes: ["Task"] });
 
 export const taskApi = taskApiWithTag.injectEndpoints({
   endpoints: (build) => ({
@@ -10,37 +10,37 @@ export const taskApi = taskApiWithTag.injectEndpoints({
       { currentPage: number; filter: string }
     >({
       query: ({ currentPage, filter }) => ({
-        url: '/tasks',
+        url: "/tasks",
         params: {
           currentPage: currentPage,
           filter: filter,
         },
       }),
-      providesTags: () => ['Task'],
+      providesTags: () => ["Task"],
     }),
     createTask: build.mutation<ITask, string>({
       query: (name) => ({
-        url: '/tasks',
-        method: 'POST',
+        url: "/tasks",
+        method: "POST",
         body: { name: name },
       }),
-      invalidatesTags: ['Task'],
+      invalidatesTags: ["Task"],
     }),
     deleteTask: build.mutation<ITask, number>({
       query: (id) => ({
-        url: '/tasks',
-        method: 'DELETE',
+        url: "/tasks",
+        method: "DELETE",
         body: { id: id },
       }),
-      invalidatesTags: ['Task'],
+      invalidatesTags: ["Task"],
     }),
     updateTask: build.mutation<ITask, { id: number; name: string }>({
       query: (task) => ({
-        url: '/tasks',
-        method: 'PUT',
+        url: "/tasks",
+        method: "PUT",
         body: task,
       }),
-      invalidatesTags: ['Task'],
+      invalidatesTags: ["Task"],
     }),
   }),
   overrideExisting: false,

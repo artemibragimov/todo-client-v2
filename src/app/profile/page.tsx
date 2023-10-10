@@ -1,10 +1,11 @@
-import { useRouter } from 'next/router';
+'use client';
+import { useRouter } from 'next/navigation';
 import ToggleButton from '../../components/toggleButton/ToggleButton';
 import { LogoutIcon, ProfileBtnIcon, SecurityIcon } from '../../assets';
 import Button from '../../components/common/buttons/buttonWithIcon/Button';
 import { ChangeEventHandler, useState } from 'react';
 import UserInfo from '../../components/userInfo/UserInfo';
-import { userApi } from '../../store/services/UserService';
+import { userApi } from '@/redux/services/UserService';
 import Security from '../../components/security/Security';
 import {
   BottomBar,
@@ -12,8 +13,8 @@ import {
   NavBar,
   ProfileInfoContainer,
 } from './Profile.styled';
-import { removeToken } from '../../helpers/token';
-import { setIsAuth } from '../../helpers/isAuth';
+import { removeToken } from '@/helpers/token';
+import { setIsAuth } from '@/helpers/isAuth';
 
 const Profile = () => {
   const { data: userData } = userApi.useGetMeQuery();

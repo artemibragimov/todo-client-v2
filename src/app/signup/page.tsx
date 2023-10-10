@@ -1,9 +1,10 @@
+'use client';
 import React, { useEffect } from 'react';
 import { SignInIcon } from '../../assets';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Link from 'next/link';
-import { userApi } from '../../store/services/UserService';
-import { useRouter } from 'next/router';
+import { userApi } from '@/redux/services/UserService';
+import { useRouter } from 'next/navigation';
 import {
   Button,
   Error,
@@ -13,10 +14,10 @@ import {
   SignupInput,
   Tittle,
 } from './Signup.styled';
-import { ISignUp } from '../../types/ISignup';
-import { setToken } from '../../helpers/token';
-import { isAuth, setIsAuth } from '../../helpers/isAuth';
-import { IValidationError } from '../../types/IValidationError';
+import { ISignUp } from '@/types/ISignup';
+import { setToken } from '@/helpers/token';
+import { isAuth, setIsAuth } from '@/helpers/isAuth';
+import { IValidationError } from '@/types/IValidationError';
 
 const SignUp = () => {
   const [signUp, { data }] = userApi.useSignUpMutation();

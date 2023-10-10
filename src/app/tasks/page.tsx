@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
-import Task from '../../components/task/Task';
-import Modal from '../../components/modals/modal/Modal';
+"use client";
+import { useEffect, useState } from "react";
+import Task from "@/components/task/Task";
+import Modal from "@/components/modals/modal/Modal";
 import {
   CalendarIcon,
   CalendarActiveIcon,
@@ -10,31 +11,31 @@ import {
   DoneActiveIcon,
   FirstNewIcon,
   FirstOldIcon,
-} from '../../assets';
-import ToggleButton from '../../components/toggleButton/ToggleButton';
-import TaskForm from '../../components/modals/children/taskForm/TaskForm';
-import Dropdown from '../../components/dropdown/Dropdown';
-import Button from '../../components/common/buttons/buttonWithIcon/Button';
-import Delete from '../../components/modals/children/delete/Delete';
-import Pagination from '../../components/pagination/Pagination';
-import { taskApi } from '../../store/services/TaskService';
+} from "@/assets";
+import TaskForm from "@/components/modals/children/taskForm/TaskForm";
+import Dropdown from "@/components/dropdown/Dropdown";
+import Button from "@/components/common/buttons/buttonWithIcon/Button";
+import Delete from "@/components/modals/children/delete/Delete";
+import Pagination from "@/components/pagination/Pagination";
+import { taskApi } from "@/redux/services/TaskService";
 import {
   BottomBar,
   NavBar,
   TaskBoard,
   TaskContainer,
   TaskHolder,
-} from './Tasks.styled';
-import { ITaskAction } from '../../types/ITask';
+} from "./Tasks.styled";
+import { ITaskAction } from "@/types/ITask";
+import ToggleButton from "@/components/toggleButton/ToggleButton";
 
 export default function Tasks() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [filter, setFilter] = useState('Today');
+  const [filter, setFilter] = useState("Today");
   const [isVisible, setIsVisible] = useState(false);
   const [action, setAction] = useState<ITaskAction>({
-    action: 'Add task',
+    action: "Add task",
     id: 0,
-    name: '',
+    name: "",
     isDone: false,
   });
 
@@ -47,16 +48,16 @@ export default function Tasks() {
   const [deleteTask] = taskApi.useDeleteTaskMutation();
 
   const isActive = (name: string) => filter === name;
-  const isDate = () => filter === 'firstNew' || filter === 'firstOld';
+  const isDate = () => filter === "firstNew" || filter === "firstOld";
 
   const setDateFilter = () =>
-    filter === 'firstOld' ? setFilter('firstNew') : setFilter('firstOld');
+    filter === "firstOld" ? setFilter("firstNew") : setFilter("firstOld");
 
   const openModal = (
     action: string,
     id: number = 0,
-    name: string = '',
-    isDone: boolean = false
+    name: string = "",
+    isDone: boolean = false,
   ) => {
     setAction({ action, id, name, isDone });
     setIsVisible(true);
@@ -98,7 +99,7 @@ export default function Tasks() {
             isActive={isActive}
           />
           <Dropdown
-            options={['All', 'Done', 'Undone']}
+            options={["All", "Done", "Undone"]}
             handleClick={setFilter}
             isActive={isActive}
             Icon={DoneIcon}
@@ -107,7 +108,7 @@ export default function Tasks() {
           <ToggleButton
             name="Date"
             Icon={DateIcon}
-            ActiveIcon={filter === 'firstNew' ? FirstNewIcon : FirstOldIcon}
+            ActiveIcon={filter === "firstNew" ? FirstNewIcon : FirstOldIcon}
             handleClick={setDateFilter}
             isActive={isDate}
           />
@@ -119,6 +120,7 @@ export default function Tasks() {
             />
           </BottomBar>
         </NavBar>
+
         <TaskBoard>
           <Pagination
             pageSize={7}
@@ -126,6 +128,7 @@ export default function Tasks() {
             currentPage={currentPage}
             handleClick={setCurrentPage}
           />
+
           {tasksData &&
             tasksData.tasks.map((obj, index) => (
               <Task
@@ -138,9 +141,9 @@ export default function Tasks() {
                 date={
                   `${
                     new Date().toLocaleDateString() === obj.date &&
-                    filter === 'Today'
-                      ? ''
-                      : obj.date + ' at '
+                    filter === "Today"
+                      ? ""
+                      : obj.date + " at "
                   }` + obj.time
                 }
               />
@@ -149,12 +152,12 @@ export default function Tasks() {
       </TaskHolder>
 
       <Modal isVisible={isVisible} toggle={setIsVisible}>
-        {action.action === 'Delete task' ? (
+        {action.action === "Delete task" ? (
           <Delete
             id={action.id}
             handleClick={handleDelete}
             toggle={setIsVisible}
-            title={'Delete task'}
+            title={"Delete task"}
           />
         ) : (
           <TaskForm
@@ -163,7 +166,7 @@ export default function Tasks() {
             isDone={action.isDone}
             toggle={setIsVisible}
             handleSubmitForm={
-              action.action === 'Add task' ? handleCreate : handleUpdate
+              action.action === "Add task" ? handleCreate : handleUpdate
             }
             formTitle={action.action}
           />

@@ -1,18 +1,19 @@
+'use client';
 import Link from 'next/link';
 import { HeaderLine } from './Header.styled';
-import { userApi } from '../../store/services/UserService';
+import { userApi } from '@/redux/services/UserService';
 import { Login, ProfileAvatar, ProfileLink, Title } from './Header.styled';
 import { ProfileIcon } from '../../assets';
-import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
 
 const Header = () => {
   const { data: userData } = userApi.useGetMeQuery();
-  const { asPath } = useRouter();
+  const pathname = usePathname();
   return (
     <HeaderLine>
       <Link href="/tasks">To-Do</Link>
 
-      {asPath === '/tasks' && (
+      {pathname === '/tasks' && (
         <>
           <Login>{userData?.login}</Login>
           <ProfileLink>
@@ -26,7 +27,7 @@ const Header = () => {
           </ProfileLink>
         </>
       )}
-      {asPath === '/profile' && <Title>Settings</Title>}
+      {pathname === '/profile' && <Title>Settings</Title>}
     </HeaderLine>
   );
 };

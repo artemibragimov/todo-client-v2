@@ -1,7 +1,7 @@
-import { SaveIcon, CloseIcon } from '../../../../assets';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { useEffect } from 'react';
-import { ITaskForm, ITaskFormInputs } from '../../../../types/ITaskForm';
+import { SaveIcon, CloseIcon } from "../../../../assets";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { useEffect } from "react";
+import { ITaskForm, ITaskFormInputs } from "@/types/ITaskForm";
 import {
   Button,
   ButtonContainer,
@@ -9,7 +9,7 @@ import {
   TaskForm,
   TaskFormInput,
   TaskFormTitle,
-} from './TaskForm.styled';
+} from "./TaskForm.styled";
 
 const CreateTaskForm = ({
   id,
@@ -27,15 +27,15 @@ const CreateTaskForm = ({
     formState: { errors },
   } = useForm<ITaskFormInputs>({
     defaultValues: {
-      name: '' || name,
+      name: "" || name,
     },
   });
 
   const onSubmit: SubmitHandler<ITaskFormInputs> = (data) => {
-    if (data.name.slice(0, 1) === ' ') {
-      return setError('name', {
-        type: 'custom',
-        message: 'custom',
+    if (data.name.slice(0, 1) === " ") {
+      return setError("name", {
+        type: "custom",
+        message: "custom",
       });
     }
 
@@ -45,7 +45,7 @@ const CreateTaskForm = ({
 
     toggle(false);
     reset({
-      name: '',
+      name: "",
     });
   };
 
@@ -55,14 +55,14 @@ const CreateTaskForm = ({
   };
 
   useEffect(() => {
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
         onClickClose();
       }
     });
     return () =>
-      window.removeEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
+      window.removeEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
           onClickClose();
         }
       });
@@ -76,7 +76,7 @@ const CreateTaskForm = ({
         <TaskFormInput
           autoFocus
           placeholder="Enter text"
-          {...register('name', { required: true })}
+          {...register("name", { required: true })}
         />
 
         {errors.name ? (

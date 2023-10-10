@@ -1,7 +1,7 @@
-import { ToDoApi } from '.';
-import { IUser } from '../../types/IUser';
+import { ToDoApi } from "./index";
+import { IUser } from "@/types/IUser";
 
-const userApiWithTag = ToDoApi.enhanceEndpoints({ addTagTypes: ['User'] });
+const userApiWithTag = ToDoApi.enhanceEndpoints({ addTagTypes: ["User"] });
 
 export const userApi = userApiWithTag.injectEndpoints({
   endpoints: (build) => ({
@@ -15,8 +15,8 @@ export const userApi = userApiWithTag.injectEndpoints({
       }
     >({
       query: (userData) => ({
-        url: '/auth/signup',
-        method: 'POST',
+        url: "/auth/signup",
+        method: "POST",
         body: userData,
       }),
     }),
@@ -26,24 +26,24 @@ export const userApi = userApiWithTag.injectEndpoints({
       { login: string; password: string }
     >({
       query: (userData) => ({
-        url: '/auth/login',
-        method: 'POST',
+        url: "/auth/login",
+        method: "POST",
         body: userData,
       }),
     }),
 
     logout: build.mutation<{ message: string }, void>({
       query: () => ({
-        url: '/auth/logout',
-        method: 'POST',
+        url: "/auth/logout",
+        method: "POST",
       }),
     }),
 
     getMe: build.query<IUser, void>({
       query: () => ({
-        url: '/me',
+        url: "/me",
       }),
-      providesTags: () => ['User'],
+      providesTags: () => ["User"],
     }),
 
     uppdateMe: build.mutation<
@@ -51,29 +51,29 @@ export const userApi = userApiWithTag.injectEndpoints({
       { login: string; email: string } | FormData
     >({
       query: (body) => ({
-        url: '/me',
-        method: 'PUT',
+        url: "/me",
+        method: "PUT",
         body,
       }),
-      invalidatesTags: ['User'],
+      invalidatesTags: ["User"],
     }),
 
     uploadPhoto: build.mutation<void, FormData>({
       query: (body) => ({
-        url: '/me/uploads',
-        method: 'PUT',
+        url: "/me/uploads",
+        method: "PUT",
         body,
       }),
-      invalidatesTags: ['User'],
+      invalidatesTags: ["User"],
     }),
 
     editPassword: build.mutation<{ message: string }, { password: string }>({
       query: (body) => ({
-        url: '/me/editPassword',
-        method: 'POST',
+        url: "/me/editPassword",
+        method: "POST",
         body,
       }),
-      invalidatesTags: ['User'],
+      invalidatesTags: ["User"],
     }),
   }),
   overrideExisting: false,
