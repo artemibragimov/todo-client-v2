@@ -1,12 +1,19 @@
-module.exports = {
-    reactStrictMode: true,
-    webpack(config) {
-        config.module.rules.push({
-            test: /\.svg$/i,
-            issuer: /\.[jt]sx?$/,
-            use: ['@svgr/webpack'],
-        })
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  compiler: {
+    // Enables the styled-components SWC transform
+    styledComponents: true,
+  },
+  reactStrictMode: true,
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/i,
+      issuer: /\.[jt]sx?$/,
+      use: ['@svgr/webpack'],
+    });
 
-        return config
-    },
-}
+    return config;
+  },
+};
+
+module.exports = nextConfig;

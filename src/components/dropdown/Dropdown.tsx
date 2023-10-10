@@ -1,55 +1,56 @@
-import {FC, SVGProps, useRef, useState} from "react";
-import s from './Dropdown.module.css';
-import useOnClickOutside from "../../hooks/useOnClickOutside";
+import { useRef, useState } from "react";
+import useOnClickOutside from "@/utils/hooks/useOnClickOutside";
+import { IDropdown } from "@/types/IDropdown";
+import { DropdownButton, List, ListItem } from "./Dropdown.styled";
 
-interface Dropdown {
-    options: string[];
-    Icon: FC<SVGProps<SVGAElement>>;
-    ActiveIcon: FC<SVGProps<SVGAElement>>;
-    handleClick: (name: string) => void;
-    isActive: (name: string) => boolean;
-}
+const Dropdown = ({
+  options,
+  Icon,
+  ActiveIcon,
+  handleClick,
+  isActive,
+}: IDropdown) => {
+  const divRef = useRef<HTMLDivElement>(null);
 
-const Dropdown = ({options, Icon, ActiveIcon, handleClick, isActive}: Dropdown) => {
+  const [selected, setSelected] = useState<string>("All");
+  const [dropdown, setDropdown] = useState<boolean>(false);
 
-    const [selected, setSelected] = useState<string>('All');
+  useOnClickOutside(divRef, () => setDropdown(false));
 
-    const [dropdown, setDropdown] = useState<boolean>(false);
-    const divRef = useRef<HTMLUListElement>(null);
-    useOnClickOutside(divRef, () => setDropdown(false));
+  const isActivated = isActive(selected);
 
-    const isActivated = isActive(selected);
+  const handleItemClick = (name: string) => {
+    handleClick(name);
+    setSelected(name);
+    setDropdown(false);
+  };
 
-    const handleItemClick = (name: string) => {
-        handleClick(name);
-        setSelected(name);
-        setDropdown(false);
-    };
+  return (
+    <div ref={divRef}>
+      <DropdownButton
+        $isActivated={isActivated}
+        onClick={() => setDropdown(!dropdown)}
+      >
+        {isActivated ? <ActiveIcon /> : <Icon />}
+        {selected}
+      </DropdownButton>
 
-    return (
-        <div>
-            <button onClick={() => setDropdown(true)} type="button"
-                    className={s.btn + ' ' + `${isActivated ? s.btn_active : s.btn_nonActive}`}>
-                {isActivated ? <ActiveIcon/> : <Icon/>}
-                {selected}
-            </button>
-
-            {dropdown &&
-                <ul ref={divRef} className={s.list}>
-                    {options.map((option: string, i: number) => (
-                        <li key={i}
-                            className={s.btn + ' ' + s.item + ' ' + `${isActive(option) ? s.btn_active : s.btn_nonActive}`}
-                            onClick={() => handleItemClick(option)}
-                        >
-                            {isActive(option) ? <ActiveIcon/> : <Icon/>}
-                            {option}
-                        </li>
-                    ))}
-                </ul>
-            }
-        </div>
-    );
-
+      {dropdown && (
+        <List>
+          {options.map((option: string, i: number) => (
+            <ListItem
+              key={i}
+              $isActivated={isActive(option)}
+              onClick={() => handleItemClick(option)}
+            >
+              {isActive(option) ? <ActiveIcon /> : <Icon />}
+              {option}
+            </ListItem>
+          ))}
+        </List>
+      )}
+    </div>
+  );
 };
 
 export default Dropdown;

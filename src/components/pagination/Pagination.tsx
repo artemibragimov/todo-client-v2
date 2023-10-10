@@ -1,34 +1,36 @@
-import s from './Pagination.module.css';
+import { IPagination } from '@/types/IPagination';
+import { PaginationButton, PaginationContainer } from './Pagination.styled';
 
-interface PaginationType {
-    pageSize: number,
-    totalTask: number,
-    currentPage: number,
-    handleClick: (currentPage: number) => void
-}
+const Pagination = ({
+  pageSize,
+  totalTask,
+  currentPage,
+  handleClick,
+}: IPagination) => {
+  if (!totalTask) {
+    return;
+  }
 
-const Pagination = ({pageSize, totalTask, currentPage, handleClick}: PaginationType) => {
+  const pageNumbers = [];
 
-    const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(totalTask / pageSize); i++) {
+    pageNumbers.push(i);
+  }
 
-    for (let i = 1; i <= Math.ceil(totalTask / pageSize); i++) {
-        pageNumbers.push(i);
-    }
-
-    return (
-        <div className={s.pagination}>
-            {pageNumbers.length !== 1 &&
-                pageNumbers.map(pageNumber => (
-                    <button key={pageNumber}
-                            className={s.btn + ' ' + `${currentPage == pageNumber && s.btn_current}`}
-                            onClick={() => handleClick(pageNumber)}
-                    >
-                        {pageNumber}
-                    </button>
-                ))
-            }
-        </div>
-    );
+  return (
+    <PaginationContainer>
+      {pageNumbers.length !== 1 &&
+        pageNumbers.map((pageNumber) => (
+          <PaginationButton
+            $isCurrent={currentPage == pageNumber}
+            key={pageNumber}
+            onClick={() => handleClick(pageNumber)}
+          >
+            {pageNumber}
+          </PaginationButton>
+        ))}
+    </PaginationContainer>
+  );
 };
 
 export default Pagination;
