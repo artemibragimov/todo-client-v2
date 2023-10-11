@@ -5,15 +5,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import Link from 'next/link';
 import { userApi } from '@/redux/services/UserService';
 import { useRouter } from 'next/navigation';
-import {
-  Button,
-  Error,
-  LinkToLogin,
-  SignupContainer,
-  SignupForm,
-  SignupInput,
-  Tittle,
-} from './Signup.styled';
+import * as SignUpSC from './Signup.styled';
 import { ISignUp } from '@/types/ISignup';
 import { isAuth, setToken } from '@/helpers/token';
 import { IValidationError } from '@/types/IValidationError';
@@ -77,54 +69,60 @@ export default function SignUp() {
   }, []);
 
   return (
-    <SignupContainer>
-      <Tittle>Sign up</Tittle>
+    <SignUpSC.SignupContainer>
+      <SignUpSC.Tittle>Sign up</SignUpSC.Tittle>
 
-      <SignupForm onSubmit={handleSubmit(onSubmit)}>
-        <SignupInput
+      <SignUpSC.SignupForm onSubmit={handleSubmit(onSubmit)}>
+        <SignUpSC.SignupInput
           $box_shadow={errors.login ? 'error' : ''}
           placeholder="Enter login"
           {...register('login', { required: true })}
         />
 
-        {errors.login && <Error>{errors.login.message}</Error>}
+        {errors.login && (
+          <SignUpSC.Error>{errors.login.message}</SignUpSC.Error>
+        )}
 
-        <SignupInput
+        <SignUpSC.SignupInput
           $box_shadow={errors.email ? 'error' : ''}
           placeholder="Enter email"
           {...register('email', { required: true })}
         />
 
-        {errors.email && <Error>{errors.email.message}</Error>}
+        {errors.email && (
+          <SignUpSC.Error>{errors.email.message}</SignUpSC.Error>
+        )}
 
-        <SignupInput
+        <SignUpSC.SignupInput
           $box_shadow={errors.password ? 'error' : ''}
           type="password"
           placeholder="Enter password"
           {...register('password', { required: true })}
         />
 
-        {errors.password && <Error>{errors.password.message}</Error>}
+        {errors.password && (
+          <SignUpSC.Error>{errors.password.message}</SignUpSC.Error>
+        )}
 
-        <SignupInput
+        <SignUpSC.SignupInput
           $box_shadow={errors.passwordConfirmation ? 'error' : ''}
           type="password"
           placeholder="Confirm password"
           {...register('passwordConfirmation', { required: true })}
         />
         {errors.passwordConfirmation && (
-          <Error>{errors.passwordConfirmation.message}</Error>
+          <SignUpSC.Error>{errors.passwordConfirmation.message}</SignUpSC.Error>
         )}
 
-        <LinkToLogin>
+        <SignUpSC.LinkToLogin>
           <Link href="/login">Log in</Link>
-        </LinkToLogin>
+        </SignUpSC.LinkToLogin>
 
-        <Button type="submit">
+        <SignUpSC.Button type="submit">
           <SignInIcon />
           Sign up
-        </Button>
-      </SignupForm>
-    </SignupContainer>
+        </SignUpSC.Button>
+      </SignUpSC.SignupForm>
+    </SignUpSC.SignupContainer>
   );
 }

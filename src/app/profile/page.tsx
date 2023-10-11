@@ -7,12 +7,7 @@ import { ChangeEventHandler, useState } from 'react';
 import UserInfo from '../../components/userInfo/UserInfo';
 import { userApi } from '@/redux/services/UserService';
 import Security from '../../components/security/Security';
-import {
-  BottomBar,
-  InfoBoard,
-  NavBar,
-  ProfileInfoContainer,
-} from './Profile.styled';
+import * as ProfileSC from './Profile.styled';
 import { removeToken } from '@/helpers/token';
 
 export default function Profile() {
@@ -46,8 +41,8 @@ export default function Profile() {
   };
 
   return (
-    <ProfileInfoContainer>
-      <NavBar>
+    <ProfileSC.ProfileInfoContainer>
+      <ProfileSC.NavBar>
         <ToggleButton
           name="Profile"
           Icon={ProfileBtnIcon}
@@ -63,15 +58,15 @@ export default function Profile() {
           isActive={isActive}
         />
 
-        <BottomBar>
+        <ProfileSC.BottomBar>
           <Button
             name="Log Out"
             Icon={LogoutIcon}
             handleClick={onClickLogout}
           />
-        </BottomBar>
-      </NavBar>
-      <InfoBoard>
+        </ProfileSC.BottomBar>
+      </ProfileSC.NavBar>
+      <ProfileSC.InfoBoard>
         {active === 'Profile' && (
           <UserInfo
             login={userData?.login}
@@ -85,7 +80,7 @@ export default function Profile() {
         {active === 'Security' && (
           <Security handleEditPassword={editPassword} />
         )}
-      </InfoBoard>
-    </ProfileInfoContainer>
+      </ProfileSC.InfoBoard>
+    </ProfileSC.ProfileInfoContainer>
   );
 }

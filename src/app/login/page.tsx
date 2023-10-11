@@ -6,15 +6,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { ILogin } from '@/types/ILogin';
 import { IValidationError } from '@/types/IValidationError';
 import { isAuth, setToken } from '@/helpers/token';
-import {
-  Button,
-  Error,
-  LinkToSignup,
-  LoginContainer,
-  LoginForm,
-  LoginInput,
-  Tittle,
-} from '@/app/login/Login.styled';
+import * as LoginSC from './Login.styled';
 import Link from 'next/link';
 import { SignInIcon } from '@/assets/index';
 
@@ -76,36 +68,38 @@ export default function Login() {
   }, []);
 
   return (
-    <LoginContainer>
-      <Tittle>Log in</Tittle>
+    <LoginSC.LoginContainer>
+      <LoginSC.Tittle>Log in</LoginSC.Tittle>
 
-      <LoginForm onSubmit={handleSubmit(onSubmit)}>
-        <LoginInput
+      <LoginSC.LoginForm onSubmit={handleSubmit(onSubmit)}>
+        <LoginSC.LoginInput
           $box_shadow={errors.login ? 'error' : ''}
           placeholder="Enter login"
           {...register('login', { required: true })}
         />
 
-        {errors.login && <Error>{errors.login.message}</Error>}
+        {errors.login && <LoginSC.Error>{errors.login.message}</LoginSC.Error>}
 
-        <LoginInput
+        <LoginSC.LoginInput
           $box_shadow={errors.password ? 'error' : ''}
           type="password"
           placeholder="Enter password"
           {...register('password', { required: true })}
         />
 
-        {errors.password && <Error>{errors.password.message}</Error>}
-        {invalidError && <Error>{invalidError}</Error>}
-        <LinkToSignup>
+        {errors.password && (
+          <LoginSC.Error>{errors.password.message}</LoginSC.Error>
+        )}
+        {invalidError && <LoginSC.Error>{invalidError}</LoginSC.Error>}
+        <LoginSC.LinkToSignup>
           <Link href="/signup">Sign up</Link>
-        </LinkToSignup>
+        </LoginSC.LinkToSignup>
 
-        <Button type="submit">
+        <LoginSC.Button type="submit">
           <SignInIcon />
           <p>Sign in</p>
-        </Button>
-      </LoginForm>
-    </LoginContainer>
+        </LoginSC.Button>
+      </LoginSC.LoginForm>
+    </LoginSC.LoginContainer>
   );
 }

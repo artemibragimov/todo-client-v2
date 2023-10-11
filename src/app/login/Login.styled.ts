@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 export const LoginContainer = styled.div`
   background-color: #ffffff;
@@ -88,4 +88,61 @@ export const Button = styled.button`
   &:hover {
     background: rgba(147, 51, 234, 0.2);
   }
+`;
+
+//Skeleton
+
+const loading = keyframes`         
+  0% {
+    transform: skewX(-10deg) translateX(-100%);
+  }
+  100% {
+    transform: skewX(-10deg) translateX(200%);
+  }`;
+
+export const SkeletonContainer = styled.div`
+  background-color: #ffffff;
+  width: 65%;
+  margin: 3% auto;
+  padding: 2%;
+  border-radius: 10px;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.9),
+      transparent
+    );
+    width: 80vw;
+    height: 100%;
+    z-index: 999;
+    animation: ${loading} 1s infinite;
+  }
+`;
+
+export const SkeletonTittle = styled.div`
+  color: #9333ea;
+  font-weight: 700;
+  font-size: 30px;
+  text-align: center;
+  margin-bottom: 5%;
+`;
+
+export const SkeletonFormInput = styled.div`
+  margin: 10px auto 0 auto;
+  width: 60%;
+  border-radius: 10px;
+  height: 5vh;
+  background: rgba(204, 204, 204, 0.5);
+`;
+export const SkeletonButton = styled.div`
+  border-radius: 10px;
+  margin: 110px auto 37px auto;
+  width: 45%;
+  height: 70px;
+  background: rgba(238, 238, 238, 0.5);
 `;
