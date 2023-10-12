@@ -6,9 +6,9 @@ import {
   Message,
   MessageTitle,
   Title,
-} from './404.styled';
+} from '../styles/not-found.styled';
 
-export default function Custom404() {
+export default function Not_found() {
   return (
     <Container>
       <Title>404</Title>
