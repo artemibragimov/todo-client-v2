@@ -1,9 +1,7 @@
-import { ToDoApi } from './index';
+import { ToDoApi } from './api';
 import { IUser } from '@/types/IUser';
 
-const userApiWithTag = ToDoApi.enhanceEndpoints({ addTagTypes: ['User'] });
-
-export const userApi = userApiWithTag.injectEndpoints({
+export const userApi = ToDoApi.injectEndpoints({
   endpoints: (build) => ({
     signUp: build.mutation<
       { accessToken: string; refreshToken: string },
@@ -46,10 +44,7 @@ export const userApi = userApiWithTag.injectEndpoints({
       providesTags: () => ['User'],
     }),
 
-    uppdateMe: build.mutation<
-      void,
-      { login: string; email: string } | FormData
-    >({
+    uppdateMe: build.mutation<void, { login: string; email: string }>({
       query: (body) => ({
         url: '/user',
         method: 'PUT',
@@ -60,17 +55,20 @@ export const userApi = userApiWithTag.injectEndpoints({
 
     uploadPhoto: build.mutation<void, FormData>({
       query: (body) => ({
-        url: '/user/uploads',
-        method: 'PUT',
+        url: '/user/upload',
+        method: 'POST',
         body,
       }),
       invalidatesTags: ['User'],
     }),
 
-    editPassword: build.mutation<{ message: string }, { password: string }>({
+    editPassword: build.mutation<
+      void,
+      { password: string; passwordConfirmation: string }
+    >({
       query: (body) => ({
-        url: '/user/editPassword',
-        method: 'POST',
+        url: '/user/update_password',
+        method: 'PUT',
         body,
       }),
       invalidatesTags: ['User'],

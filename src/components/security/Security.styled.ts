@@ -23,7 +23,6 @@ export const SecurityInput = styled.input<SecurityInput>`
   color: #212529;
   background-color: #fff;
   border: 1px solid #bdbdbd;
-  border-color: #bdbdbd;
   border-radius: 10px;
   box-shadow: ${({ $box_shadow }) =>
     $box_shadow ? '0 0 0 0.2rem rgba(255, 0, 0, 0.589)' : ''};
@@ -54,4 +53,11 @@ export const SecurityButton = styled.button`
   &:hover {
     background: rgba(147, 51, 234, 0.2);
   }
+`;
+
+export const Error = styled.div`
+  margin-top: 10px;
+  font-size: 15px;
+  color: red;
+  text-align: center;
 `;

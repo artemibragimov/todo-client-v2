@@ -5,10 +5,13 @@ import {
   SecurityContainer,
   SecurityInput,
   SecurityTitle,
+  Error,
 } from './Security.styled';
 import { ISecurity, SecurityInputs } from '@/types/ISecurity';
+import { IValidationError } from '@/types/IValidationError';
+import { useEffect } from 'react';
 
-const Security = ({ handleEditPassword }: ISecurity) => {
+const Security = ({ handleEditPassword, isUpdatedPassword }: ISecurity) => {
   const {
     register,
     handleSubmit,
@@ -18,26 +21,42 @@ const Security = ({ handleEditPassword }: ISecurity) => {
   } = useForm<SecurityInputs>({
     defaultValues: {
       password: '',
-      confirmPassword: '',
+      passwordConfirmation: '',
     },
   });
 
   const onSubmit: SubmitHandler<SecurityInputs> = async (data) => {
-    if (data.password !== data.confirmPassword) {
-      setError('password', { type: 'password', message: 'password' });
-      setError('confirmPassword', {
-        type: 'confirmPassword',
-        message: 'confirmPassword',
+    handleEditPassword({
+      password: data.password,
+      passwordConfirmation: data.passwordConfirmation,
+    })
+      .unwrap()
+      .catch((error) => {
+        if ('data' in error) {
+          const path = ['password', 'passwordConfirmation'];
+          path.map((path) => {
+            const err = error.data.errors.find(
+              (err: IValidationError) => err.path === path
+            );
+            if (err) {
+              setError(err.path, {
+                type: 'error',
+                message: err.msg,
+              });
+            }
+          });
+        }
       });
-    } else {
-      handleEditPassword({ password: data.password });
-      reset({
-        password: '',
-        confirmPassword: '',
-      });
-    }
   };
 
+  useEffect(() => {
+    if (isUpdatedPassword) {
+      reset({
+        password: '',
+        passwordConfirmation: '',
+      });
+    }
+  }, [isUpdatedPassword]);
   return (
     <SecurityContainer>
       <SecurityTitle>Edit password</SecurityTitle>
@@ -49,12 +68,18 @@ const Security = ({ handleEditPassword }: ISecurity) => {
           {...register('password', { required: true })}
         />
 
+        {errors.password && <Error>{errors.password.message}</Error>}
+
         <SecurityInput
           type={'password'}
-          $box_shadow={errors.password ? 'true' : ''}
+          $box_shadow={errors.passwordConfirmation ? 'true' : ''}
           placeholder="Confirm password"
-          {...register('confirmPassword', { required: true })}
+          {...register('passwordConfirmation', { required: true })}
         />
+
+        {errors.passwordConfirmation && (
+          <Error>{errors.passwordConfirmation.message}</Error>
+        )}
 
         <SecurityButton type="submit">
           <ChangePasswordIcon />

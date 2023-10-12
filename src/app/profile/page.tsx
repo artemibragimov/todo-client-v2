@@ -15,7 +15,8 @@ export default function Profile() {
   const [logout] = userApi.useLogoutMutation();
   const [uppdateMe, { isSuccess }] = userApi.useUppdateMeMutation();
   const [uploadPhoto] = userApi.useUploadPhotoMutation();
-  const [editPassword] = userApi.useEditPasswordMutation();
+  const [editPassword, { isSuccess: isUpdatedPassword }] =
+    userApi.useEditPasswordMutation();
 
   const router = useRouter();
 
@@ -78,7 +79,10 @@ export default function Profile() {
           />
         )}
         {active === 'Security' && (
-          <Security handleEditPassword={editPassword} />
+          <Security
+            handleEditPassword={editPassword}
+            isUpdatedPassword={isUpdatedPassword}
+          />
         )}
       </ProfileSC.InfoBoard>
     </ProfileSC.ProfileInfoContainer>

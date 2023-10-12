@@ -15,7 +15,7 @@ export interface IUserInfo {
   handleChangeFile: ChangeEventHandler<HTMLInputElement>;
   handleChange: MutationTrigger<
     MutationDefinition<
-      { login: string; email: string } | FormData,
+      { login: string; email: string },
       BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>,
       'User',
       void,

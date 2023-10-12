@@ -53,4 +53,5 @@ export const ToDoApi = createApi({
   baseQuery: baseQueryWithReauth,
   reducerPath: 'ToDoApi',
   endpoints: () => ({}),
+  tagTypes: ['Task', 'User'],
 });

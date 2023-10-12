@@ -1,5 +1,5 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { ToDoApi } from "./services";
+import { configureStore } from '@reduxjs/toolkit';
+import { ToDoApi } from './services/api';
 
 export const store = configureStore({
   reducer: {
