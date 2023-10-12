@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 
 export const TaskContainer = styled.div`
-  margin-top: 15px;
-  height: 7vh;
+  height: 6vh;
 `;
 
 export const TaskItem = styled.div`
@@ -22,7 +21,7 @@ export const IsDoneButton = styled.button`
 `;
 
 export const TaskName = styled.div`
-  font-size: 25px;
+  font-size: 110%;
   margin: 0 auto 0 35px;
 `;
 

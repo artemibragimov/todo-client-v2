@@ -21,6 +21,7 @@ import { taskApi } from '@/redux/services/TaskService';
 import * as TasksSC from './Tasks.styled';
 import { ITaskAction } from '@/types/ITask';
 import ToggleButton from '@/components/toggleButton/ToggleButton';
+import { pageSize } from '@/helpers/constants/pagination';
 
 export default function Tasks() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -117,7 +118,7 @@ export default function Tasks() {
 
         <TasksSC.TaskBoard>
           <Pagination
-            pageSize={7}
+            pageSize={pageSize}
             totalTask={tasksData?.totalTasks}
             currentPage={currentPage}
             handleClick={setCurrentPage}
