@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import * as SignUpSC from './Signup.styled';
 import { ISignUp } from '@/types/ISignup';
 import { isAuth, setToken } from '@/helpers/token';
-import { IValidationError } from '@/types/IValidationError';
+import RTKErrors, { SetErrorCustomType } from '@/utils/RTKErrors';
 
 export default function SignUp() {
   const [signUp, { data }] = userApi.useSignUpMutation();
@@ -38,20 +38,10 @@ export default function SignUp() {
     })
       .unwrap()
       .catch((error) => {
-        if ('data' in error) {
-          const path = ['login', 'email', 'password', 'passwordConfirmation'];
-          path.map((path) => {
-            const err = error.data.errors.find(
-              (err: IValidationError) => err.path === path
-            );
-            if (err) {
-              setError(err.path, {
-                type: 'error',
-                message: err.msg,
-              });
-            }
-          });
-        }
+        RTKErrors({
+          errors: error,
+          setError: setError as SetErrorCustomType,
+        });
       });
   };
 

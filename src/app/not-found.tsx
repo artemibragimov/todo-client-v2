@@ -6,7 +6,7 @@ import {
   Message,
   MessageTitle,
   Title,
-} from '../styles/not-found.styled';
+} from '@/styles/not-found.styled';
 
 export default function Not_found() {
   return (
@@ -17,7 +17,7 @@ export default function Not_found() {
 
       <Message>the page you are looking for not avaible!</Message>
       <LinkBox>
-        <LinkToTask href="/tasks"> Go to Task</LinkToTask>
+        <LinkToTask href="/tasks"> Go to Tasks</LinkToTask>
       </LinkBox>
     </Container>
   );

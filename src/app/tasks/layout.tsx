@@ -16,15 +16,11 @@ export default function TaskLayout({
       <TasksSC.Login>{userData?.login}</TasksSC.Login>
       <TasksSC.ProfileLink>
         <Link href="/profile">
-          {
-            userData?.imageUrl ? (
-              <TasksSC.ProfileAvatar
-                src={userData.imageUrl}
-                alt="User avatar"
-              />
-            ) : null
-            //  <ProfileIcon width={40} />
-          }
+          {userData?.imageUrl ? (
+            <TasksSC.ProfileAvatar src={userData.imageUrl} alt="User avatar" />
+          ) : (
+            <ProfileIcon width={40} />
+          )}
         </Link>
       </TasksSC.ProfileLink>
 

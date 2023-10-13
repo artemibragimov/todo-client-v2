@@ -9,6 +9,7 @@ import { userApi } from '@/redux/services/UserService';
 import Security from '../../components/security/Security';
 import * as ProfileSC from './Profile.styled';
 import { removeToken } from '@/helpers/token';
+import Modal from '@/components/modals/modal/Modal';
 
 export default function Profile() {
   const { data: userData } = userApi.useGetMeQuery();
@@ -21,6 +22,7 @@ export default function Profile() {
   const router = useRouter();
 
   const [active, setActive] = useState<string>('Profile');
+  const [isVisible, setIsVisible] = useState(false);
 
   const isActive = (name: string) => active === name;
 
@@ -60,11 +62,9 @@ export default function Profile() {
         />
 
         <ProfileSC.BottomBar>
-          <Button
-            name="Log Out"
-            Icon={LogoutIcon}
-            handleClick={onClickLogout}
-          />
+          <ProfileSC.Button onClick={() => setIsVisible(true)}>
+            <LogoutIcon /> Log out
+          </ProfileSC.Button>
         </ProfileSC.BottomBar>
       </ProfileSC.NavBar>
       <ProfileSC.InfoBoard>
@@ -85,6 +85,9 @@ export default function Profile() {
           />
         )}
       </ProfileSC.InfoBoard>
+      <Modal isVisible={isVisible} toggle={setIsVisible}>
+        <p>Log out</p>
+      </Modal>
     </ProfileSC.ProfileInfoContainer>
   );
 }
