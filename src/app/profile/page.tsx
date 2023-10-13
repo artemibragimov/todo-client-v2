@@ -10,6 +10,7 @@ import Security from '../../components/security/Security';
 import * as ProfileSC from './Profile.styled';
 import { removeToken } from '@/helpers/token';
 import Modal from '@/components/modals/modal/Modal';
+import Logout from '@/components/modals/children/logout/Logout';
 
 export default function Profile() {
   const { data: userData } = userApi.useGetMeQuery();
@@ -86,7 +87,11 @@ export default function Profile() {
         )}
       </ProfileSC.InfoBoard>
       <Modal isVisible={isVisible} toggle={setIsVisible}>
-        <p>Log out</p>
+        <Logout
+          title="Log out"
+          toggle={setIsVisible}
+          onClickLogout={onClickLogout}
+        />
       </Modal>
     </ProfileSC.ProfileInfoContainer>
   );
