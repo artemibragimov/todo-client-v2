@@ -35,7 +35,7 @@ export const taskApi = ToDoApi.injectEndpoints({
     updateTask: build.mutation<ITask, { id: number; name: string }>({
       query: (task) => ({
         url: '/tasks',
-        method: 'PUT',
+        method: 'PATCH',
         body: task,
       }),
       invalidatesTags: ['Task'],

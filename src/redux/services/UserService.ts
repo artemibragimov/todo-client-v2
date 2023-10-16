@@ -47,7 +47,7 @@ export const userApi = ToDoApi.injectEndpoints({
     uppdateMe: build.mutation<void, { login: string; email: string }>({
       query: (body) => ({
         url: '/user',
-        method: 'PUT',
+        method: 'PATCH',
         body,
       }),
       invalidatesTags: ['User'],
@@ -68,7 +68,7 @@ export const userApi = ToDoApi.injectEndpoints({
     >({
       query: (body) => ({
         url: '/user/update_password',
-        method: 'PUT',
+        method: 'PATCH',
         body,
       }),
       invalidatesTags: ['User'],
