@@ -124,25 +124,27 @@ export default function Tasks() {
             <AddTaskIcon />
           </TasksSC.Button>
         )}
-        {tasksData &&
-          tasksData.tasks.map((obj, index) => (
-            <Task
-              handleClick={openModal}
-              changeIsDone={handleUpdate}
-              key={index}
-              id={obj.id}
-              isDone={obj.isDone}
-              name={obj.name}
-              date={
-                `${
-                  new Date().toLocaleDateString() === obj.date &&
-                  filter === 'Today'
-                    ? ''
-                    : obj.date + ' at '
-                }` + obj.time
-              }
-            />
-          ))}
+        <TasksSC.TaskHolder>
+          {tasksData &&
+            tasksData.tasks.map((obj, index) => (
+              <Task
+                handleClick={openModal}
+                changeIsDone={handleUpdate}
+                key={index}
+                id={obj.id}
+                isDone={obj.isDone}
+                name={obj.name}
+                date={
+                  `${
+                    new Date().toLocaleDateString() === obj.date &&
+                    filter === 'Today'
+                      ? ''
+                      : obj.date + ' at '
+                  }` + obj.time
+                }
+              />
+            ))}
+        </TasksSC.TaskHolder>
         <Pagination
           pageSize={pageSize}
           totalTask={tasksData?.totalTasks}

@@ -29,6 +29,10 @@ export const TaskBoard = styled.div`
   border-radius: 10px;
 `;
 
+export const TaskHolder = styled.div`
+  height: 85%;
+`;
+
 export const UserInfoContainer = styled.div`
   position: absolute;
   top: 10px;
