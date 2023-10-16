@@ -73,12 +73,6 @@ const CreateTaskForm = ({
           {...register('name', { required: true })}
         />
 
-        {errors.name ? (
-          <Error>This field cannot be empty or start with a space</Error>
-        ) : (
-          <br />
-        )}
-
         <ButtonContainer>
           <Button
             $bg="#67b9cb44"

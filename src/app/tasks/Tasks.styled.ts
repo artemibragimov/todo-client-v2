@@ -1,14 +1,9 @@
 import styled, { keyframes } from 'styled-components';
 
 export const TaskContainer = styled.div`
-  height: 93%;
-  margin-top: 10px;
-`;
-
-export const TaskHolder = styled.div`
-  height: 99%;
+  height: 92%;
+  margin: 10px 0;
   display: flex;
-  position: relative;
 `;
 
 export const NavBar = styled.div`
@@ -24,6 +19,11 @@ export const BottomBar = styled.div`
 
 export const TaskBoard = styled.div`
   width: 80%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
   padding: 10px;
   background: #f4f4f4;
   border-radius: 10px;
@@ -61,6 +61,27 @@ export const ProfileAvatar = styled.img`
   width: 50%;
   border-radius: 100px;
   box-shadow: 0 0 0 3px rgba(197, 207, 197, 0), 0 0 13px #33333390;
+`;
+
+export const Button = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: max-content;
+  height: max-content;
+
+  padding: 5px;
+  border-radius: 50%;
+  border-style: none;
+
+  background-color: transparent;
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(147, 51, 234, 0.2);
+  }
 `;
 
 //Skeleton

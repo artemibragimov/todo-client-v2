@@ -22,11 +22,13 @@ import * as TasksSC from './Tasks.styled';
 import { ITaskAction } from '@/types/ITask';
 import ToggleButton from '@/components/toggleButton/ToggleButton';
 import { pageSize } from '@/helpers/constants/pagination';
+import FastCreate from '@/components/fastCreate/FastCreate';
 
 export default function Tasks() {
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState('Today');
   const [isVisible, setIsVisible] = useState(false);
+  const [fastCreate, setFastCreate] = useState(false);
   const [action, setAction] = useState<ITaskAction>({
     action: 'Add task',
     id: 0,
@@ -84,67 +86,70 @@ export default function Tasks() {
 
   return (
     <TasksSC.TaskContainer>
-      <TasksSC.TaskHolder>
-        <TasksSC.NavBar>
-          <ToggleButton
-            name="Today"
-            Icon={CalendarIcon}
-            ActiveIcon={CalendarActiveIcon}
-            handleClick={setFilter}
-            isActive={isActive}
+      <TasksSC.NavBar>
+        <ToggleButton
+          name="Today"
+          Icon={CalendarIcon}
+          ActiveIcon={CalendarActiveIcon}
+          handleClick={setFilter}
+          isActive={isActive}
+        />
+        <Dropdown
+          options={['All', 'Done', 'Undone']}
+          handleClick={setFilter}
+          isActive={isActive}
+          Icon={DoneIcon}
+          ActiveIcon={DoneActiveIcon}
+        />
+        <ToggleButton
+          name="Date"
+          Icon={DateIcon}
+          ActiveIcon={filter === 'firstNew' ? FirstNewIcon : FirstOldIcon}
+          handleClick={setDateFilter}
+          isActive={isDate}
+        />
+        <TasksSC.BottomBar>
+          <Button name="Add task" Icon={AddTaskIcon} handleClick={openModal} />
+        </TasksSC.BottomBar>
+      </TasksSC.NavBar>
+
+      <TasksSC.TaskBoard>
+        {fastCreate ? (
+          <FastCreate
+            handleCreate={createTask}
+            toggle={() => setFastCreate(!fastCreate)}
           />
-          <Dropdown
-            options={['All', 'Done', 'Undone']}
-            handleClick={setFilter}
-            isActive={isActive}
-            Icon={DoneIcon}
-            ActiveIcon={DoneActiveIcon}
-          />
-          <ToggleButton
-            name="Date"
-            Icon={DateIcon}
-            ActiveIcon={filter === 'firstNew' ? FirstNewIcon : FirstOldIcon}
-            handleClick={setDateFilter}
-            isActive={isDate}
-          />
-          <TasksSC.BottomBar>
-            <Button
-              name="Add task"
-              Icon={AddTaskIcon}
+        ) : (
+          <TasksSC.Button onClick={() => setFastCreate(!fastCreate)}>
+            <AddTaskIcon />
+          </TasksSC.Button>
+        )}
+        {tasksData &&
+          tasksData.tasks.map((obj, index) => (
+            <Task
               handleClick={openModal}
+              changeIsDone={handleUpdate}
+              key={index}
+              id={obj.id}
+              isDone={obj.isDone}
+              name={obj.name}
+              date={
+                `${
+                  new Date().toLocaleDateString() === obj.date &&
+                  filter === 'Today'
+                    ? ''
+                    : obj.date + ' at '
+                }` + obj.time
+              }
             />
-          </TasksSC.BottomBar>
-        </TasksSC.NavBar>
-
-        <TasksSC.TaskBoard>
-          <Pagination
-            pageSize={pageSize}
-            totalTask={tasksData?.totalTasks}
-            currentPage={currentPage}
-            handleClick={setCurrentPage}
-          />
-
-          {tasksData &&
-            tasksData.tasks.map((obj, index) => (
-              <Task
-                handleClick={openModal}
-                changeIsDone={handleUpdate}
-                key={index}
-                id={obj.id}
-                isDone={obj.isDone}
-                name={obj.name}
-                date={
-                  `${
-                    new Date().toLocaleDateString() === obj.date &&
-                    filter === 'Today'
-                      ? ''
-                      : obj.date + ' at '
-                  }` + obj.time
-                }
-              />
-            ))}
-        </TasksSC.TaskBoard>
-      </TasksSC.TaskHolder>
+          ))}
+        <Pagination
+          pageSize={pageSize}
+          totalTask={tasksData?.totalTasks}
+          currentPage={currentPage}
+          handleClick={setCurrentPage}
+        />
+      </TasksSC.TaskBoard>
 
       <Modal isVisible={isVisible} toggle={setIsVisible}>
         {action.action === 'Delete task' ? (

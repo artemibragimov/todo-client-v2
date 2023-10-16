@@ -1,15 +1,14 @@
 import styled from 'styled-components';
 
 export const PaginationContainer = styled.div`
-  height: 7vh;
   display: flex;
   align-items: center;
   justify-content: center;
 
+  margin-top: 10px;
+
   font-size: 2.5vh;
   color: #6b7280;
-
-  margin-bottom: 0;
 `;
 
 interface PaginationButton {
