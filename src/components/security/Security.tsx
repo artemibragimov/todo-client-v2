@@ -10,6 +10,7 @@ import {
 import { ISecurity, SecurityInputs } from '@/types/ISecurity';
 import { IValidationError } from '@/types/IValidationError';
 import { useEffect } from 'react';
+import RTKErrors, { SetErrorCustomType } from '@/utils/RTKErrors';
 
 const Security = ({ handleEditPassword, isUpdatedPassword }: ISecurity) => {
   const {
@@ -32,20 +33,10 @@ const Security = ({ handleEditPassword, isUpdatedPassword }: ISecurity) => {
     })
       .unwrap()
       .catch((error) => {
-        if ('data' in error) {
-          const path = ['password', 'passwordConfirmation'];
-          path.map((path) => {
-            const err = error.data.errors.find(
-              (err: IValidationError) => err.path === path
-            );
-            if (err) {
-              setError(err.path, {
-                type: 'error',
-                message: err.msg,
-              });
-            }
-          });
-        }
+        RTKErrors({
+          errors: error,
+          setError: setError as SetErrorCustomType,
+        });
       });
   };
 

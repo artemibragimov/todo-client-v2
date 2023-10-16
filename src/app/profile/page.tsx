@@ -2,7 +2,6 @@
 import { useRouter } from 'next/navigation';
 import ToggleButton from '../../components/toggleButton/ToggleButton';
 import { LogoutIcon, ProfileBtnIcon, SecurityIcon } from '../../assets';
-import Button from '../../components/common/buttons/buttonWithIcon/Button';
 import { ChangeEventHandler, useState } from 'react';
 import UserInfo from '../../components/userInfo/UserInfo';
 import { userApi } from '@/redux/services/UserService';
@@ -45,7 +44,7 @@ export default function Profile() {
   };
 
   return (
-    <ProfileSC.ProfileInfoContainer>
+    <ProfileSC.Container>
       <ProfileSC.NavBar>
         <ToggleButton
           name="Profile"
@@ -93,6 +92,6 @@ export default function Profile() {
           onClickLogout={onClickLogout}
         />
       </Modal>
-    </ProfileSC.ProfileInfoContainer>
+    </ProfileSC.Container>
   );
 }

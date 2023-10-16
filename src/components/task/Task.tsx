@@ -8,7 +8,6 @@ import {
   SettingButtons,
   TaskContainer,
   TaskDate,
-  TaskItem,
   TaskName,
   TaskSettings,
 } from './Task.styled';
@@ -29,21 +28,13 @@ const Task = ({
 
   return (
     <TaskContainer>
-      <TaskItem>
-        <IsDoneButton
-          onClick={() => changeIsDone({ id, name, isDone: !isDone })}
-        >
-          {isDone ? <CompleteIcon /> : <NonCompleteIcon />}
-        </IsDoneButton>
+      <IsDoneButton onClick={() => changeIsDone({ id, name, isDone: !isDone })}>
+        {isDone ? <CompleteIcon /> : <NonCompleteIcon />}
+      </IsDoneButton>
 
-        <TaskName>{name}</TaskName>
+      <TaskName>{name}</TaskName>
 
-        <TaskDate>{date}</TaskDate>
-
-        <TaskSettings onClick={() => setIsHovering(true)}>
-          <SettingsIcon />
-        </TaskSettings>
-      </TaskItem>
+      <TaskDate>{date}</TaskDate>
       {isHovering ? (
         <SettingButtons ref={ref}>
           <SettingButton
@@ -57,7 +48,11 @@ const Task = ({
             <DeleteIcon />
           </SettingButton>
         </SettingButtons>
-      ) : null}
+      ) : (
+        <TaskSettings onClick={() => setIsHovering(true)}>
+          <SettingsIcon />
+        </TaskSettings>
+      )}
     </TaskContainer>
   );
 };

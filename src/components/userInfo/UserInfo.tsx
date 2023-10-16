@@ -19,6 +19,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { IUpdateMe } from '@/types/IUpdateMe';
 import { IUserInfo } from '@/types/IUserInfo';
 import useOnClickOutside from '@/utils/hooks/useOnClickOutside';
+import RTKErrors, { SetErrorCustomType } from '@/utils/RTKErrors';
 
 const UserInfo = ({
   login,
@@ -53,20 +54,10 @@ const UserInfo = ({
     })
       .unwrap()
       .catch((error) => {
-        if ('data' in error) {
-          const path = ['login', 'email'];
-          path.map((path) => {
-            const err = error.data.errors.find(
-              (err: IValidationError) => err.path === path
-            );
-            if (err) {
-              setError(err.path, {
-                type: 'error',
-                message: err.msg,
-              });
-            }
-          });
-        }
+        RTKErrors({
+          errors: error,
+          setError: setError as SetErrorCustomType,
+        });
       });
   };
 

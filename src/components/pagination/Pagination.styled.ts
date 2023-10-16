@@ -6,9 +6,7 @@ export const PaginationContainer = styled.div`
   align-items: center;
   justify-content: center;
 
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
-  font-size: 22px;
+  font-size: 2.5vh;
   color: #6b7280;
 
   margin-bottom: 0;

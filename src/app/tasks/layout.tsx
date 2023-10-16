@@ -13,16 +13,21 @@ export default function TaskLayout({
   const { data: userData } = userApi.useGetMeQuery();
   return (
     <>
-      <TasksSC.Login>{userData?.login}</TasksSC.Login>
-      <TasksSC.ProfileLink>
-        <Link href="/profile">
-          {userData?.imageUrl ? (
-            <TasksSC.ProfileAvatar src={userData.imageUrl} alt="User avatar" />
-          ) : (
-            <ProfileIcon width={40} />
-          )}
-        </Link>
-      </TasksSC.ProfileLink>
+      <TasksSC.UserInfoContainer>
+        <TasksSC.Login>{userData?.login}</TasksSC.Login>
+        <TasksSC.ProfileLink>
+          <Link href="/profile">
+            {userData?.imageUrl ? (
+              <TasksSC.ProfileAvatar
+                src={userData.imageUrl}
+                alt="User avatar"
+              />
+            ) : (
+              <ProfileIcon width={40} />
+            )}
+          </Link>
+        </TasksSC.ProfileLink>
+      </TasksSC.UserInfoContainer>
 
       {children}
     </>

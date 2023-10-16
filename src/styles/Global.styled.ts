@@ -1,5 +1,5 @@
-"use client";
-import { createGlobalStyle } from "styled-components";
+'use client';
+import { createGlobalStyle } from 'styled-components';
 
 export const Global = createGlobalStyle`
 *{
@@ -10,10 +10,14 @@ export const Global = createGlobalStyle`
 
 }
 
-html { 
+html, body { 
     width: 100%;
     height: 100%;
     background: linear-gradient(299.75deg, #b9d5ff 0%, #f6d1fc 98.93%)
+}
+
+body {
+    padding: 10px;
 }
 
 input {

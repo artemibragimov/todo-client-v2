@@ -1,37 +1,38 @@
 import styled from 'styled-components';
 
-export const DeleteForm = styled.form`
-  font-weight: 400;
-  font-size: 24px;
-`;
+export const DeleteForm = styled.form``;
 
 export const Title = styled.div`
-  background: linear-gradient(259.86deg, #f5edfd 0%, #feeff5 85.32%);
+  width: 100%;
+  height: 8vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  padding: 0 20px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  padding: 30px;
 
-  color: #9333ea;
-
-  display: block;
-  width: 100%;
+  background: linear-gradient(259.86deg, #f5edfd 0%, #feeff5 85.32%);
 
   font-weight: 700;
-  font-size: 26px;
+  font-size: 3vh;
+  color: #9333ea;
 `;
 
 export const DeleteQuestion = styled.div`
-  font-weight: 400;
-  font-size: 22px;
+  margin: 10% auto;
+
+  font-size: 2.5vh;
   color: #9333ea;
-  margin: 40px auto;
   text-align: center;
 `;
 
 export const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 20px auto 0;
+  margin: 7% auto 0;
   width: 74%;
 `;
 
@@ -43,7 +44,7 @@ interface ButtonProps {
 export const Button = styled.button<ButtonProps>`
   border-radius: 10px;
   border-style: none;
-  font-size: 24px;
+  font-size: 3vh;
   transition: color 100ms;
   padding: 20px 10px;
   width: 45%;
