@@ -33,15 +33,8 @@ const CreateTaskForm = ({
   });
 
   const onSubmit: SubmitHandler<ITaskFormInputs> = (data) => {
-    if (data.name.slice(0, 1) === ' ') {
-      return setError('name', {
-        type: 'custom',
-        message: 'custom',
-      });
-    }
-
     if (data.name !== name) {
-      handleSubmitForm({ id: id, name: data.name, isDone: isDone });
+      handleSubmitForm({ id: id, name: data.name.trim(), isDone: isDone });
     }
 
     toggle(false);
